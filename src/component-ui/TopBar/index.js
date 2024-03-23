@@ -12,11 +12,11 @@ import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
 import LoginIcon from "@mui/icons-material/Login";
 import Link from "@mui/material/Link";
-
+import { useTheme } from '@mui/system';
 const TopBar = (props) => {
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
-
+    const theme = useTheme();
     const handleMenu = (event) => {
     setAnchorEl(event.currentTarget)};
 
@@ -28,27 +28,28 @@ const TopBar = (props) => {
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
-          <Avatar
-            alt="Remy Sharp"
-            src="logo.jpg"
-            sx={{ width: 50, height: 50 }}
-          />
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, ml: 2, display: { xs: "none", md: "flex" } }}
-          >
-           NutriPal
-          </Typography>
-          <Typography
-            variant="h5"
-            component="div"
-            sx={{ flexGrow: 1, ml: 2, display: { xs: "flex", md: "none" } }}
-          >
-            DTF
-          </Typography>
-          <Box sx={{ flexGrow: 1 }} />
+        <Avatar
+              alt="Remy Sharp"
+              src="logo.jpg"
+              sx={{ width: 50, height: 50 }}
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ml: 2, display: { xs: "none", md: "flex" } ,color:theme.palette.primary.contrastText}}
+              
+            >
+            NutriPal
+            </Typography>
+            <Typography
+              variant="h5"
+              component="div"
+              sx={{ ml: 2, display: { xs: "flex", md: "none" } }}
 
+            >
+              NutriPal
+            </Typography>
+          <Box sx={{ flexGrow: 1 }} />
           {auth ? (
             <Box sx={{ display: "flex" }}>
               <IconButton
@@ -77,12 +78,12 @@ const TopBar = (props) => {
                 onClose={handleClose}
               >
                 <MenuItem>
-                  <Link href="/profile" underline="none" color="#fff">
+                  <Link href="/profile" underline="none" color={theme.palette.primary.contrastText}>
                     Profile
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/" underline="none" color="#fff">
+                  <Link href="/" underline="none" color={theme.palette.primary.contrastText}>
                     Logout
                   </Link>
                 </MenuItem>
