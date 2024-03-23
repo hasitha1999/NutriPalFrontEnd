@@ -37,7 +37,7 @@ const routeConfig = [
     path: "/home",
     element: <HomePage />,
     icon: <HomeIcon fontSize="large" />,
-    label: "Home",
+    label: "Dashboard",
     menu: true,
     roles: ["USER", "ADMIN"],
     noAuth: true,
