@@ -18,7 +18,7 @@ import withReactContent from "sweetalert2-react-content";
 
 const UserDetails = () => {
   const [user, setUser] = useState({});
-   const MySwal = withReactContent(Swal);
+  const MySwal = withReactContent(Swal);
   const handleChange = (event) => {
     setUser((prevState) => ({
       ...prevState,
