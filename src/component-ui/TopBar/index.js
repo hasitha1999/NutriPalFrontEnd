@@ -29,12 +29,12 @@ const TopBar = (props) => {
       <AppBar position="static" sx={{background: "#F0F2B6"}}>
         <Toolbar>
         <Avatar
-              alt="Remy Sharp"
-              src="logo.jpg"
-              sx={{ width: 50, height: 50 }}
+              alt="logo"
+              src="logo.png"
+              sx={{ width: 70, height: 70 }}
             />
             <Typography
-              variant="h6"
+              variant="h4"
               component="div"
               sx={{ml: 2, display: { xs: "none", md: "flex" } ,color:theme.palette.primary.contrastText}}
               
@@ -42,9 +42,9 @@ const TopBar = (props) => {
             NutriPal
             </Typography>
             <Typography
-              variant="h5"
+              variant="h4"
               component="div"
-              sx={{ ml: 2, display: { xs: "flex", md: "none" } }}
+              sx={{ ml: 2, display: { xs: "flex", md: "none" },color:theme.palette.primary.contrastText}}
 
             >
               NutriPal
@@ -53,14 +53,14 @@ const TopBar = (props) => {
           {auth ? (
             <Box sx={{ display: "flex" }}>
               <IconButton
-                size="large"
+                // size="large"
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
                 sx={{color:theme.palette.primary.contrastText}}
               >
-                <AccountCircle />
+                <AccountCircle sx={{width: "2em", height: "2em"}}/>
               </IconButton>
               <Menu
                 id="menu-appbar"
