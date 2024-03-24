@@ -17,7 +17,7 @@ const Layout = (props) => {
   };
 
   return (
-    <Box sx={{ float: "right", width: { xs: "100%", md: "80%" } }}>
+    <Box sx={{ float: "right", width: { xs: "100%", md: "85%" } }}>
       <Box sx={{ mr: 2, display: { xs: "none", md: "flex" }, width: "15%" }}>
         <SideNav menuRoutes={menuRoutes} handleRoute={handleRoute} />
       </Box>

@@ -26,7 +26,7 @@ const TopBar = (props) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <CssBaseline />
-      <AppBar position="static">
+      <AppBar position="static" sx={{background: "#F0F2B6"}}>
         <Toolbar>
         <Avatar
               alt="Remy Sharp"
@@ -58,7 +58,7 @@ const TopBar = (props) => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
-                color="inherit"
+                sx={{color:theme.palette.primary.contrastText}}
               >
                 <AccountCircle />
               </IconButton>
@@ -78,12 +78,12 @@ const TopBar = (props) => {
                 onClose={handleClose}
               >
                 <MenuItem>
-                  <Link href="/profile" underline="none" color={theme.palette.primary.contrastText}>
+                  <Link href="/profile" underline="none" color="inherit">
                     Profile
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/" underline="none" color={theme.palette.primary.contrastText}>
+                  <Link href="/" underline="none" color="inherit">
                     Logout
                   </Link>
                 </MenuItem>

@@ -6,28 +6,40 @@ import { changeUserStatus } from "../../use-cases/change-user-status";
 
 const columns = [
   {
-    accessorKey: "firstName",
+    accessorKey: "first_name",
     header: "First Name",
   },
   {
-    accessorKey: "lastName",
+    accessorKey: "last_name",
     header: "Last Name",
+  },
+  {
+    accessorKey: "gender",
+    header: "Gender",
+  },
+  {
+    accessorKey: "nic",
+    header: "NIC",
+  },
+  {
+    accessorKey: "dob",
+    header: "Date of Birth",
   },
   {
     accessorKey: "email",
     header: "Email",
   },
   {
-    accessorKey: "registeredDateTime",
-    header: "Registered Date",
-  },
-  {
-    accessorKey: "totalBalance",
-    header: "Total Balance",
-    Cell: ({ cell }) => (
-      '$ ' + cell.getValue()
-    ),
-  },
+    accessorKey: "height",
+    header: "Height",
+  }
+  // {
+  //   accessorKey: "totalBalance",
+  //   header: "Total Balance",
+  //   Cell: ({ cell }) => (
+  //     '$ ' + cell.getValue()
+  //   ),
+  // },
 ];
 
 const UserList = () => {

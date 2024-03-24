@@ -29,21 +29,20 @@ const SideNav = ({menuRoutes, handleRoute}) => {
       <Drawer
         variant="permanent"
         sx={{
-          
-          width: "20%",
+          width: "15%",
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: "20%", boxSizing: "border-box",background: "linear-gradient(to bottom, #00ff00 0%, #003300 100%)" },
+          [`& .MuiDrawer-paper`]: { width: "15%", boxSizing: "border-box",background: "#2C3639" },
         }}
       >
         <Box sx={{paddingTop:"70px", overflow: "auto"}}>
-          <List>
+          <List sx={{padding:"0px"}}>
             {menuRoutes.map((route, index) => (
-              <ListItem key={route.label + index} disablePadding>
+              <ListItem key={route.label + index} disablePadding style={location.pathname === route.path? {background:"#7DCE13",borderRadius:"20px"}: {}}>
                 <ListItemButton onClick={() => handleRoute(route.path)}>
-                  <ListItemIcon style={location.pathname === route.path? {color: theme.palette.primaryVariant.main}: {}}>
+                  <ListItemIcon style={location.pathname === route.path? {color: theme.palette.primaryVariant.main}: {color: theme.palette.primaryVariant.contrastText}}>
                     {route.icon}
                   </ListItemIcon>
-                  <ListItemText primary={route.label} style={location.pathname === route.path? {color: theme.palette.primaryVariant.main}: {}} />
+                  <ListItemText primary={route.label} style={location.pathname === route.path? {color: theme.palette.primaryVariant.main}: {color: theme.palette.primaryVariant.contrastText}} />
                 </ListItemButton>
               </ListItem>
             ))}

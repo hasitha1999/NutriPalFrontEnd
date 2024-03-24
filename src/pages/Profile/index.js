@@ -125,66 +125,6 @@ const Profile = () => {
         >
           Expenses Record
         </Button>
-        <Button
-          color="secondary"
-          startIcon={<TrendingUpIcon sx={{ mr: 2 }} />}
-          size="large"
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            fontSize: "20px",
-          }}
-          onClick={() => {
-            routeChange(`/activityIncome`);
-          }}
-        >
-          Activity Income
-        </Button>
-        <Button
-          color="secondary"
-          size="large"
-          startIcon={<CreditCardIcon sx={{ mr: 2 }} />}
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            fontSize: "20px",
-          }}
-          onClick={() => {
-            routeChange(`/cardManagement`);
-          }}
-        >
-          Card Management
-        </Button>
-        <Button
-          color="secondary"
-          startIcon={<HeadsetMicIcon sx={{ mr: 2 }} />}
-          size="large"
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            fontSize: "20px",
-          }}
-          onClick={() => {
-            routeChange(`/customerService`);
-          }}
-        >
-          Customer Service
-        </Button>
-        <Button
-          color="secondary"
-          size="large"
-          startIcon={<GroupsIcon sx={{ mr: 2 }} />}
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            fontSize: "20px",
-          }}
-          onClick={() => {
-            routeChange(`/aboutUs`);
-          }}
-        >
-          About DTF Team
-        </Button>
       </Stack>
     </div>
   );
