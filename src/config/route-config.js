@@ -9,7 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
 import ViewAllNotAccepted from "../pages/ViewAllNotAccepted";
 import UserList from "../pages/ViewAllUsers";
-import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, Restaurant,} from "@mui/icons-material";
+import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
 const routeConfig = [
   {
     id: 1,
@@ -83,7 +83,7 @@ const routeConfig = [
     element: <ViewAllNotAccepted />,
     roles: ["ADMIN"],
     menu: true,
-    icon: <Restaurant fontSize="large" />,
+    icon: <RamenDining fontSize="large" />,
     label: "Meal Palaner",
     noAuth: true,
   },

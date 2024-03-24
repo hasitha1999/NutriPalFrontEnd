@@ -26,7 +26,7 @@ const TopBar = (props) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <CssBaseline />
-      <AppBar position="static" sx={{background: "#F0F2B6"}}>
+      <AppBar position="static" sx={{background: "#2C3639"}}>
         <Toolbar>
         <Avatar
               alt="logo"
@@ -36,7 +36,7 @@ const TopBar = (props) => {
             <Typography
               variant="h4"
               component="div"
-              sx={{ml: 2, display: { xs: "none", md: "flex" } ,color:theme.palette.primary.contrastText}}
+              sx={{ml: 2, display: { xs: "none", md: "flex" } ,color:"#7DCE13"}}
               
             >
             NutriPal
@@ -44,7 +44,7 @@ const TopBar = (props) => {
             <Typography
               variant="h4"
               component="div"
-              sx={{ ml: 2, display: { xs: "flex", md: "none" },color:theme.palette.primary.contrastText}}
+              sx={{ ml: 2, display: { xs: "flex", md: "none" },color:"#7DCE13"}}
 
             >
               NutriPal
@@ -58,7 +58,7 @@ const TopBar = (props) => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
-                sx={{color:theme.palette.primary.contrastText}}
+                sx={{color:"#7DCE13"}}
               >
                 <AccountCircle sx={{width: "2em", height: "2em"}}/>
               </IconButton>
@@ -76,8 +76,9 @@ const TopBar = (props) => {
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                sx={{marginTop:"50px"}}
               >
-                <MenuItem>
+                <MenuItem sx={{width:"200px"}}>
                   <Link href="/profile" underline="none" color="inherit">
                     Profile
                   </Link>
