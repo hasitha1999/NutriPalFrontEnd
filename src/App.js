@@ -9,7 +9,7 @@ function App() {
 
   return (
     <ThemeProvider
-      theme={getTheme("light")}
+      theme={getTheme("dark")}
     >
       <BrowserRouter>
         <Routes>
