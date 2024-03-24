@@ -9,7 +9,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
 import ViewAllNotAccepted from "../pages/ViewAllNotAccepted";
 import UserList from "../pages/ViewAllUsers";
-
+import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, Restaurant,} from "@mui/icons-material";
 const routeConfig = [
   {
     id: 1,
@@ -36,7 +36,7 @@ const routeConfig = [
     id: 4,
     path: "/home",
     element: <HomePage />,
-    icon: <HomeIcon fontSize="large" />,
+    icon: <Dashboard fontSize="large" />,
     label: "Dashboard",
     menu: true,
     roles: ["USER", "ADMIN"],
@@ -46,7 +46,7 @@ const routeConfig = [
     id: 5,
     path: "/users",
     element: <UserList />,
-    icon: <HomeIcon fontSize="large" />,
+    icon: <ManageAccounts fontSize="large" />,
     menu: true,
     label: "User Management",
     roles: ["ADMIN"],
@@ -83,7 +83,7 @@ const routeConfig = [
     element: <ViewAllNotAccepted />,
     roles: ["ADMIN"],
     menu: true,
-    icon: <AccountCircleIcon fontSize="large" />,
+    icon: <Restaurant fontSize="large" />,
     label: "Meal Palaner",
     noAuth: true,
   },
@@ -91,7 +91,7 @@ const routeConfig = [
     id: 10,
     path: "/recepieGenarator",
     element: <HomePage />,
-    icon: <HomeIcon fontSize="large" />,
+    icon: <Restaurant fontSize="large" />,
     label: "Recepie Genarator",
     menu: true,
     roles: ["USER", "ADMIN"],
@@ -101,7 +101,7 @@ const routeConfig = [
     id: 11,
     path: "/bmiCal",
     element: <HomePage />,
-    icon: <HomeIcon fontSize="large" />,
+    icon: <Calculate fontSize="large" />,
     label: "BMI Calculator",
     menu: true,
     roles: ["USER", "ADMIN"],
@@ -111,7 +111,7 @@ const routeConfig = [
     id: 12,
     path: "/watermgt",
     element: <HomePage />,
-    icon: <HomeIcon fontSize="large" />,
+    icon: <Opacity fontSize="large" />,
     label: "Water managment",
     menu: true,
     roles: ["USER", "ADMIN"],
@@ -121,7 +121,7 @@ const routeConfig = [
     id: 12,
     path: "/dailylog",
     element: <HomePage />,
-    icon: <HomeIcon fontSize="large" />,
+    icon: <EventNote fontSize="large" />,
     label: "Daily Logs",
     menu: true,
     roles: ["USER", "ADMIN"],
