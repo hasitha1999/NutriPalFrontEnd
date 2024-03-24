@@ -34,7 +34,7 @@ const SideNav = ({menuRoutes, handleRoute}) => {
           [`& .MuiDrawer-paper`]: { width: "15%", boxSizing: "border-box",background: "#2C3639" },
         }}
       >
-        <Box sx={{paddingTop:"70px", overflow: "auto"}}>
+        <Box sx={{paddingTop:"75px", overflow: "auto"}}>
           <List sx={{padding:"0px"}}>
             {menuRoutes.map((route, index) => (
               <ListItem key={route.label + index} disablePadding style={location.pathname === route.path? {background:"#7DCE13",borderRadius:"20px"}: {}}>
