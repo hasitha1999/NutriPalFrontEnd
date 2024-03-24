@@ -46,7 +46,7 @@ const TopBar = (props) => {
               component="div"
               sx={{ ml: 2, display: { xs: "flex", md: "none" },color:"#7DCE13"}}
 
-            >
+          >
               NutriPal
             </Typography>
           <Box sx={{ flexGrow: 1 }} />
