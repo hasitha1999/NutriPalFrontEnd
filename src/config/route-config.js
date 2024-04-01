@@ -10,6 +10,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import ViewAllNotAccepted from "../pages/ViewAllNotAccepted";
 import UserList from "../pages/ViewAllUsers";
 import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
+import DailyLogs from "../pages/DailyLogs";
 const routeConfig = [
   {
     id: 1,
@@ -39,7 +40,7 @@ const routeConfig = [
     icon: <Dashboard fontSize="large" />,
     label: "Dashboard",
     menu: true,
-    roles: ["USER", "ADMIN"],
+    roles: ["USER","ADMIN"],
     noAuth: true,
   },
   {
@@ -120,7 +121,7 @@ const routeConfig = [
   {
     id: 12,
     path: "/dailylog",
-    element: <HomePage />,
+    element: <DailyLogs />,
     icon: <EventNote fontSize="large" />,
     label: "Daily Logs",
     menu: true,
