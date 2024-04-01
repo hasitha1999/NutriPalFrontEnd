@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 const UserDetails = () => {
+  
   const [user, setUser] = useState({});
   const MySwal = withReactContent(Swal);
   const handleChange = (event) => {

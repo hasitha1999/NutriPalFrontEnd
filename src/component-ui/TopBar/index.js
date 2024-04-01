@@ -26,7 +26,7 @@ const TopBar = (props) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <CssBaseline />
-      <AppBar position="static" sx={{background: "#2C3639"}}>
+      <AppBar position="static" sx={{background: "linear-gradient(90deg, rgba(82,55,145,0.9304096638655462) 0%, rgba(110,9,121,1) 100%, rgba(132,0,255,1) 100%)"}}>
         <Toolbar>
         <Avatar
               alt="logo"
@@ -36,7 +36,7 @@ const TopBar = (props) => {
             <Typography
               variant="h4"
               component="div"
-              sx={{ml: 2, display: { xs: "none", md: "flex" } ,color:"#7DCE13"}}
+              sx={{ml: 2, display: { xs: "none", md: "flex" } ,color:"#fff"}}
               
             >
             NutriPal
@@ -44,7 +44,7 @@ const TopBar = (props) => {
             <Typography
               variant="h4"
               component="div"
-              sx={{ ml: 2, display: { xs: "flex", md: "none" },color:"#7DCE13"}}
+              sx={{ ml: 2, display: { xs: "flex", md: "none" },color:"#fff"}}
 
             >
               NutriPal
@@ -58,7 +58,7 @@ const TopBar = (props) => {
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleMenu}
-                sx={{color:"#7DCE13"}}
+                sx={{color:"#fff"}}
               >
                 <AccountCircle sx={{width: "2em", height: "2em"}}/>
               </IconButton>
