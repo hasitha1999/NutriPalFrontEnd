@@ -31,13 +31,13 @@ const SideNav = ({menuRoutes, handleRoute}) => {
         sx={{
           width: "15%",
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: "15%", boxSizing: "border-box",background: "#2C3639" },
+          [`& .MuiDrawer-paper`]: { width: "15%", boxSizing: "border-box",background: "#e5d6fc" },
         }}
       >
         <Box sx={{paddingTop:"75px", overflow: "auto"}}>
           <List sx={{padding:"0px"}}>
             {menuRoutes.map((route, index) => (
-              <ListItem key={route.label + index} disablePadding style={location.pathname === route.path? {background:"#7DCE13",borderRadius:"20px"}: {}}>
+              <ListItem key={route.label + index} disablePadding style={location.pathname === route.path? {background:"#8A47EB",borderRadius:"20px"}: {}}>
                 <ListItemButton onClick={() => handleRoute(route.path)}>
                   <ListItemIcon style={location.pathname === route.path? {color: theme.palette.primaryVariant.main}: {color: theme.palette.primaryVariant.contrastText}}>
                     {route.icon}
