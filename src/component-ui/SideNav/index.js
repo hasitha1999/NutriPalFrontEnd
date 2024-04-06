@@ -37,7 +37,7 @@ const SideNav = ({menuRoutes, handleRoute}) => {
         <Box sx={{paddingTop:"75px", overflow: "auto"}}>
           <List sx={{padding:"0px"}}>
             {menuRoutes.map((route, index) => (
-              <ListItem key={route.label + index} disablePadding style={location.pathname === route.path? {background:"#8A47EB",borderRadius:"20px"}: {}}>
+              <ListItem key={route.label + index} disablePadding style={location.pathname === route.path? {background:"#8A47EB"}: {}}>
                 <ListItemButton onClick={() => handleRoute(route.path)}>
                   <ListItemIcon style={location.pathname === route.path? {color: theme.palette.primaryVariant.main}: {color: theme.palette.primaryVariant.contrastText}}>
                     {route.icon}

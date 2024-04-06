@@ -7,7 +7,7 @@ import UserDetails from "../pages/UserDetails";
 import NewRegistration from "../pages/NewRegistration";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HomeIcon from "@mui/icons-material/Home";
-import ViewAllNotAccepted from "../pages/ViewAllNotAccepted";
+import MealPlannerComponent from "../pages/MealPlannerComponent";
 import UserList from "../pages/ViewAllUsers";
 import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
 import DailyLogs from "../pages/DailyLogs";
@@ -81,7 +81,7 @@ const routeConfig = [
   {
     id: 9,
     path: "/meal",
-    element: <ViewAllNotAccepted />,
+    element: <MealPlannerComponent />,
     roles: ["ADMIN"],
     menu: true,
     icon: <RamenDining fontSize="large" />,
