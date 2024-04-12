@@ -85,7 +85,7 @@ const routeConfig = [
     roles: ["ADMIN"],
     menu: true,
     icon: <RamenDining fontSize="large" />,
-    label: "Meal Palaner",
+    label: "Meal Planner",
     noAuth: true,
   },
   {
