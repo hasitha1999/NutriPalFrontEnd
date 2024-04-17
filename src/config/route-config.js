@@ -4,9 +4,7 @@ import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 import SignUp from "../pages/SignUp";
 import UserDetails from "../pages/UserDetails";
-import NewRegistration from "../pages/NewRegistration";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import HomeIcon from "@mui/icons-material/Home";
 import MealPlannerComponent from "../pages/MealPlannerComponent";
 import UserList from "../pages/ViewAllUsers";
 import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
@@ -62,13 +60,6 @@ const routeConfig = [
     noAuth: true,
   },
   {
-    id: 7,
-    path: "/newRegistration",
-    element: <NewRegistration />,
-    roles: ["USER"],
-    noAuth: true,
-  },
-  {
     id: 8,
     path: "/profile",
     element: <Profile />,
@@ -94,16 +85,6 @@ const routeConfig = [
     element: <HomePage />,
     icon: <Restaurant fontSize="large" />,
     label: "Recepie Genarator",
-    menu: true,
-    roles: ["USER", "ADMIN"],
-    noAuth: true,
-  },
-  {
-    id: 11,
-    path: "/bmiCal",
-    element: <HomePage />,
-    icon: <Calculate fontSize="large" />,
-    label: "BMI Calculator",
     menu: true,
     roles: ["USER", "ADMIN"],
     noAuth: true,

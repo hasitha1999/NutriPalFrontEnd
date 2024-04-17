@@ -1,6 +1,4 @@
 import React from 'react'
-import AutomaticSlider from '../../component-ui/AutomaticSlider';
-import ImgStack from '../../component-ui/ImgStack';
 import { Box } from '@mui/material';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -27,8 +25,6 @@ const HomePage = () => {
   return (
     <div>
       <Box sx={{align:"center"}}>
-        {/* <AutomaticSlider /> */}
-        <ImgStack />
       </Box>
     </div>
   );
