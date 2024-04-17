@@ -103,7 +103,7 @@ const routeConfig = [
     path: "/bmiCal",
     element: <HomePage />,
     icon: <Calculate fontSize="large" />,
-    label: "BMI Calculator",
+    label: "Nutrition Calculator",
     menu: true,
     roles: ["USER", "ADMIN"],
     noAuth: true,
