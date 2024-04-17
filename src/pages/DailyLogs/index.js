@@ -23,7 +23,7 @@ const DailyLogs = () => {
   const [category,setCategory] = useState();
   const [bmi,setBMI] = useState(0);
   const [bmiColor,setBMIColor] = useState();
-  const [profileInfo,setProfileInfo] = useState({weight:85,height:1800,age:30,gender:1,activeLevel:2,goal:"Weight Loss"});
+  const [profileInfo,setProfileInfo] = useState({weight:85,height:180,gender:1,activeLevel:2,goal:"Weight Loss",firstName:"Hasitha",lastName:"Lakmal",useId:"1560",email:"hasithalakmal@gmail.com",dob:"1999/06/17",});
   const [upperRange,setUpperRange] = useState();
   const [lowerRange,setLowerRange] = useState();
   const handleChange = (event) => {
@@ -63,10 +63,10 @@ const DailyLogs = () => {
     exportEnabled: false,
     theme: "light2", // "light2", "dark1", "dark2"
     title: {
-      text: "Weight Change by Week of Year",
+      text: "Change by Week of Year",
     },
     axisY: {
-      title: "Weight Change",
+      title: " Change",
       gridThickness: 0,
       lineThickness: 1,
     },
@@ -279,7 +279,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.age} Years
+                      {new Date().getFullYear() - profileInfo.dob.split("/", 1)} Years
                     </Typography>
                     <Typography
                       variant="h6"
@@ -428,7 +428,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.age} Years
+                      {new Date().getFullYear() - profileInfo.dob.split("/", 1)} Years
                     </Typography>
                     <Typography
                       variant="h6"
@@ -572,7 +572,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.age} Years
+                      {new Date().getFullYear() - profileInfo.dob.split("/", 1)} Years
                     </Typography>
                     <Typography
                       variant="h6"

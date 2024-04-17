@@ -9,6 +9,12 @@ import {
   TextField,
   Unstable_Grid2 as Grid,
   Typography,
+  Divider,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import { getUserDetails } from "../../use-cases/get-user-details";
 import { editUser } from "../../use-cases/edit-user";
@@ -44,9 +50,13 @@ console.log(user);
   };
 
   return (
-    <Card>
-      <CardHeader title="Profile" />
-      <Typography variant="h5" color={"GrayText"} gutterBottom marginLeft={"3"}>
+    <Card  sx={{m:2,
+      borderRadius: 3,
+      border: "1px solid #000",
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
+      mt:3}}>
+      <CardHeader title="Profile Update" sx={{ml:2 }} />
+      <Typography variant="h5" color={"GrayText"} gutterBottom sx={{ml:2}}>
         Genaral Informations
       </Typography>
       <CardContent sx={{ pt: 0 }}>
@@ -72,18 +82,21 @@ console.log(user);
                 value={user.lastName}
               />
             </Grid>
-            <Grid xs={12} md={6}>
-              Gender
-              <TextField
-                fullWidth
-                // label="First name"
-                name="gender"
-                onChange={handleChange}
-                required
-                value={user.gender}
-              />
+            <Grid xs={6} md={3}>
+            <FormControl>
+              <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+              >
+                <FormControlLabel value="female" control={<Radio />} label="Female" color="secondary" />
+                <FormControlLabel value="male" control={<Radio />} label="Male" color="secondary" />
+                <FormControlLabel value="other" control={<Radio />} label="Other" />
+              </RadioGroup>
+            </FormControl>
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid xs={6} md={3}>
               Date Of Birth
               <TextField
                 fullWidth
@@ -94,7 +107,7 @@ console.log(user);
                 value={user.dob}
               />
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid xs={12} md={3}>
               phone
               <TextField
                 fullWidth
@@ -105,7 +118,7 @@ console.log(user);
                 value={user.phone}
               />
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid xs={12} md={3}>
               E-mail
               <TextField
                 fullWidth
@@ -114,66 +127,39 @@ console.log(user);
                 onChange={handleChange}
                 required
                 value={user.email}
-              />
+              > <input type="email" /></TextField>
             </Grid>
-            <Grid xs={12} md={12}>
-              <Typography variant="h5" color={"GrayText"} gutterBottom>
-                Address Informations
-              </Typography>
-            </Grid>
-            <Grid xs={12} md={12}>
-              Address
+            <Grid xs={12} md={3}>
+              Weight
               <TextField
                 fullWidth
-                multiline
-                rows={4}
-                // label="Email Address"
-                name="address"
+                name="weight"
                 onChange={handleChange}
                 required
-                value={user.address}
+                value={user.weight}
               />
             </Grid>
-            <Grid xs={12} md={6}>
-              City
+            <Grid xs={12} md={3}>
+              Height
               <TextField
                 fullWidth
-                // label="Email Address"
-                name="city"
+                name="height"
                 onChange={handleChange}
                 required
-                value={user.city}
+                value={user.height}
               />
             </Grid>
-            <Grid xs={12} md={6}>
-              Zip Code
-              <TextField
-                fullWidth
-                // label="Email Address"
-                name="zipCode"
-                onChange={handleChange}
-                required
-                value={user.zipCode}
-              />
-            </Grid>
-            <Grid xs={12} md={6}>
-              Country
-              <TextField
-                fullWidth
-                // label="Email Address"
-                name="country"
-                onChange={handleChange}
-                required
-                value={user.country}
-              />
-            </Grid>
-            <Grid xs={12} md={6}></Grid>
-
-            <Grid xs={12} md={6}>
+            
+            <Grid xs={12} md={12}
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center">
               <CardActions>
                 <Button
                   variant="contained"
                   size="medium"
+                  color="secondary"
                   value="50"
                   onClick={save}
                 >
