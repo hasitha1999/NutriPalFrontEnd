@@ -6,11 +6,11 @@ import { changeUserStatus } from "../../use-cases/change-user-status";
 
 const columns = [
   {
-    accessorKey: "first_name",
+    accessorKey: "firstName",
     header: "First Name",
   },
   {
-    accessorKey: "last_name",
+    accessorKey: "lastName",
     header: "Last Name",
   },
   {

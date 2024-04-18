@@ -9,6 +9,7 @@ import MealPlannerComponent from "../pages/MealPlannerComponent";
 import UserList from "../pages/ViewAllUsers";
 import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
 import DailyLogs from "../pages/DailyLogs";
+import WaterMgt from "../pages/WaterMgt";
 const routeConfig = [
   {
     id: 1,
@@ -92,7 +93,7 @@ const routeConfig = [
   {
     id: 12,
     path: "/watermgt",
-    element: <HomePage />,
+    element: <WaterMgt />,
     icon: <Opacity fontSize="large" />,
     label: "Water managment",
     menu: true,
