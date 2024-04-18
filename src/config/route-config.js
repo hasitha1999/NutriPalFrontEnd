@@ -90,6 +90,17 @@ const routeConfig = [
     noAuth: true,
   },
   {
+    id: 11,
+    path: "/bmiCal",
+    element: <HomePage />,
+    icon: <Calculate fontSize="large" />,
+    label: "Nutrition Calculator",
+    menu: true,
+    roles: ["USER", "ADMIN"],
+    noAuth: true,
+  },
+  {
+
     id: 12,
     path: "/watermgt",
     element: <HomePage />,
@@ -100,7 +111,7 @@ const routeConfig = [
     noAuth: true,
   },
   {
-    id: 12,
+    id: 13,
     path: "/dailylog",
     element: <DailyLogs />,
     icon: <EventNote fontSize="large" />,
