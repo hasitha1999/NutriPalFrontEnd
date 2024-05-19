@@ -2,7 +2,6 @@ import EmailVerification from "../pages/EmailVerification";
 import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
-import SignUp from "../pages/SignUp";
 import UserDetails from "../pages/UserDetails";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MealPlannerComponent from "../pages/MealPlannerComponent";
@@ -15,13 +14,6 @@ const routeConfig = [
     id: 1,
     path: "/login",
     element: <Login />,
-    hideLayout: true,
-    noAuth: true,
-  },
-  {
-    id: 2,
-    path: "/signup",
-    element: <SignUp />,
     hideLayout: true,
     noAuth: true,
   },

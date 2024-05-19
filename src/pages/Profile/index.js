@@ -53,7 +53,7 @@ ncd:["Diabetes","Arthritis"]});
     navigate(value);
   };
   useEffect(() => {
-    getUserDetails().then((res) => setUser(res.data));
+    // getUserDetails().then((res) => setUser(res.data));
   }, []);
   const findHelthyWeight =(tragetBMI)=>{
     return Math.round(tragetBMI * (profileInfo.height/100) ** 2)

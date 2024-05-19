@@ -3,6 +3,8 @@ import Table from "../../component-ui/Table";
 import { getUsers } from "../../use-cases/get-users";
 import EditUser from "../../component-ui/EditUser";
 import { changeUserStatus } from "../../use-cases/change-user-status";
+import { Button, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   {
@@ -43,6 +45,7 @@ const columns = [
 ];
 
 const UserList = () => {
+  let navigate = useNavigate();
   const [editingUser, setEditingUser] = useState(null);
   const [tableRefreshFlag, setTableRefreshFlag] = useState(false);
 
@@ -54,9 +57,20 @@ const UserList = () => {
     await changeUserStatus(id);
     setTableRefreshFlag((prev) => !prev);
   };
+  const routeChange = (value) => {
+    navigate(value);
+  };
 
   return (
     <div>
+      <Grid xs={12} md={12}
+              container
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center">
+      <Button variant="contained" onClick={() => {
+                routeChange(`/userDetails`);
+              }}> + Add New User</Button></Grid>
       <Table
         fetchDataList={getUsers}
         headers={columns}
