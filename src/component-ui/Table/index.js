@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MaterialReactTable from "material-react-table";
 import { Box, IconButton, Tooltip } from "@mui/material";
-import { DoNotDisturb, Edit, PanToolAlt } from "@mui/icons-material";
+import { DoNotDisturb, Edit, Height, PanToolAlt } from "@mui/icons-material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+
 
 const Table = ({
   fetchDataList,
@@ -17,10 +18,32 @@ const Table = ({
   rowActions
 }) => {
   //data and fetching state
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rowCount, setRowCount] = useState(0);
+
+  const data = [
+    {
+        firstName: 'Hasitha',
+        lastName: 'Lakmal',
+        gender: 'Male',
+        nic: '991692991V',
+        dob: '1999/06/17',
+        email:'hasitha@gmail.com',
+        height:'180cm'
+    },
+    {
+      firstName: 'Lakmal',
+      lastName: 'Weerasighe',
+      gender: 'Male',
+      nic: '991692991V',
+      dob: '1999/06/17',
+      email:'Lakmal@gmail.com',
+      height:'180cm'
+    },
+  ];
+  
 
   //table state
   const [globalFilter, setGlobalFilter] = useState("");
@@ -41,7 +64,7 @@ const Table = ({
         pagination.pageSize,
         globalFilter || ""
       );
-      setData(data.data.data);
+      // setData(data.data.data);
       setRowCount(data.data.count);
       setIsError(false);
       setIsLoading(false);
