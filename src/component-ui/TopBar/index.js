@@ -84,7 +84,7 @@ const TopBar = (props) => {
                   </Link>
                 </MenuItem>
                 <MenuItem>
-                  <Link href="/" underline="none" color="inherit">
+                  <Link href="/login" underline="none" color="inherit">
                     Logout
                   </Link>
                 </MenuItem>

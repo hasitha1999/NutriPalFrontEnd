@@ -8,6 +8,8 @@ import Grid from '@mui/material/Grid';
 import TuneSharpIcon from '@mui/icons-material/TuneSharp';
 import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 const top100Films = [
     { label: 'The Shawshank Redemption', year: 1994 },
@@ -163,6 +165,22 @@ let dummyCardData = [
     }
 ];
 
+const filterOptions = {
+    items: [
+        { id: 1, type: 'Diet', name: 'Vegetarian' },
+        { id: 2, type: 'Diet', name: 'Vegan' },
+        { id: 3, type: 'Diet', name: 'Low-Fat' },
+        { id: 4, type: 'Diet', name: 'Keto' },
+        { id: 5, type: 'Diet', name: 'Paleo' },
+        { id: 6, type: 'Diet', name: 'Mediterranean' },
+        { id: 7, type: 'Diet', name: 'Gluten-Free' },
+        { id: 8, type: 'Diet', name: 'Low-Carb' },
+        { id: 9, type: 'Allergies', name: 'Diary' },
+        { id: 10, type: 'Allergies', name: 'Egg' },
+    ],
+    titles: ['Allergies','Diet'],
+};
+
 
 
 
@@ -201,8 +219,24 @@ const MealPlannerComponent = () => {
         </Box>
 
         <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
-            Hello
+            <Box sx={{ width: 350, padding:'50px 20px' }}>
+                {filterOptions.titles.map((title,index) => (
+                    <div key={index}>
+                        <Typography variant="h5" sx={{ marginTop: '40px' }}>{title}</Typography>
+                        <Grid container columnSpacing={{ xs: 3, sm: 4, md: 5 }} columns={{ xs: 4, sm: 8, md: 8 }}>
+                            {filterOptions.items
+                                .filter(item => item.type === title)
+                                .map((item, itemNo) => (
+                                    <Grid item xs={2} sm={4} md={4} key={itemNo}>
+                                        <FormControlLabel control={<Checkbox />} label={item.name} />
+                                    </Grid>
+                                ))}
+                        </Grid>
+                    </div>
+                ))}
+            </Box>
         </Drawer>
+
 
 
 
