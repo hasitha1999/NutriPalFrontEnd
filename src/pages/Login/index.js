@@ -96,7 +96,6 @@ export default function SignIn() {
           border: "1px solid grey",
           paddingTop: 1,
           padding: 3,
-          backgroundColor: "black",
           borderRadius: "10px",
         }}
       >

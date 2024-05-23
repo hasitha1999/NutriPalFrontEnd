@@ -7,12 +7,12 @@ const server = axios.create({
     }
 });
 
-// server.interceptors.request.use(config => {
-//     config.headers.Authorization = "Bearer " + sessionStorage.getItem("TOKEN")
-//     return config;
-// }, error => {
-//     return Promise.reject(error);
-// });
+server.interceptors.request.use(config => {
+    config.headers.Authorization = "Bearer " + sessionStorage.getItem("TOKEN")
+    return config;
+}, error => {
+    return Promise.reject(error);
+});
 
 // server.interceptors.response.use(response => response, error => {
 //     if(error.response?.status === 403){
