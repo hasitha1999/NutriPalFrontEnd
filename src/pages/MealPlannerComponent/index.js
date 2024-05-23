@@ -10,6 +10,12 @@ import IconButton from '@mui/material/IconButton';
 import Drawer from '@mui/material/Drawer';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import {CheckCircle} from "@mui/icons-material";
 
 const top100Films = [
     { label: 'The Shawshank Redemption', year: 1994 },
@@ -218,8 +224,19 @@ const MealPlannerComponent = () => {
             </Grid>
         </Box>
 
+        <List>
+            <ListItem>
+                <ListItemIcon>
+                    <CheckCircle /> {/* Use your desired icon */}
+                </ListItemIcon>
+                <ListItemText primary="Item 1" />
+            </ListItem>
+            {/* Add more list items as needed */}
+        </List>
+
         <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
-            <Box sx={{ width: 350, padding:'50px 20px' }}>
+            <Box sx={{ width: 350, padding:'50px 20px', display: 'flex',flexDirection: 'column',justifyContent: 'space-between', height:'100%'}}>
+                <div>
                 {filterOptions.titles.map((title,index) => (
                     <div key={index}>
                         <Typography variant="h5" sx={{ marginTop: '40px' }}>{title}</Typography>
@@ -234,6 +251,15 @@ const MealPlannerComponent = () => {
                         </Grid>
                     </div>
                 ))}
+                </div>
+                <div style={{display:'flex', justifyContent: 'space-around'}}>
+                    <Button variant="contained" >
+                        Filter
+                    </Button>
+                    <Button variant="contained" >
+                        Reset
+                    </Button>
+                </div>
             </Box>
         </Drawer>
 
