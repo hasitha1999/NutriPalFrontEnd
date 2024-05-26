@@ -21,6 +21,16 @@ import {
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+
 const NutritionMeter = () => {
   const defaultItemsDisplayed = [
     {
@@ -185,8 +195,9 @@ const NutritionMeter = () => {
     );
   };
 
+  const rows = [totalCalories, totalProtein(), totalCarbs(), totalFat()];
   return (
-    <Box sx={{ backgroundColor: "#a5d6a7", minHeight: "100vh", py: 4 }}>
+    <Box sx={{minHeight: "100vh", py: 4 }}>
       <Container>
         <Typography variant="h3" component="h1" align="center" gutterBottom>
             Nutrition Meter
@@ -268,7 +279,9 @@ const NutritionMeter = () => {
               helperText={inputError && newItem.fat < 0 ? "Invalid value" : ""}
             />
           </Grid>
-          <Grid item xs={12} sm={6} container alignItems="center">
+        </Grid>
+        <Grid container spacing={2} mb={4}>
+        <Grid item xs={12} sm={6} container alignItems="center" rowSpacing={1}>
             {editItem ? (
               <Button
                 variant="contained"
@@ -297,8 +310,8 @@ const NutritionMeter = () => {
               Clear All
             </Button>
           </Grid>
-        </Grid>
-        <Grid container spacing={2}>
+          </Grid>
+        <Grid container spacing={2} rowSpacing={1}>
           {nutritionItems.map((item) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
               <Card
@@ -367,7 +380,8 @@ const NutritionMeter = () => {
             </Grid>
           ))}
         </Grid>
-        <Box textAlign="center" mt={8}>
+        
+        {/* <Box textAlign="center" mt={8} variant="outlined" style={{ padding: 20, borderRadius: 10, boxShadow: '2px 8px 16px rgba(0, 0, 0, 0.1)' }}>
           <Typography variant="h5">
             Total Calories: {totalCalories}{" "}
             <FontAwesomeIcon icon={faUtensils} size="lg" />
@@ -375,7 +389,31 @@ const NutritionMeter = () => {
           <Typography variant="h5">Total Protein: {totalProtein()}g</Typography>
           <Typography variant="h5">Total Carbs: {totalCarbs()}g</Typography>
           <Typography variant="h5">Total Fat: {totalFat()}g</Typography>
-        </Box>
+        </Box> */}
+
+
+      <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="right">Total Calories&nbsp;(g)</TableCell>
+                  <TableCell align="right">Total Protein&nbsp;(g)</TableCell>
+                  <TableCell align="right">Total Carbs&nbsp;(g)</TableCell>
+                  <TableCell align="right">Total Fat&nbsp;(g)</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+              <TableRow    
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell align="right"> {totalCalories}</TableCell>  
+                    <TableCell align="right">{totalProtein()}</TableCell>
+                    <TableCell align="right">{totalCarbs()}</TableCell>
+                    <TableCell align="right">{totalFat()}</TableCell>
+                  </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
       </Container>
     </Box>
   );
