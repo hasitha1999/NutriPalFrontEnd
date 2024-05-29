@@ -29,7 +29,6 @@ import Stack from "@mui/material/Stack";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserDetails } from "../../use-cases/get-user-details";
-import { getPackageUser } from "../../use-cases/get-package-user";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 20,

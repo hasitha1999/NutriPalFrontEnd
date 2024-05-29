@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Table from "../../component-ui/Table";
 import { getUsers } from "../../use-cases/get-users";
 import EditUser from "../../component-ui/EditUser";
-import { changeUserStatus } from "../../use-cases/change-user-status";
 import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -53,10 +52,6 @@ const UserList = () => {
     setEditingUser(row);
   };
 
-  const handleStatus = async (id) => {
-    await changeUserStatus(id);
-    setTableRefreshFlag((prev) => !prev);
-  };
   const routeChange = (value) => {
     navigate(value);
   };
@@ -76,7 +71,7 @@ const UserList = () => {
         headers={columns}
         rowIdField={"id"}
         setEditingRow={setEditingRow}
-        handleStatus={handleStatus}
+        handleStatus={true}
         tableRefreshFlag={tableRefreshFlag}
       />
       <EditUser

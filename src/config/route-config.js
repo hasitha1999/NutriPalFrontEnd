@@ -1,4 +1,4 @@
-import EmailVerification from "../pages/EmailVerification";
+
 import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import Profile from "../pages/Profile";
@@ -18,13 +18,7 @@ const routeConfig = [
     hideLayout: true,
     noAuth: true,
   },
-  {
-    id: 3,
-    path: "/email-verification/:verificationToken",
-    element: <EmailVerification />,
-    hideLayout: true,
-    noAuth: true,
-  },
+
   {
     id: 4,
     path: "/home",
