@@ -9,6 +9,7 @@ import UserList from "../pages/ViewAllUsers";
 import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
 import DailyLogs from "../pages/DailyLogs";
 import WaterMgt from "../pages/WaterMgt";
+import BmiCalculator from "../pages/BMICalculator";
 const routeConfig = [
   {
     id: 1,
@@ -85,7 +86,7 @@ const routeConfig = [
   {
     id: 11,
     path: "/bmiCal",
-    element: <HomePage />,
+    element: <BmiCalculator />,
     icon: <Calculate fontSize="large" />,
     label: "Nutrition Calculator",
     menu: true,
