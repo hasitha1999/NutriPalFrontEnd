@@ -16,8 +16,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Alert } from "@mui/material";
 import { Report } from "@mui/icons-material";
 
+
 const userData = {
-  email: "",
+  userName: "",
   password: "",
 };
 
@@ -47,8 +48,8 @@ export default function SignIn() {
     let errors = false;
     let errorMessages = { ...userData };
 
-    if (formData.email.trim() === "") {
-      errorMessages.email = "Email is required";
+    if (formData.userName.trim() === "") {
+      errorMessages.userName = "User Name is required";
       errors = true;
     }
 
@@ -85,7 +86,7 @@ export default function SignIn() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" >
       <CssBaseline />
       <Box
         sx={{
@@ -130,15 +131,15 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
+            id="userName"
+            label="User Name"
+            name="userName"
+            autoComplete="userName"
             autoFocus
-            value={formData.email}
+            value={formData.userName}
             onChange={handleFormValueChange}
-            error={formErrorMessages.email !== ""}
-            helperText={formErrorMessages.email}
+            error={formErrorMessages.userName !== ""}
+            helperText={formErrorMessages.userName}
           />
           <TextField
             margin="normal"
