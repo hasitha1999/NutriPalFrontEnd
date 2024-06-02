@@ -44,7 +44,7 @@ const WaterMgt = () => {
             logId : data?.logId,
             logType : "Water",
             userInput : data?.userInput + waterAmount,
-            weight : 0
+            weight : data?.weight 
         }
         setIsButtonLoading(true)
         createOrUpdateDailyLog(payLoad).then((e)=>{
@@ -60,10 +60,8 @@ const WaterMgt = () => {
       setCurrentWaterIntake(waterAmountPresentage);
       sendWaterAmount(waterAmount);
 
-
-
   }
-
+console.log("llll",waterIntake);
 
   return (
     <div>

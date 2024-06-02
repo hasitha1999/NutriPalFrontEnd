@@ -11,10 +11,12 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { loginUser } from "../../use-cases/login-user";
+import { getforgotPassword, loginUser } from "../../use-cases/login-user";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Alert } from "@mui/material";
 import { Report } from "@mui/icons-material";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 
 const userData = {
@@ -29,7 +31,7 @@ export default function SignIn() {
   });
   const [showErrorMessage, setShowErrorMessage] = React.useState(false);
   const [commonError, setCommonError] = React.useState('');
-
+  const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -84,6 +86,18 @@ export default function SignIn() {
       [event.target.name]: "",
     }));
   };
+  const forgotPassword = () => {
+    if (formData.userName.trim() === "") {
+      MySwal.fire("ERROR", "User Name is required", "error");
+    }else{
+      getforgotPassword(formData).then((response) => {
+        MySwal.fire("success!", "Password reset process will recived via email", "success")
+      }
+        
+      )
+    }
+
+  }
 
   return (
     <Container component="main" maxWidth="xs" >
@@ -169,13 +183,8 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item >
-              <Link href="#" variant="body2" color="#fff">
+              <Link variant="body2" color="primary" onClick={forgotPassword}>
                 Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/signup" variant="body2" color="#fff">
-                {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
           </Grid>
