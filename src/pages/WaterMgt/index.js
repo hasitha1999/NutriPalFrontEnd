@@ -26,7 +26,7 @@ const WaterMgt = () => {
     }, []);
 
     const getInitData = () =>{
-        getWaterManagmentData().then((e)=>{
+        getWaterManagmentData("Water").then((e)=>{
             let waterIntakeForWeight = Math.round(((e.data.weight * 2.2)/2)*29.574*100)/100;
             if (e.data.logId != null){
                 e.data.userInput != 0 ? setCurrentWaterIntake((e.data.userInput/waterIntakeForWeight)*100) : setCurrentWaterIntake(0);
@@ -39,7 +39,6 @@ const WaterMgt = () => {
 
 
     const sendWaterAmount = (waterAmount) =>{
-
         let payLoad = {
             logId : data?.logId,
             logType : "Water",

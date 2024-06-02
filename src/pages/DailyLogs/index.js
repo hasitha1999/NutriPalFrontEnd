@@ -14,6 +14,7 @@ import {
 import React, { useEffect, useState } from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
+import {getWaterManagmentData} from "../../use-cases/get-water-managment-data";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -110,6 +111,7 @@ const DailyLogs = () => {
 
   const tabChange = (event, newValue) => {
     setValue(newValue);
+    getDailyLogDataByType()
   };
 
   const findHelthyWeight =(tragetBMI)=>{
@@ -147,6 +149,18 @@ const DailyLogs = () => {
         setLowerRange(22);
       }
     }
+
+  }
+
+  const getDailyLogDataByType = () => {
+    let logType = ""
+    value == '2' ? logType = "Calorie" : value == '3' ?  logType = "Weight" : logType = "Water";
+    getWaterManagmentData(logType).then((e)=>{
+      console.log(e)
+
+
+    })
+
 
   }
   return (
