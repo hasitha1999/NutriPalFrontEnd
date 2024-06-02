@@ -10,11 +10,19 @@ import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, 
 import DailyLogs from "../pages/DailyLogs";
 import WaterMgt from "../pages/WaterMgt";
 import BmiCalculator from "../pages/BMICalculator";
+import ResetPassword from "../pages/ResetPassword";
 const routeConfig = [
   {
     id: 1,
     path: "/login",
     element: <Login />,
+    hideLayout: true,
+    noAuth: true,
+  },
+  {
+    id: 2,
+    path: "/resetPassword",
+    element: <ResetPassword />,
     hideLayout: true,
     noAuth: true,
   },
@@ -108,6 +116,7 @@ const routeConfig = [
     roles: ["USER", "ADMIN"],
     noAuth: true,
   },
+
 ];
 
 export default routeConfig;
