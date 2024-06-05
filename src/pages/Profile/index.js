@@ -52,13 +52,13 @@ ncd:["Diabetes","Arthritis"]});
     navigate(value);
   };
   useEffect(() => {
-    // getUserDetails().then((res) => setUser(res.data));
+    getUserDetails().then((res) => setUser(res.data))
   }, []);
   const findHelthyWeight =(tragetBMI)=>{
-    return Math.round(tragetBMI * (profileInfo.height/100) ** 2)
+    return Math.round(tragetBMI * (user.height/100) ** 2)
   }
   const calculateWaterIntake = ()=>{
-    return  Math.round(((profileInfo.weight * 2.2)/2)*29.574*100)/100
+    return  Math.round(((user.weight * 2.2)/2)*29.574*100)/100
   }
   return (
     <div>
@@ -91,10 +91,10 @@ ncd:["Diabetes","Arthritis"]});
                   width: 300,
                 }}/>
                 <Typography gutterBottom variant="h6">
-                  {profileInfo.firstName} {profileInfo.lastName}
+                  {user.firstName} {user.lastName}
                 </Typography>
                 <Typography color="text.secondary" variant="h6">
-                  {profileInfo.useId}
+                  {user.gymID}
                 </Typography>
           </CardContent>
           <Divider />
@@ -104,7 +104,7 @@ ncd:["Diabetes","Arthritis"]});
               variant="text"
               color="secondary"
               onClick={() => {
-                routeChange(`/userDetails`);
+                routeChange(`/userDetails?isUpdate=true`);
               }}
             >
               Update profile info
@@ -129,34 +129,34 @@ ncd:["Diabetes","Arthritis"]});
             <Divider />
           <CardContent sx={{ ml: 3,color: "#878787"}}>
             <Typography variant="h5" margin={1}>
-              Age : {new Date().getFullYear() - profileInfo.dob.split("/", 1)} Years
+              Age : {new Date().getFullYear() - user.dob?.split("/", 1)} Years
             </Typography>
             <Divider />
             <Typography variant="h5" margin={1}>
-              Email : {profileInfo.email} 
+              Email : {user.email} 
             </Typography>
             <Divider />
             <Typography variant="h5" margin={1}>
-              DOB : {profileInfo.dob} 
+              DOB : {user?.dob} 
             </Typography>
             <Divider />
             <Typography variant="h5" margin={1}>
-              Gender : {profileInfo.gender === 1 ? "Male" : "Female"} 
+              Gender : {user.gender === 1 ? "Male" : "Female"} 
             </Typography>
             <Divider />
             <Typography variant="h5" margin={1}>
-              Weight : {profileInfo.weight} kg
+              Weight : {user.weight} kg
             </Typography>
             <Divider />
             <Typography variant="h5" margin={1}>
-              Height : {profileInfo.height} cm
+              Height : {user.height} cm
             </Typography>
             <Divider />
             <Typography variant="h5" margin={1}>
                 Active Level : 
               </Typography>
             <Box sx={{ width: '50%' }}>
-              <BorderLinearProgress color="secondary"  variant="determinate" value={100/profileInfo.activeLevel} />
+              <BorderLinearProgress color="secondary"  variant="determinate" value={100/user.activeLevel} />
             </Box>
           </CardContent>
         </Card>
