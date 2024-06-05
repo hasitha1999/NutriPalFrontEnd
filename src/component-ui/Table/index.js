@@ -18,31 +18,31 @@ const Table = ({
   rowActions
 }) => {
   //data and fetching state
-  // const [data, setData] = useState([]);
+  const [data, setData] = useState([]);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rowCount, setRowCount] = useState(0);
 
-  const data = [
-    {
-        firstName: 'Hasitha',
-        lastName: 'Lakmal',
-        gender: 'Male',
-        nic: '991692991V',
-        dob: '1999/06/17',
-        email:'hasitha@gmail.com',
-        height:'180cm'
-    },
-    {
-      firstName: 'Lakmal',
-      lastName: 'Weerasighe',
-      gender: 'Male',
-      nic: '991692991V',
-      dob: '1999/06/17',
-      email:'Lakmal@gmail.com',
-      height:'180cm'
-    },
-  ];
+  // const data = [
+  //   {
+  //       firstName: 'Hasitha',
+  //       lastName: 'Lakmal',
+  //       gender: 'Male',
+  //       nic: '991692991V',
+  //       dob: '1999/06/17',
+  //       email:'hasitha@gmail.com',
+  //       height:'180cm'
+  //   },
+  //   {
+  //     firstName: 'Lakmal',
+  //     lastName: 'Weerasighe',
+  //     gender: 'Male',
+  //     nic: '991692991V',
+  //     dob: '1999/06/17',
+  //     email:'Lakmal@gmail.com',
+  //     height:'180cm'
+  //   },
+  // ];
   
 
   //table state
@@ -64,7 +64,7 @@ const Table = ({
         pagination.pageSize,
         globalFilter || ""
       );
-      // setData(data.data.data);
+      setData(data.data.data);
       setRowCount(data.data.count);
       setIsError(false);
       setIsLoading(false);
@@ -132,18 +132,11 @@ const Table = ({
           // enableEditing
           renderRowActions={({ row }) => (
             <Box sx={{ display: "flex", gap: "1rem" }}>
-              {setEditingRow && (
-                <Tooltip arrow placement="left" title={"Edit"}>
-                  <IconButton onClick={() => setEditingRow(row.original)}>
-                    <Edit />
-                  </IconButton>
-                </Tooltip>
-              )}
               {handleStatus && (
                 <Tooltip
                   arrow
                   placement="left"
-                  title={row.original.isActive ? "Disable" : "Enable"}
+                  title={row.original.isActive ? "Deactivate" : "Activate"}
                 >
                   <IconButton
                     onClick={() =>

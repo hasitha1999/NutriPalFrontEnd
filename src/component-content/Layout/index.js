@@ -7,8 +7,8 @@ import { useNavigate } from "react-router";
 import cover from "../../loginBg.jpeg" 
 
 const Layout = (props) => {
-  // const role = sessionStorage.getItem("ROLE");
-  const role = "ADMIN"
+  const role = sessionStorage.getItem("ROLE");
+  // const role = "ADMIN"
   const menuRoutes = routeConfig.filter((route) => route.menu && route?.roles?.find(routeRole => routeRole === role));
 
   const navigate = useNavigate();

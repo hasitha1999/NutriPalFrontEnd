@@ -20,7 +20,7 @@ import withReactContent from "sweetalert2-react-content";
 
 
 const userData = {
-  userName: "",
+  gymID: "",
   password: "",
 };
 
@@ -50,8 +50,8 @@ export default function SignIn() {
     let errors = false;
     let errorMessages = { ...userData };
 
-    if (formData.userName.trim() === "") {
-      errorMessages.userName = "User Name is required";
+    if (formData.gymID.trim() === "") {
+      errorMessages.gymID = "Gym ID is required";
       errors = true;
     }
 
@@ -87,8 +87,8 @@ export default function SignIn() {
     }));
   };
   const forgotPassword = () => {
-    if (formData.userName.trim() === "") {
-      MySwal.fire("ERROR", "User Name is required", "error");
+    if (formData.gymID.trim() === "") {
+      MySwal.fire("ERROR", "Gym ID is required", "error");
     }else{
       getforgotPassword(formData).then((response) => {
         MySwal.fire("success!", "Password reset process will recived via email", "success")
@@ -128,7 +128,7 @@ export default function SignIn() {
             icon={<Report />}
             onClose={() => setShowErrorMessage(false)}
           >
-            Invalid Username or Password
+            Invalid Gym ID or Password
           </Alert>
         )}
         {commonError && (
@@ -145,15 +145,15 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="userName"
-            label="User Name"
-            name="userName"
-            autoComplete="userName"
+            id="gymID"
+            label="Gym ID"
+            name="gymID"
+            autoComplete="gymID"
             autoFocus
-            value={formData.userName}
+            value={formData.gymID}
             onChange={handleFormValueChange}
-            error={formErrorMessages.userName !== ""}
-            helperText={formErrorMessages.userName}
+            error={formErrorMessages.gymID !== ""}
+            helperText={formErrorMessages.gymID}
           />
           <TextField
             margin="normal"

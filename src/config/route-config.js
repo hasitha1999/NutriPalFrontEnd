@@ -35,7 +35,7 @@ const routeConfig = [
     label: "Dashboard",
     menu: true,
     roles: ["USER","ADMIN"],
-    noAuth: true,
+    noAuth: false,
   },
   {
     id: 5,
@@ -45,7 +45,7 @@ const routeConfig = [
     menu: true,
     label: "User Management",
     roles: ["ADMIN"],
-    noAuth: true,
+    noAuth: false,
   },
  
   {
@@ -53,7 +53,7 @@ const routeConfig = [
     path: "/userDetails",
     element: <UserDetails />,
     roles: ["USER", "ADMIN"],
-    noAuth: true,
+    noAuth: false,
   },
   {
     id: 8,
@@ -63,17 +63,17 @@ const routeConfig = [
     label: "Profile",
     menu: true,
     roles: ["USER", "ADMIN"],
-    noAuth: true,
+    noAuth: false,
   },
   {
     id: 9,
     path: "/meal",
     element: <MealPlannerComponent />,
-    roles: ["ADMIN"],
+    roles: ["USER"],
     menu: true,
     icon: <RamenDining fontSize="large" />,
     label: "Meal Planner",
-    noAuth: true,
+    noAuth: false,
   },
   {
     id: 10,
@@ -82,8 +82,8 @@ const routeConfig = [
     icon: <Restaurant fontSize="large" />,
     label: "Recepie Genarator",
     menu: true,
-    roles: ["USER", "ADMIN"],
-    noAuth: true,
+    roles: ["USER"],
+    noAuth: false,
   },
   {
     id: 11,
@@ -92,8 +92,8 @@ const routeConfig = [
     icon: <Calculate fontSize="large" />,
     label: "Nutrition Calculator",
     menu: true,
-    roles: ["USER", "ADMIN"],
-    noAuth: true,
+    roles: ["USER"],
+    noAuth: false,
   },
   {
 
@@ -103,8 +103,8 @@ const routeConfig = [
     icon: <Opacity fontSize="large" />,
     label: "Water managment",
     menu: true,
-    roles: ["USER", "ADMIN"],
-    noAuth: true,
+    roles: ["USER"],
+    noAuth: false,
   },
   {
     id: 13,
@@ -113,8 +113,8 @@ const routeConfig = [
     icon: <EventNote fontSize="large" />,
     label: "Daily Logs",
     menu: true,
-    roles: ["USER", "ADMIN"],
-    noAuth: true,
+    roles: ["USER"],
+    noAuth: false,
   },
 
 ];
