@@ -20,7 +20,7 @@ import withReactContent from "sweetalert2-react-content";
 
 
 const userData = {
-    confirmPassword: "",
+  confirmPassword: "",
   password: "",
 };
 
@@ -35,8 +35,8 @@ export default function ResetPassword() {
   const [queryParameters] = useSearchParams();
   const navigate = useNavigate();
   React.useEffect(()=>{
-    const userName = queryParameters.get("n")
-    formData.userName = userName;
+    const gymID = queryParameters.get("n")
+    formData.gymID = gymID;
   },[])
 
 
@@ -47,36 +47,65 @@ export default function ResetPassword() {
     let errorMessages = { ...userData };
 
     if (formData.confirmPassword.trim() === "") {
-      errorMessages.userName = "Confirm Password is required";
+      errorMessages.confirmPassword = "Confirm Password is required";
       errors = true;
     }else if(formData.password.trim() !== formData.confirmPassword.trim()){
-        errorMessages.userName = "Confirm Password is mismatched";
+        errorMessages.confirmPassword = "Confirm Password is mismatched";
         errors = true;
     }
-
     if (formData.password.trim() === "") {
       errorMessages.password = "Password is required";
       errors = true;
+    }else{
+      {
+        let validation = validatePassword(formData.password)
+        if(validation !== null){
+          errorMessages.password = validation;
+          errors = true;
+        }
+      }
     }
-
-    
-
     if (errors) {
+      setFormErrorMessages(errorMessages);
       return;
     }
+
+    resetPassword(formData)
+    .then((response) => {
+      MySwal.fire("success!", "Password has been changed", "success")
+      navigate("/login");
+    })
+    .catch((error) => {
+      setShowErrorMessage(true)
+    });
+
+  }
+  function validatePassword(password) {
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const digitRegex = /\d/;
+    const specialCharRegex = /[@$!%*?&]/;
+
+    if(!uppercaseRegex.test(password)){
+      return "At least one uppercase letter" 
+    }else if(!lowercaseRegex.test(password)){
+      return "At least one lowercase letter "
+    }else if(!digitRegex.test(password)){
+      return "At least one digit"
+    }else if(!specialCharRegex.test(password)){
+      return "At least one special character"
+    }else if(formData.password.length < 8){
+      return "Password at least 8 characters";
+    }else{
+      return null;
+    }
+  };
+  
 
     console.log(formData)
 
 
-    resetPassword(formData)
-      .then((response) => {
-        MySwal.fire("success!", "Password has been changed", "success")
-        navigate("/login");
-      })
-      .catch((error) => {
-        setShowErrorMessage(true)
-      });
-  };
+
 
   const handleFormValueChange = (event) => {
     setFormData((prev) => ({
@@ -96,23 +125,22 @@ export default function ResetPassword() {
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 20,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          border: "1px solid grey",
           paddingTop: 1,
           padding: 3,
           borderRadius: "10px",
         }}
       >
         <Avatar
-          sx={{ width: 100, height: 100 }}
+          sx={{ width: 200, height: 200 }}
           alt="Remy Sharp"
-          src="logo.jpg"
+          src="logo.png"
         ></Avatar>
-        <Typography component="h1" variant="h5">
-          Reset Password
+        <Typography component="h1" variant="h3" color="#fff">
+          <strong>Reset Password</strong>
         </Typography>
         {showErrorMessage && (
           <Alert
@@ -147,6 +175,12 @@ export default function ResetPassword() {
             onChange={handleFormValueChange}
             error={formErrorMessages.password}
             helperText={formErrorMessages.password}
+            InputProps={{
+              style: {
+                borderRadius: "20px",
+                border: "1px solid white",
+              }
+            }}
           />
           <TextField
             margin="normal"
@@ -161,12 +195,18 @@ export default function ResetPassword() {
             onChange={handleFormValueChange}
             error={formErrorMessages.confirmPassword !== ""}
             helperText={formErrorMessages.confirmPassword}
+            InputProps={{
+              style: {
+                borderRadius: "20px",
+                border: "1px solid white",
+              }
+            }}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, borderRadius: "20px",p:2,fontSize:"20px"}}
           >
             Reset Password
           </Button>
