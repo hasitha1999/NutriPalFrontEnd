@@ -129,7 +129,7 @@ ncd:["Diabetes","Arthritis"]});
             <Divider />
           <CardContent sx={{ ml: 3,color: "#878787"}}>
             <Typography variant="h5" margin={1}>
-              Age : {new Date().getFullYear() - user.dob?.split("/", 1)} Years
+              Age : {user?.dob ?(new Date().getFullYear() - user.dob?.split("/", 1)) + "Years": " No DOB" } 
             </Typography>
             <Divider />
             <Typography variant="h5" margin={1}>
