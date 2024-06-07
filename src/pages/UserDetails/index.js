@@ -185,6 +185,8 @@ console.log(user);
                 onChange={handleChange}
                 required
                 value={user.phone}
+                
+                inputProps={{ maxLength: 10,type:"number"}}
               />
             </Grid>
             <Grid xs={12} md={3}>

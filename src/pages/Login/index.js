@@ -192,7 +192,7 @@ export default function SignIn() {
           <Grid container>
             <Grid item >
               <Link variant="body2" color="#fff" onClick={forgotPassword}>
-                Forgot password?
+                Forgot password? Click Here
               </Link>
             </Grid>
           </Grid>
