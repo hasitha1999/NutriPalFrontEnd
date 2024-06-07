@@ -100,27 +100,26 @@ export default function SignIn() {
   }
 
   return (
-    <Container component="main" maxWidth="xs" >
+    <Container component="main"  >
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 20,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          border: "1px solid grey",
           paddingTop: 1,
           padding: 3,
           borderRadius: "10px",
         }}
       >
-        <Avatar
-          sx={{ width: 100, height: 100 }}
+       <Avatar
+          sx={{ width: 200, height: 200 }}
           alt="Remy Sharp"
-          src="logo.jpg"
+          src="logo.png"
         ></Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
+        <Typography component="h1" variant="h2" color="#fff">
+        <strong>Nutri-Pal</strong>
         </Typography>
         {showErrorMessage && (
           <Alert
@@ -140,11 +139,12 @@ export default function SignIn() {
             {commonError}
           </Alert>
         )}
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1}}>
           <TextField
             margin="normal"
             required
             fullWidth
+            hiddenLabel
             id="gymID"
             label="Gym ID"
             name="gymID"
@@ -154,6 +154,12 @@ export default function SignIn() {
             onChange={handleFormValueChange}
             error={formErrorMessages.gymID !== ""}
             helperText={formErrorMessages.gymID}
+            InputProps={{
+              style: {
+                borderRadius: "20px",
+                border: "1px solid white",
+              }
+            }}
           />
           <TextField
             margin="normal"
@@ -168,22 +174,24 @@ export default function SignIn() {
             onChange={handleFormValueChange}
             error={formErrorMessages.password !== ""}
             helperText={formErrorMessages.password}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            InputProps={{
+              style: {
+                borderRadius: "20px",
+                border: "1px solid white",
+              }
+            }}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2,borderRadius: "20px",p:2,fontSize:"20px"}}
           >
-            Sign In
+            Log In
           </Button>
           <Grid container>
             <Grid item >
-              <Link variant="body2" color="primary" onClick={forgotPassword}>
+              <Link variant="body2" color="#fff" onClick={forgotPassword}>
                 Forgot password?
               </Link>
             </Grid>

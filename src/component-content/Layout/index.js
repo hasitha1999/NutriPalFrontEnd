@@ -4,7 +4,7 @@ import TopBar from "../../component-ui/TopBar";
 import BottomNav from "../../component-ui/BottomNav";
 import routeConfig from "../../config/route-config";
 import { useNavigate } from "react-router";
-import cover from "../../loginBg.jpeg" 
+import cover from "../../bgImg.webp" 
 
 const Layout = (props) => {
   const role = sessionStorage.getItem("ROLE");
@@ -18,7 +18,9 @@ const Layout = (props) => {
   };
 
   return (
-    <Box sx={{ float: "right", width: { xs: "100%", md: "85%" } }}>
+    <Box sx={{ float: "right", width: { xs: "100%", md: "85%" },backgroundImage:`url("/bgImg.webp")`,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",height:"100vh"}}>
       <Box sx={{ mr: 2, display: { xs: "none", md: "flex" }, width: "15%" }}>
         <SideNav menuRoutes={menuRoutes} handleRoute={handleRoute} />
       </Box>

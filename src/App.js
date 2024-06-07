@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./component-content/Layout";
 import routeConfig from "./config/route-config";
 import Auth from "./component-content/Auth";
+import LoginLayout from "./component-content/LoginLayout";
 
 function App() {
 
@@ -19,8 +20,10 @@ function App() {
               path={route.path}
               element={
                 route.hideLayout ? (
-                  !route.noAuth ? (
-                    <Auth roles={route.roles}>{route.element}</Auth>
+                  route.noAuth ? (
+                    
+                    <LoginLayout>{route.element}</LoginLayout>
+                    
                   ) : (
                     route.element
                   )
