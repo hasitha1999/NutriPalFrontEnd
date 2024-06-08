@@ -4,7 +4,6 @@ import TopBar from "../../component-ui/TopBar";
 import BottomNav from "../../component-ui/BottomNav";
 import routeConfig from "../../config/route-config";
 import { useNavigate } from "react-router";
-import cover from "../../bgImg.webp" 
 
 const Layout = (props) => {
   const role = sessionStorage.getItem("ROLE");

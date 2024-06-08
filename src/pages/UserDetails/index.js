@@ -172,6 +172,7 @@ console.log(user);
                 // label="Last name"
                 name="dob"
                 onChange={handleChange}
+                placeholder="YYYY/MM/DD"
                 required
                 value={user.dob}
               />
@@ -232,7 +233,7 @@ console.log(user);
                   <MenuItem value={20}>Muscle Building (Bulking)</MenuItem>
                   <MenuItem value={30}>Muscle Toning</MenuItem> 
                   <MenuItem value={40}>Increasing Strength</MenuItem>
-                  <MenuItem value={40}>Rehabilitation and Injury Recovery</MenuItem>
+                  <MenuItem value={50}>Rehabilitation and Injury Recovery</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
