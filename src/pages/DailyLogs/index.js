@@ -15,6 +15,7 @@ import React, { useEffect, useState } from "react";
 import CanvasJSReact from "@canvasjs/react-charts";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {getWaterManagmentData} from "../../use-cases/get-water-managment-data";
+import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list-by-month";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -37,6 +38,7 @@ const DailyLogs = () => {
   useEffect(()=>{
     BMICalculator()
     caloryRangeSelector()
+    getChartDataByType("3")
   },[])
   
   const BMICalculator = () => {
@@ -110,8 +112,9 @@ const DailyLogs = () => {
   };
 
   const tabChange = (event, newValue) => {
+    console.log("value", event)
     setValue(newValue);
-    getDailyLogDataByType()
+    getDailyLogDataByType(newValue);
   };
 
   const findHelthyWeight =(tragetBMI)=>{
@@ -152,17 +155,24 @@ const DailyLogs = () => {
 
   }
 
-  const getDailyLogDataByType = () => {
+  const getDailyLogDataByType = (newValue) => {
     let logType = ""
-    value == '2' ? logType = "Calorie" : value == '3' ?  logType = "Weight" : logType = "Water";
+    newValue == '2' ? logType = "Calorie" : newValue == '3' ?  logType = "Water" : logType = "Weight";
     getWaterManagmentData(logType).then((e)=>{
-      console.log(e)
 
+    })
+  }
+
+  const getChartDataByType = (newValue) =>{
+    let logType = ""
+    newValue == '2' ? logType = "Calorie" : newValue == '3' ?  logType = "Water" : logType = "Weight";
+    getDailyLogDataListByMonth(logType).then((e)=>{
+      console.log(e)
 
     })
 
-
   }
+
   return (
     <>
       <Typography variant="h3" sx={{ margin: "15px 0px 0px 20px" }}>
