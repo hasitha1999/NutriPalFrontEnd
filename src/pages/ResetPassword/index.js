@@ -72,8 +72,14 @@ export default function ResetPassword() {
 
     resetPassword(formData)
     .then((response) => {
-      MySwal.fire("success!", "Password has been changed", "success")
-      navigate("/login");
+      console.log(response)
+      if(response.data == "Success"){
+        MySwal.fire("success!", "Password has been changed", "success")
+        navigate("/login");
+      }else{
+        MySwal.fire("Error!",response.data, "error")
+      }
+
     })
     .catch((error) => {
       setShowErrorMessage(true)
@@ -167,7 +173,7 @@ export default function ResetPassword() {
             required
             fullWidth
             name="password"
-            label="Password"
+            placeholder ="Password"
             type="password"
             id="password"
             autoComplete="current-password"
@@ -187,7 +193,7 @@ export default function ResetPassword() {
             required
             fullWidth
             id="confirmPassword"
-            label="Confirm Password"
+            placeholder ="Confirm Password"
             name="confirmPassword"
             autoComplete="confirmPassword"
             autoFocus

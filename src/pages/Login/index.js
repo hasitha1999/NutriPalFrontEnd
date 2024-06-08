@@ -146,7 +146,7 @@ export default function SignIn() {
             fullWidth
             hiddenLabel
             id="gymID"
-            label="Gym ID"
+            placeholder ="Gym ID"
             name="gymID"
             autoComplete="gymID"
             autoFocus
@@ -166,7 +166,7 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
-            label="Password"
+            placeholder ="Password"
             type="password"
             id="password"
             autoComplete="current-password"

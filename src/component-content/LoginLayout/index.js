@@ -1,5 +1,4 @@
 import { Box } from "@mui/material";
-import cover from "../../loginBg.jpeg"
 
 const LoginLayout = (props) => {
   return (
