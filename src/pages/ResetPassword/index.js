@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { getforgotPassword, loginUser } from "../../use-cases/login-user";
+import { getforgotPassword, loginUser, resetPassword } from "../../use-cases/login-user";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Alert } from "@mui/material";
 import { Report } from "@mui/icons-material";
@@ -20,11 +20,11 @@ import withReactContent from "sweetalert2-react-content";
 
 
 const userData = {
-  gymID: "",
+  confirmPassword: "",
   password: "",
 };
 
-export default function SignIn() {
+export default function ResetPassword() {
   const [formData, setFormData] = React.useState({ ...userData });
   const [formErrorMessages, setFormErrorMessages] = React.useState({
     ...userData,
@@ -32,17 +32,13 @@ export default function SignIn() {
   const [showErrorMessage, setShowErrorMessage] = React.useState(false);
   const [commonError, setCommonError] = React.useState('');
   const MySwal = withReactContent(Swal);
+  const [queryParameters] = useSearchParams();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  React.useEffect(()=>{
+    const gymID = queryParameters.get("n")
+    formData.gymID = gymID;
+  },[])
 
-  React.useEffect(() => {
-    const error = searchParams.get("error")
-    if(error) {
-      if(error === 'session-expired') {
-        setCommonError('Session Expired')
-      }
-    }
-  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -50,30 +46,66 @@ export default function SignIn() {
     let errors = false;
     let errorMessages = { ...userData };
 
-    if (formData.gymID.trim() === "") {
-      errorMessages.gymID = "Gym ID is required";
+    if (formData.confirmPassword.trim() === "") {
+      errorMessages.confirmPassword = "Confirm Password is required";
       errors = true;
+    }else if(formData.password.trim() !== formData.confirmPassword.trim()){
+        errorMessages.confirmPassword = "Confirm Password is mismatched";
+        errors = true;
     }
-
     if (formData.password.trim() === "") {
       errorMessages.password = "Password is required";
       errors = true;
+    }else{
+      {
+        let validation = validatePassword(formData.password)
+        if(validation !== null){
+          errorMessages.password = validation;
+          errors = true;
+        }
+      }
     }
-
     if (errors) {
+      setFormErrorMessages(errorMessages);
       return;
     }
 
-    loginUser(formData)
-      .then((response) => {
-        window.sessionStorage.setItem("TOKEN", response.data.token);
-        window.sessionStorage.setItem("ROLE", response.data.role);
-        navigate("/home");
-      })
-      .catch((error) => {
-        setShowErrorMessage(true)
-      });
+    resetPassword(formData)
+    .then((response) => {
+      MySwal.fire("success!", "Password has been changed", "success")
+      navigate("/login");
+    })
+    .catch((error) => {
+      setShowErrorMessage(true)
+    });
+
+  }
+  function validatePassword(password) {
+    const uppercaseRegex = /[A-Z]/;
+    const lowercaseRegex = /[a-z]/;
+    const digitRegex = /\d/;
+    const specialCharRegex = /[@$!%*?&]/;
+
+    if(!uppercaseRegex.test(password)){
+      return "At least one uppercase letter" 
+    }else if(!lowercaseRegex.test(password)){
+      return "At least one lowercase letter "
+    }else if(!digitRegex.test(password)){
+      return "At least one digit"
+    }else if(!specialCharRegex.test(password)){
+      return "At least one special character"
+    }else if(formData.password.length < 8){
+      return "Password at least 8 characters";
+    }else{
+      return null;
+    }
   };
+  
+
+    console.log(formData)
+
+
+
 
   const handleFormValueChange = (event) => {
     setFormData((prev) => ({
@@ -86,21 +118,10 @@ export default function SignIn() {
       [event.target.name]: "",
     }));
   };
-  const forgotPassword = () => {
-    if (formData.gymID.trim() === "") {
-      MySwal.fire("ERROR", "Gym ID is required", "error");
-    }else{
-      getforgotPassword(formData).then((response) => {
-        MySwal.fire("success!", "Password reset process will recived via email", "success")
-      }
-        
-      )
-    }
 
-  }
 
   return (
-    <Container component="main"  >
+    <Container component="main" maxWidth="xs" >
       <CssBaseline />
       <Box
         sx={{
@@ -113,13 +134,13 @@ export default function SignIn() {
           borderRadius: "10px",
         }}
       >
-       <Avatar
+        <Avatar
           sx={{ width: 200, height: 200 }}
           alt="Remy Sharp"
           src="logo.png"
         ></Avatar>
-        <Typography component="h1" variant="h2" color="#fff">
-        <strong>Nutri-Pal</strong>
+        <Typography component="h1" variant="h3" color="#fff">
+          <strong>Reset Password</strong>
         </Typography>
         {showErrorMessage && (
           <Alert
@@ -127,7 +148,7 @@ export default function SignIn() {
             icon={<Report />}
             onClose={() => setShowErrorMessage(false)}
           >
-            Invalid Gym ID or Password
+            Invalid Password
           </Alert>
         )}
         {commonError && (
@@ -139,28 +160,8 @@ export default function SignIn() {
             {commonError}
           </Alert>
         )}
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1}}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            hiddenLabel
-            id="gymID"
-            label="Gym ID"
-            name="gymID"
-            autoComplete="gymID"
-            autoFocus
-            value={formData.gymID}
-            onChange={handleFormValueChange}
-            error={formErrorMessages.gymID !== ""}
-            helperText={formErrorMessages.gymID}
-            InputProps={{
-              style: {
-                borderRadius: "20px",
-                border: "1px solid white",
-              }
-            }}
-          />
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+
           <TextField
             margin="normal"
             required
@@ -172,8 +173,28 @@ export default function SignIn() {
             autoComplete="current-password"
             value={formData.password}
             onChange={handleFormValueChange}
-            error={formErrorMessages.password !== ""}
+            error={formErrorMessages.password}
             helperText={formErrorMessages.password}
+            InputProps={{
+              style: {
+                borderRadius: "20px",
+                border: "1px solid white",
+              }
+            }}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="confirmPassword"
+            label="Confirm Password"
+            name="confirmPassword"
+            autoComplete="confirmPassword"
+            autoFocus
+            value={formData.confirmPassword}
+            onChange={handleFormValueChange}
+            error={formErrorMessages.confirmPassword !== ""}
+            helperText={formErrorMessages.confirmPassword}
             InputProps={{
               style: {
                 borderRadius: "20px",
@@ -185,17 +206,10 @@ export default function SignIn() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2,borderRadius: "20px",p:2,fontSize:"20px"}}
+            sx={{ mt: 3, mb: 2, borderRadius: "20px",p:2,fontSize:"20px"}}
           >
-            Log In
+            Reset Password
           </Button>
-          <Grid container>
-            <Grid item >
-              <Link variant="body2" color="#fff" onClick={forgotPassword}>
-                Forgot password? Click Here
-              </Link>
-            </Grid>
-          </Grid>
         </Box>
       </Box>
     </Container>

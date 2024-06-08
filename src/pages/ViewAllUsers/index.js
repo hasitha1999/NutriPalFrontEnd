@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Table from "../../component-ui/Table";
 import { getUsers } from "../../use-cases/get-users";
-import EditUser from "../../component-ui/EditUser";
 import { Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -51,7 +50,6 @@ const UserList = () => {
   const setEditingRow = (row) => {
     setEditingUser(row);
   };
-
   const routeChange = (value) => {
     navigate(value);
   };
@@ -64,7 +62,7 @@ const UserList = () => {
               justifyContent="flex-end"
               alignItems="center">
       <Button variant="contained" onClick={() => {
-                routeChange(`/userDetails`);
+                routeChange(`/userDetails?isUpdate=false`);
               }}> + Add New User</Button></Grid>
       <Table
         fetchDataList={getUsers}
@@ -73,11 +71,6 @@ const UserList = () => {
         setEditingRow={setEditingRow}
         handleStatus={true}
         tableRefreshFlag={tableRefreshFlag}
-      />
-      <EditUser
-        editingUser={editingUser}
-        setEditingUser={setEditingUser}
-        setTableRefreshFlag={setTableRefreshFlag}
       />
     </div>
   );

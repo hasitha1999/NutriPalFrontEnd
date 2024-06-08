@@ -26,6 +26,7 @@ import { editUser } from "../../use-cases/edit-user";
 import { Label } from "@mui/icons-material";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const UserDetails = () => {
   
@@ -33,6 +34,7 @@ const UserDetails = () => {
   const MySwal = withReactContent(Swal);
   const [selectedNCD,setSelectedNCD] = useState([6]);
   const [selectedAllergies,setSelectedAllergies] = useState([6]);
+  const [isUpdate,setIsUpdate] = useState(false);
 
   const handleChange = (event) => {
     setUser((prevState) => ({
@@ -73,8 +75,15 @@ const UserDetails = () => {
   const allergies = ["Peanuts", "Tree nuts", "Shellfish", "Fish", "Eggs", "Milk", "Wheat", "Soy", "Sesame", "Mustard", "Sulfites", "Corn", "Gluten", "Celery"]
   const [profileInfo,setProfileInfo] = useState({weight:85,height:180,gender:1,activeLevel:2,goal:"Weight Loss",firstName:"Hasitha",lastName:"Lakmal",useId:"1560",email:"hasithalakmal@gmail.com",dob:"1999/06/17",allergies:["Peanuts", "Tree nuts", "Shellfish", "Fish", "Eggs", "Milk", "Wheat", "Soy", "Sesame", "Mustard", "Sulfites", "Corn", "Gluten", "Celery"],
 ncd:["Diabetes","Arthritis"]});
+const [queryParameters] = useSearchParams();
   useEffect(() => {
-    // getUserDetails().then((res) => setUser(res.data));
+    const isUpdate = queryParameters.get("isUpdate")
+    console.log(isUpdate);
+    if(isUpdate == "true"){
+      setIsUpdate(true);
+      getUserDetails().then((res) => setUser(res.data));
+    }
+    
   }, []);
 
   // const handleSubmit =
@@ -85,6 +94,10 @@ ncd:["Diabetes","Arthritis"]});
 console.log(user);
   const save = () => {
     user.nsdList = selectedNCD;
+    if(!user.gymID){
+      user.gymID =user.gymID;
+    }
+    
     editUser(user).then(()=>{MySwal.fire("success!", "Profile information update successful....!", "success");}).catch((e)=>{
       alert(e)
       //  MySwal.fire("ERROR", "Please contact admin", "error");
@@ -106,7 +119,7 @@ console.log(user);
       </Typography>
         <Box sx={{ mb: 5 }}>
           <Grid container spacing={3}>
-            <Grid xs={12} md={6}>
+            <Grid xs={12} md={3}>
               First name
               <TextField
                 fullWidth
@@ -116,7 +129,7 @@ console.log(user);
                 value={user.firstName}
               />
             </Grid>
-            <Grid xs={12} md={6}>
+            <Grid xs={12} md={3}>
               Last name
               <TextField
                 fullWidth
@@ -124,6 +137,17 @@ console.log(user);
                 onChange={handleChange}
                 required
                 value={user.lastName}
+              />
+            </Grid>
+            <Grid xs={12} md={3}>
+             Gym ID
+              <TextField
+                fullWidth
+                name="gymID"
+                onChange={handleChange}
+                required
+                value={user.gymID}
+                disabled={isUpdate}
               />
             </Grid>
             <Grid xs={6} md={3}>
@@ -161,6 +185,8 @@ console.log(user);
                 onChange={handleChange}
                 required
                 value={user.phone}
+                
+                inputProps={{ maxLength: 10,type:"number"}}
               />
             </Grid>
             <Grid xs={12} md={3}>
@@ -198,15 +224,15 @@ console.log(user);
             <FormControl fullWidth>
                 Goal
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   name="goal"
                   label="goal"
                   onChange={handleChange}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>Weight Loss</MenuItem>
+                  <MenuItem value={20}>Muscle Building (Bulking)</MenuItem>
+                  <MenuItem value={30}>Muscle Toning</MenuItem> 
+                  <MenuItem value={40}>Increasing Strength</MenuItem>
+                  <MenuItem value={40}>Rehabilitation and Injury Recovery</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
