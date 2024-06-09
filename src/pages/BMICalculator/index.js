@@ -3,35 +3,33 @@ import {
   Container,
   Grid,
   TextField,
-  Button,
-  Card,
-  CardContent,
   Typography,
-  IconButton,
   Box,
-  Alert,
+  Alert, Select, MenuItem, Divider,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faEdit,
-  faTrashAlt,
-  faUtensils,
-  faPlus,
-  faMinus,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
+import Stack from "@mui/material/Stack";
+import {CustomButton} from "../../theme/CustomThemeComponents"
+import {CustomPaper} from "../../theme/CustomThemeComponents"
+import {StackLayout} from  "../../theme/CustomThemeComponents"
 
 
 const NutritionMeter = () => {
+  const subStyles = {
+    width :"100%",
+    margin :"2px auto",
+    padding : "1px",
+    direction : "row",
+    justifyContent : "space-between",
+    spacing : 2,
+    borderBottom : '0.2px dotted #747575'
+  }
   const defaultItemsDisplayed = [
     {
       id: 1,
@@ -148,10 +146,9 @@ const NutritionMeter = () => {
       setNutritionItems(updatedItems);
       setNewItem({
         name: "",
-        calories: "",
-        protein: "",
-        carbs: "",
-        fat: "",
+        grams: "",
+        unitType: "",
+
       });
       setEditItem(null);
       setInputError(false);
@@ -220,26 +217,25 @@ const NutritionMeter = () => {
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              type="number"
-              label="Calories"
-              variant="outlined"
-              value={newItem.calories}
-              onChange={(e) =>
-                setNewItem({ ...newItem, calories: e.target.value })
-              }
-              error={inputError && newItem.calories < 0}
-              helperText={
-                inputError && newItem.calories < 0 ? "Invalid value" : ""
-              }
-            />
+            <Select
+                fullWidth
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={newItem.unitType}
+                label="Unit Type"
+
+
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               type="number"
-              label="Protein (g)"
+              label="Amount"
               variant="outlined"
               value={newItem.protein}
               onChange={(e) =>
@@ -251,135 +247,43 @@ const NutritionMeter = () => {
               }
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              type="number"
-              label="Carbs (g)"
-              variant="outlined"
-              value={newItem.carbs}
-              onChange={(e) =>
-                setNewItem({ ...newItem, carbs: e.target.value })
-              }
-              error={inputError && newItem.carbs < 0}
-              helperText={
-                inputError && newItem.carbs < 0 ? "Invalid value" : ""
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              type="number"
-              label="Fat (g)"
-              variant="outlined"
-              value={newItem.fat}
-              onChange={(e) => setNewItem({ ...newItem, fat: e.target.value })}
-              error={inputError && newItem.fat < 0}
-              helperText={inputError && newItem.fat < 0 ? "Invalid value" : ""}
-            />
-          </Grid>
+
         </Grid>
-        <Grid container spacing={2} mb={4}>
-        <Grid item xs={12} sm={6} container alignItems="center" rowSpacing={1}>
-            {editItem ? (
-              <Button
+        {/*<Grid container spacing={2} mb={4}>*/}
+          <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
+          {/*<Grid item xs={12} sm={6} container alignItems="center" rowSpacing={1}>*/}
+          {/*    {editItem ? (*/}
+          {/*      <CustomButton*/}
+
+          {/*        variant="contained"*/}
+          {/*        color="primary"*/}
+          {/*        onClick={updateItemFunction}*/}
+          {/*        fullWidth*/}
+          {/*      >*/}
+          {/*        Update Item*/}
+          {/*      </CustomButton>*/}
+          {/*    ) : (*/}
+                <CustomButton
+                  variant="contained"
+                  color="success"
+                  onClick={addNutritionItem}
+                  fullWidth
+                >
+                  Search Item
+                </CustomButton>
+              {/*)}*/}
+              <CustomButton
                 variant="contained"
-                color="primary"
-                onClick={updateItemFunction}
+                color="error"
+                onClick={removeAllItems}
                 fullWidth
               >
-                Update Item
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                color="success"
-                onClick={addNutritionItem}
-                fullWidth
-              >
-                Add Item
-              </Button>
-            )}
-            <Button
-              variant="contained"
-              color="error"
-              onClick={removeAllItems}
-              fullWidth
-            >
-              Clear All
-            </Button>
-          </Grid>
-          </Grid>
-        <Grid container spacing={2} rowSpacing={1}>
-          {nutritionItems.map((item) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
-              <Card
-                variant="outlined"
-                sx={{
-                  transition: "transform 0.2s",
-                  "&:hover": { transform: "scale(1.05)" },
-                }}
-              >
-                <CardContent>
-                  <Typography variant="h6" component="div">
-                    {item.name}
-                  </Typography>
-                  <Typography variant="body2">
-                    Calories: {item.calories * item.quantity}
-                  </Typography>
-                  <Typography variant="body2">
-                    Protein: {item.protein * item.quantity}g
-                  </Typography>
-                  <Typography variant="body2">
-                    Carbs: {item.carbs * item.quantity}g
-                  </Typography>
-                  <Typography variant="body2">
-                    Fat: {item.fat * item.quantity}g
-                  </Typography>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    mt={2}
-                  >
-                    <IconButton
-                      color="success"
-                      onClick={() => updateItemQuantity(item.id, 1)}
-                    >
-                      <FontAwesomeIcon icon={faPlus} />
-                    </IconButton>
-                    <Typography variant="body2">{item.quantity}</Typography>
-                    <IconButton
-                      color="error"
-                      onClick={() => updateItemQuantity(item.id, -1)}
-                    >
-                      <FontAwesomeIcon icon={faMinus} />
-                    </IconButton>
-                  </Box>
-                  <Box display="flex" justifyContent="space-between" mt={2}>
-                    <Button
-                      variant="contained"
-                      color="success"
-                      size="small"
-                      onClick={() => editItemFunction(item)}
-                    >
-                      <FontAwesomeIcon icon={faEdit} /> Edit
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      size="small"
-                      onClick={() => deleteItemFunction(item.id)}
-                    >
-                      <FontAwesomeIcon icon={faTrashAlt} /> Delete
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                Clear All
+              </CustomButton>
+            {/*</Grid>*/}
+          </Stack>
+          {/*</Grid>*/}
+
         
         {/* <Box textAlign="center" mt={8} variant="outlined" style={{ padding: 20, borderRadius: 10, boxShadow: '2px 8px 16px rgba(0, 0, 0, 0.1)' }}>
           <Typography variant="h5">
@@ -390,30 +294,37 @@ const NutritionMeter = () => {
           <Typography variant="h5">Total Carbs: {totalCarbs()}g</Typography>
           <Typography variant="h5">Total Fat: {totalFat()}g</Typography>
         </Box> */}
+        <CustomPaper elevation={24}>
+          <Typography className="main-header">Nutrition Facts</Typography>
+         <hr style={{height: '5px', background: "linear-gradient(90deg, rgba(82,55,145,0.9304096638655462) 0%, rgba(110,9,121,1) 100%, rgba(132,0,255,1) 100%)", border: "0px"}}/>
+          <Typography className="second-header">Amount Per Serving</Typography>
+          <Divider/>
+          <Stack justifyContent="space-between" style={{marginTop: "10px"}}>
 
+            <StackLayout parameter1="Fat" parameter2="Value 2" />
+            <Stack justifyContent="space-evenly" alignItems="flex-end" direction="column" style={{width: '90%', marginLeft: 'auto', marginBottom: '5px'}}>
+              {/* eslint-disable-next-line no-undef */}
+              <StackLayout parameter1="Saturated Fat" parameter2="Value 2" titleClass="sub-header"  stylePack={{subStyles}}/>
+              <StackLayout parameter1="Trans Fat" parameter2="Value 2" titleClass="sub-header"/>
+            </Stack>
 
-      <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="right">Total Calories&nbsp;(g)</TableCell>
-                  <TableCell align="right">Total Protein&nbsp;(g)</TableCell>
-                  <TableCell align="right">Total Carbs&nbsp;(g)</TableCell>
-                  <TableCell align="right">Total Fat&nbsp;(g)</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-              <TableRow    
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell align="right"> {totalCalories}</TableCell>  
-                    <TableCell align="right">{totalProtein()}</TableCell>
-                    <TableCell align="right">{totalCarbs()}</TableCell>
-                    <TableCell align="right">{totalFat()}</TableCell>
-                  </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+            <StackLayout parameter1="Cholesterol" parameter2="Value 2" />
+            <StackLayout parameter1="Sodium" parameter2="Value 2" />
+
+            <StackLayout parameter1="Total Carbohydrate " parameter2="Value 2" />
+            <Stack justifyContent="space-evenly" alignItems="flex-end" direction="column" style={{width: '90%', marginLeft: 'auto', marginBottom: '5px'}}>
+              <StackLayout parameter1="Dietary Fiber" parameter2="Value 2" titleClass="sub-header"/>
+              <StackLayout parameter1="Total Sugars" parameter2="Value 2" titleClass="sub-header"/>
+            </Stack>
+
+            <StackLayout parameter1="Protein " parameter2="Value 2" />
+            <StackLayout parameter1="Calcium" parameter2="Value 2" />
+            <StackLayout parameter1="Iron" parameter2="Value 2" />
+            <StackLayout parameter1="Potassium" parameter2="Value 2" />
+          </Stack>
+
+        </CustomPaper>
+
       </Container>
     </Box>
   );
