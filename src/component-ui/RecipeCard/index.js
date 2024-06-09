@@ -6,8 +6,11 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
-import { Box, Modal } from '@mui/material';
-
+import { Box, Grid, Modal } from '@mui/material';
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import { useState } from 'react';
+import { useEffect } from 'react';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -22,32 +25,50 @@ const style = {
   
 
 const RecipeCard = (props) =>{
+  const MySwal = withReactContent(Swal);
+  const [open, setOpen] = useState(false);
+  const [content,setContent] = useState([]);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const addToSave = () => {
+    // editUser(user).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
+    //    MySwal.fire("ERROR", "Please contact admin", "error");
+    // });
+  }
 
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+  // useEffect(()=>{contentBuilder()},[])
+
+  // const contentBuilder =() =>{
+  //   for (let index = 0; index < 5; index++) {
+  //       setContent((prevState) => ({
+  //           ...prevState,
+  //           [props.itemData.digest[index].label]: props.itemData.digest[index].label,
+  //         }));
+      
+  //   }
+  // }
+
     return (
         <>
         <Card sx={{ maxWidth: 345, background:'#bfffde' }}>
             <CardHeader
                 sx={{textAlign:'center'}}
-                title={props.title} // Title goes here
-                // subheader="Green Iguana" // Subtitle or additional info
+                title={props.title} 
             />
-
             <CardMedia
                 sx={{ height: 140 }}
                 image={props.image}
                 title="green iguana"
             />
             <CardContent sx={{height:120, overflow:'hidden'}}>
-
-                <Typography variant="body2" color="text.secondary">
-                    {props.description}
-                </Typography>
+                {props.itemData.recipe.digest.map((item,index)=>{
+                  if(index < 4){
+                      return <Typography>{item.label}______________________{(item.total).toFixed(2)}{item.unit}</Typography>
+                  }
+                })}
             </CardContent>
             <CardActions sx={{justifyContent: 'flex-end' }}>
-                <Button size="small" color="success" variant="contained">Add</Button>
+                <Button size="small" color="success" variant="contained" onClick={addToSave}>Add</Button>
                 <Button size="small" color="success" variant="contained" onClick={handleOpen}>Read More</Button>
             </CardActions>
         </Card>

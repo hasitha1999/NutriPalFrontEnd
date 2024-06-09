@@ -11,6 +11,7 @@ import DailyLogs from "../pages/DailyLogs";
 import WaterMgt from "../pages/WaterMgt";
 import BmiCalculator from "../pages/BMICalculator";
 import ResetPassword from "../pages/ResetPassword";
+import RecepieGenarator from "../pages/RecepieGenarator";
 const routeConfig = [
   {
     id: 1,
@@ -78,7 +79,7 @@ const routeConfig = [
   {
     id: 10,
     path: "/recepieGenarator",
-    element: <HomePage />,
+    element: <RecepieGenarator />,
     icon: <Restaurant fontSize="large" />,
     label: "Recepie Genarator",
     menu: true,
@@ -101,7 +102,7 @@ const routeConfig = [
     path: "/watermgt",
     element: <WaterMgt />,
     icon: <Opacity fontSize="large" />,
-    label: "Water managment",
+    label: "Hydrate Me",
     menu: true,
     roles: ["USER"],
     noAuth: false,

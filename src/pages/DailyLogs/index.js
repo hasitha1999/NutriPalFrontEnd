@@ -66,7 +66,7 @@ const DailyLogs = () => {
     exportEnabled: false,
     theme: "light2", // "light2", "dark1", "dark2"
     title: {
-      text: "Change by Week of Year",
+      text: "Change by Weight",
     },
     axisY: {
       title: " Change",
@@ -74,7 +74,7 @@ const DailyLogs = () => {
       lineThickness: 1,
     },
     axisX: {
-      title: "Week of Year",
+      title: "Days of Month",
       prefix: "W",
       interval: 2,
     },
