@@ -4,13 +4,14 @@ import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 import UserDetails from "../pages/UserDetails";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import MealPlannerComponent from "../pages/MealPlannerComponent";
+import MealPlannerComponent from "../pages/MealPlanner";
 import UserList from "../pages/ViewAllUsers";
 import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
 import DailyLogs from "../pages/DailyLogs";
 import WaterMgt from "../pages/WaterMgt";
 import BmiCalculator from "../pages/BMICalculator";
 import ResetPassword from "../pages/ResetPassword";
+import RecepieGenarator from "../pages/RecepieGenarator";
 const routeConfig = [
   {
     id: 1,
@@ -67,7 +68,7 @@ const routeConfig = [
   },
   {
     id: 9,
-    path: "/meal",
+    path: "/mealplaner",
     element: <MealPlannerComponent />,
     roles: ["USER"],
     menu: true,
@@ -78,7 +79,7 @@ const routeConfig = [
   {
     id: 10,
     path: "/recepieGenarator",
-    element: <HomePage />,
+    element: <RecepieGenarator />,
     icon: <Restaurant fontSize="large" />,
     label: "Recepie Genarator",
     menu: true,
@@ -101,7 +102,7 @@ const routeConfig = [
     path: "/watermgt",
     element: <WaterMgt />,
     icon: <Opacity fontSize="large" />,
-    label: "Water managment",
+    label: "Hydrate Me",
     menu: true,
     roles: ["USER"],
     noAuth: false,
