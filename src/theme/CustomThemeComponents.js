@@ -38,7 +38,7 @@ export const CustomPaper = styled(Paper)(({theme}) =>({
 
 }))
 
-export const StackLayout = ({ parameter1, parameter2, stylePack , titleClass='title-header', }) => {
+export const StackLayout = ({ parameter1,stylePack , titleClass='title-header', serving}) => {
     return (
         <Stack
             width= "100%"
@@ -49,8 +49,8 @@ export const StackLayout = ({ parameter1, parameter2, stylePack , titleClass='ti
             spacing={2}
             borderBottom = '0.2px dotted #747575'
         >
-                <div><Typography className={titleClass}>{parameter1} </Typography></div>
-            <div>{parameter2}</div>
+                <div><Typography className={titleClass}>{parameter1.label} </Typography></div>
+            <div>{(parameter1.quantity / serving).toFixed(2)}{parameter1.unit}</div>
         </Stack>
     );
 };

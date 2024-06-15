@@ -6,34 +6,48 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
-import { Box, Grid, Modal } from '@mui/material';
+import { Box, Divider, Grid, Modal, Stack } from '@mui/material';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { CustomPaper, StackLayout } from '../../theme/CustomThemeComponents';
+import { Link } from 'react-router-dom';
+import { saveRecepie } from '../../use-cases/api-recepie';
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: '#bfffde',
+    width: 800,
+    bgcolor: '#fff',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
   };
+
+  const subStyles = {
+    width :"100%",
+    margin :"2px auto",
+    padding : "1px",
+    direction : "row",
+    justifyContent : "space-between",
+    spacing : 2,
+    borderBottom : '0.2px dotted #747575'
+  }
   
 
 const RecipeCard = (props) =>{
   const MySwal = withReactContent(Swal);
   const [open, setOpen] = useState(false);
-  const [content,setContent] = useState([]);
+  const [totalNutrient,setTotalNutrient] = useState(props.itemData.totalNutrients);
+  const [serving,setServing] = useState(props.itemData.yield);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const addToSave = () => {
-    // editUser(user).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
-    //    MySwal.fire("ERROR", "Please contact admin", "error");
-    // });
+    saveRecepie({recipieURI:props.itemData.uri}).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
+       MySwal.fire("ERROR", "Please contact admin", "error");
+    });
   }
 
   // useEffect(()=>{contentBuilder()},[])
@@ -47,6 +61,12 @@ const RecipeCard = (props) =>{
       
   //   }
   // }
+  const handleSearch = (searchTerm) => {
+    if (searchTerm.trim()) {
+      const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchTerm)}`;
+      window.open(youtubeSearchUrl, '_blank');
+    }
+  };
 
     return (
         <>
@@ -61,9 +81,9 @@ const RecipeCard = (props) =>{
                 title="green iguana"
             />
             <CardContent sx={{height:120, overflow:'hidden'}}>
-                {props.itemData.recipe.digest.map((item,index)=>{
+                {props.itemData.digest.map((item,index)=>{
                   if(index < 4){
-                      return <Typography>{item.label}______________________{(item.total).toFixed(2)}{item.unit}</Typography>
+                      return <Typography>{item.label}<span style={{float:"inline-end"}}>{(item.total/serving).toFixed(2)}{item.unit}</span></Typography>
                   }
                 })}
             </CardContent>
@@ -79,17 +99,40 @@ const RecipeCard = (props) =>{
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <div>
+          <Typography className="main-header" variant="h4">
           {props.title}
           </Typography>
-          <CardMedia
-                sx={{ height: 140 }}
-                image={props.image}
-                title="green iguana"
-            />
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-          {props.description}
+          <CustomPaper elevation={24}>
+          <Typography className="second-header">Amount Per Serving<span style={{float:"inline-end"}}>{(props.itemData.calories/serving).toFixed(2)} kCal</span></Typography>
+          <Divider/>
+          <Stack justifyContent="space-between" style={{marginTop: "10px"}}>
+
+            <StackLayout parameter1={totalNutrient['FAT']} serving ={serving}/>
+            <Stack justifyContent="space-evenly" alignItems="flex-end" direction="column" style={{width: '90%', marginLeft: 'auto', marginBottom: '5px'}}>
+              <StackLayout parameter1={totalNutrient['FASAT']} titleClass="sub-header"  stylePack={{subStyles}} serving ={serving}/>
+              <StackLayout serving ={serving} parameter1={totalNutrient['FATRN']} titleClass="sub-header"/>
+            </Stack>
+
+            <StackLayout serving ={serving} parameter1={totalNutrient['CHOLE']}/>
+            <StackLayout serving ={serving} parameter1={totalNutrient['NA']} />
+
+            <StackLayout serving ={serving} parameter1={totalNutrient['CHOCDF.net']}  />
+            <Stack justifyContent="space-evenly" alignItems="flex-end" direction="column" style={{width: '90%', marginLeft: 'auto', marginBottom: '5px'}}>
+              <StackLayout serving ={serving} parameter1={totalNutrient['SUGAR']} titleClass="sub-header"/>
+              <StackLayout serving ={serving} parameter1={totalNutrient['FIBTG']} titleClass="sub-header"/>
+            </Stack>
+
+            <StackLayout serving ={serving} parameter1={totalNutrient['PROCNT']}  />
+            <StackLayout serving ={serving} parameter1={totalNutrient['CA']}   />
+            <StackLayout serving ={serving} parameter1={totalNutrient['FE']}  />
+          </Stack>
+          </CustomPaper>
+
+          <Typography id="modal-modal-title" variant="h6" component="h2" >
+            Recepie : <a  onClick={()=>{handleSearch(props.title)}}>Click here to watch recepie</a>
           </Typography>
+          </div>
         </Box>
       </Modal>
 

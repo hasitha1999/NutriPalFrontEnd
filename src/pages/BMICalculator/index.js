@@ -197,7 +197,7 @@ const NutritionMeter = () => {
     <Box sx={{minHeight: "100vh", py: 4 }}>
       <Container>
         <Typography variant="h3" component="h1" align="center" gutterBottom>
-            Nutrition Meter
+            Nutrition Calculator
         </Typography>
         {showWarning && (
           <Alert severity="warning" icon={<FontAwesomeIcon icon={faTimes} />}>
@@ -216,22 +216,7 @@ const NutritionMeter = () => {
               helperText={inputError && !newItem.name ? "Required" : ""}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <Select
-                fullWidth
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={newItem.unitType}
-                label="Unit Type"
-
-
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={6} sm={3}>
             <TextField
               fullWidth
               type="number"
@@ -246,6 +231,21 @@ const NutritionMeter = () => {
                 inputError && newItem.protein < 0 ? "Invalid value" : ""
               }
             />
+          </Grid>
+          <Grid item xs={6} sm={3}>
+            <Select
+                fullWidth
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={newItem.unitType}
+                label="Unit Type"
+
+
+            >
+              <MenuItem value={10}>grams</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
           </Grid>
 
         </Grid>
@@ -301,26 +301,26 @@ const NutritionMeter = () => {
           <Divider/>
           <Stack justifyContent="space-between" style={{marginTop: "10px"}}>
 
-            <StackLayout parameter1="Fat" parameter2="Value 2" />
+            <StackLayout parameter1="Fat" parameter2="15.1 g" />
             <Stack justifyContent="space-evenly" alignItems="flex-end" direction="column" style={{width: '90%', marginLeft: 'auto', marginBottom: '5px'}}>
               {/* eslint-disable-next-line no-undef */}
-              <StackLayout parameter1="Saturated Fat" parameter2="Value 2" titleClass="sub-header"  stylePack={{subStyles}}/>
-              <StackLayout parameter1="Trans Fat" parameter2="Value 2" titleClass="sub-header"/>
+              <StackLayout parameter1="Saturated Fat" parameter2="4.3 g" titleClass="sub-header"  stylePack={{subStyles}}/>
+              <StackLayout parameter1="Trans Fat" parameter2="0.1 g" titleClass="sub-header"/>
             </Stack>
 
-            <StackLayout parameter1="Cholesterol" parameter2="Value 2" />
-            <StackLayout parameter1="Sodium" parameter2="Value 2" />
+            <StackLayout parameter1="Cholesterol" parameter2="75 mg" />
+            <StackLayout parameter1="Sodium" parameter2="70 mg" />
 
-            <StackLayout parameter1="Total Carbohydrate " parameter2="Value 2" />
+            <StackLayout parameter1="Total Carbohydrate " parameter2="0 g" />
             <Stack justifyContent="space-evenly" alignItems="flex-end" direction="column" style={{width: '90%', marginLeft: 'auto', marginBottom: '5px'}}>
-              <StackLayout parameter1="Dietary Fiber" parameter2="Value 2" titleClass="sub-header"/>
-              <StackLayout parameter1="Total Sugars" parameter2="Value 2" titleClass="sub-header"/>
+              <StackLayout parameter1="Dietary Fiber" parameter2="0 g" titleClass="sub-header"/>
+              <StackLayout parameter1="Total Sugars" parameter2="0 g" titleClass="sub-header"/>
             </Stack>
 
-            <StackLayout parameter1="Protein " parameter2="Value 2" />
-            <StackLayout parameter1="Calcium" parameter2="Value 2" />
-            <StackLayout parameter1="Iron" parameter2="Value 2" />
-            <StackLayout parameter1="Potassium" parameter2="Value 2" />
+            <StackLayout parameter1="Protein " parameter2="18.6 g" />
+            <StackLayout parameter1="Calcium" parameter2="11 mg" />
+            <StackLayout parameter1="Iron" parameter2="0.9 mg" />
+            <StackLayout parameter1="Potassium" parameter2="189 mg" />
           </Stack>
 
         </CustomPaper>

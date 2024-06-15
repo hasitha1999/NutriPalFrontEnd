@@ -16,7 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import {CheckCircle} from "@mui/icons-material";
-import { searchRecepieApi } from "../../use-cases/api-recepie";
+import { getAllsavedRecepie, savedSearchRecepieApi, searchRecepieApi } from "../../use-cases/api-recepie";
 
 let dummyCardData = [
     {
@@ -68,6 +68,17 @@ const RecepieGenarator = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [searchData,setSearchData] = useState({});
     const [searchResult,setSearchResult] = useState([]);
+    const [uriList,setURIList] = useState();
+
+    useEffect(()=>{
+        loadAllrecepie();
+    },[])
+
+    useEffect(()=>{
+        setURIList(searchResult);
+    },[searchResult])
+
+
  
     const handleChange = (event) => {
         setSearchData((prevState) => ({
@@ -78,6 +89,23 @@ const RecepieGenarator = () => {
     const toggleDrawer = (newOpen) => () => {
         setDrawerOpen(newOpen);
     };
+
+    const loadAllrecepie = ()=>{
+        getAllsavedRecepie().then((response)=>{
+            
+            let makelist = [];
+            response.data.map((uri)=>{
+                savedSearchRecepieApi(uri.recipieURI).then((response)=>{
+                    makelist.push(response.data.hits[0]);
+                    setSearchResult(makelist);
+                }).catch((e)=>{
+                    alert(e)
+                });   
+            })
+        }).catch((e)=>{
+            alert(e)
+        });
+    }
 
 
     const searchRecepie = () => {
@@ -104,7 +132,6 @@ const RecepieGenarator = () => {
          value={searchData.searchItemName}/>
          </Grid><Grid xs={12} md={3} sx={{marginTop:'4%',marginLeft:{xs:"9%",md:'0%'}}}>
             <Button variant="contained" onClick={searchRecepie} sx={{bgcolor:'green',marginLeft:"3px"}}>Search</Button>
-            <Button variant="contained" onClick={searchRecepie} sx={{bgcolor:'blue',marginLeft:"3px"}}>Genarate</Button>
             <IconButton  aria-label="fingerprint" color="secondary" onClick={toggleDrawer(true)}>
                 <TuneSharpIcon />
             </IconButton>
@@ -113,23 +140,14 @@ const RecepieGenarator = () => {
 
         <Box sx={{ flexGrow: 1, width: '90%', margin:'5px auto' }}>
             <Grid container spacing={{ xs: 2, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                {console.log(searchResult)}
                 {searchResult.map((item,index)=>(
                     <Grid item xs={2} sm={4} md={3} key={index}>
-                        <RecipeCard title={item.recipe.label} image={item.recipe.image} itemData={item}/>
+                        <RecipeCard title={item.recipe.label} image={item.recipe.image} itemData={item.recipe}/>
                     </Grid>
                 ))}
             </Grid>
         </Box>
-
-        <List>
-            <ListItem>
-                <ListItemIcon>
-                    <CheckCircle /> 
-                </ListItemIcon>
-                <ListItemText primary="Item 1" />
-            </ListItem>
-        </List>
-
         <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
             <Box sx={{ width: 350, padding:'50px 20px', display: 'flex',flexDirection: 'column',justifyContent: 'space-between', height:'100%'}}>
                 <div>

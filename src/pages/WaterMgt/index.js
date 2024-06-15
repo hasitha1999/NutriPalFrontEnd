@@ -113,7 +113,6 @@ const WaterMgt = () => {
       sendWaterAmount(waterAmount);
 
   }
-console.log("llll",waterIntake);
 
   return (
     <div>
@@ -135,19 +134,9 @@ console.log("llll",waterIntake);
 
               </Typography>
               <Typography variant="h5" sx={{marginLeft:"20px",marginTop:"10px", textAlign:"center", color:'#101516'}} >
-                  Your current water intake is {currentWaterIntake} milliliters
+                  Your current water intake is {data.userInput} milliliters
               </Typography>
               </div>
-            {/*<Grid xs={1} md={1} >*/}
-
-            {/*    <img*/}
-            {/*      width="50px"*/}
-            {/*      height="80px"*/}
-            {/*      src={`img/start.png`}*/}
-            {/*      alt="BMIImage"*/}
-            {/*      sx={{display:"flex",justifyContent:"flex-start"}}*/}
-            {/*    />*/}
-            {/*</Grid>*/}
             <Grid xs={8} md={8}>
             <Box sx={{ width: '100%'}}>
              <Stack

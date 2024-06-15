@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://com.ztesoft.zsmart/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://com.ztesoft.zsmart/service" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://com.ztesoft.zsmart/service">
+    <wsdl:documentation>SubsLifecycle</wsdl:documentation>
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="unqualified" targetNamespace="http://com.ztesoft.zsmart/xsd">
+            <xs:complexType name="tAuthHeader">
+                <xs:sequence>
+                    <xs:element name="Username" type="xs:string"/>
+                    <xs:element name="Password" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="AuthHeader" type="ns:tAuthHeader"/>
+            <xs:complexType name="tGoodsDto">
+                <xs:sequence>
+                    <xs:element name="GoodsOfferCode">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="30"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="ContractLimit">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:long">
+                                <xs:maxInclusive value="3"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="GoodsDto" type="ns:tGoodsDto"/>
+            <xs:complexType name="tMSISDNPwdMMBO">
+                <xs:sequence>
+                    <xs:element name="MSISDN">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="UserPwd">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="8"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="MSISDNPwdMMBO" type="ns:tMSISDNPwdMMBO"/>
+            <xs:complexType name="tMSISDNPwdMOBO">
+                <xs:sequence>
+                    <xs:element name="MSISDN">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="UserPwd" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="8"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="MSISDNPwdMOBO" type="ns:tMSISDNPwdMOBO"/>
+            <xs:complexType name="tNewConnectionBO">
+                <xs:sequence>
+                    <xs:element name="MSISDN">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="SubsPlanCode">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="AcntStopDate" nillable="true" type="xs:date"/>
+                    <xs:element name="CertType" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="3"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="CertNbr" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="CustCode" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="CustomerName" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="255"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Address" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="120"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="DefLang" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="1"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="AccountCode" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="IMSI" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="ICCID" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="UserPwd" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="8"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="ServiceDtoList" nillable="true" type="ns:tServiceDto"/>
+                    <xs:element name="PricePlanDtoList" nillable="true" type="ns:tPricePlanDto"/>
+                    <xs:element name="GoodsDtoList" nillable="true" type="ns:tGoodsDto"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="NewConnectionBO" type="ns:tNewConnectionBO"/>
+            <xs:complexType name="tServiceDto">
+                <xs:sequence>
+                    <xs:element name="ServiceCode">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="ServiceAttrDtoList" nillable="true" type="ns:tServiceAttrDto"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ServiceDto" type="ns:tServiceDto"/>
+            <xs:complexType name="tServiceAttrDto">
+                <xs:sequence>
+                    <xs:element name="AttrCode">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="30"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="AttrValue" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="255"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ServiceAttrDto" type="ns:tServiceAttrDto"/>
+            <xs:complexType name="tPricePlanDto">
+                <xs:sequence>
+                    <xs:element name="PricePlanCode">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="60"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="EffType" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="1"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="EffDate" nillable="true" type="xs:date"/>
+                    <xs:element name="ExpDate" nillable="true" type="xs:date"/>
+                    <xs:element name="PricePlanAttrDtoList" nillable="true" type="ns:tPricePlanAttrDto"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="PricePlanDto" type="ns:tPricePlanDto"/>
+            <xs:complexType name="tPricePlanAttrDto">
+                <xs:sequence>
+                    <xs:element name="AttrCode">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="30"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="AttrValue" nillable="true">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:maxLength value="255"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="PricePlanAttrDto" type="ns:tPricePlanAttrDto"/>
+            <xs:complexType name="tResponseBO">
+                <xs:sequence/>
+            </xs:complexType>
+            <xs:element name="ResponseBO" type="ns:tResponseBO"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="NewConnectionRequest">
+        <wsdl:part name="parameters" element="ns:NewConnectionBO"/>
+        <wsdl:part name="AuthHeader" element="ns:AuthHeader"/>
+    </wsdl:message>
+    <wsdl:message name="NewConnectionResponse">
+        <wsdl:part name="parameters" element="ns:ResponseBO"/>
+    </wsdl:message>
+    <wsdl:message name="ActivationRequest">
+        <wsdl:part name="parameters" element="ns:MSISDNPwdMOBO"/>
+        <wsdl:part name="AuthHeader" element="ns:AuthHeader"/>
+    </wsdl:message>
+    <wsdl:message name="ActivationResponse">
+        <wsdl:part name="parameters" element="ns:ResponseBO"/>
+    </wsdl:message>
+    <wsdl:message name="TerminationRequest">
+        <wsdl:part name="parameters" element="ns:MSISDNPwdMOBO"/>
+        <wsdl:part name="AuthHeader" element="ns:AuthHeader"/>
+    </wsdl:message>
+    <wsdl:message name="TerminationResponse">
+        <wsdl:part name="parameters" element="ns:ResponseBO"/>
+    </wsdl:message>
+    <wsdl:portType name="SubsLifecyclePortType">
+        <wsdl:operation name="NewConnection">
+            <wsdl:input message="tns:NewConnectionRequest" wsaw:Action="urn:NewConnection"/>
+            <wsdl:output message="tns:NewConnectionResponse" wsaw:Action="urn:ResponseBO"/>
+        </wsdl:operation>
+        <wsdl:operation name="Activation">
+            <wsdl:input message="tns:ActivationRequest" wsaw:Action="urn:Activation"/>
+            <wsdl:output message="tns:ActivationResponse" wsaw:Action="urn:ResponseBO"/>
+        </wsdl:operation>
+        <wsdl:operation name="Termination">
+            <wsdl:input message="tns:TerminationRequest" wsaw:Action="urn:Termination"/>
+            <wsdl:output message="tns:TerminationResponse" wsaw:Action="urn:ResponseBO"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SubsLifecycleSoap11Binding" type="tns:SubsLifecyclePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="NewConnection">
+            <soap:operation soapAction="urn:NewConnection" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="parameters"/>
+                <soap12:header use="literal" part="AuthHeader" message="tns:NewConnectionRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Activation">
+            <soap:operation soapAction="urn:Activation" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="parameters"/>
+                <soap12:header use="literal" part="AuthHeader" message="tns:ActivationRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Termination">
+            <soap:operation soapAction="urn:Termination" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal" parts="parameters"/>
+                <soap12:header use="literal" part="AuthHeader" message="tns:TerminationRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="SubsLifecycleSoap12Binding" type="tns:SubsLifecyclePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="NewConnection">
+            <soap12:operation soapAction="urn:NewConnection" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal" parts="parameters"/>
+                <soap12:header use="literal" part="AuthHeader" message="tns:NewConnectionRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Activation">
+            <soap12:operation soapAction="urn:Activation" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal" parts="parameters"/>
+                <soap12:header use="literal" part="AuthHeader" message="tns:ActivationRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Termination">
+            <soap12:operation soapAction="urn:Termination" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal" parts="parameters"/>
+                <soap12:header use="literal" part="AuthHeader" message="tns:TerminationRequest"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="SubsLifecycleHttpBinding" type="tns:SubsLifecyclePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="NewConnection">
+            <http:operation location="NewConnection"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Activation">
+            <http:operation location="Activation"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="Termination">
+            <http:operation location="Termination"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="parameters"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="parameters"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SubsLifecycle">
+        <wsdl:port name="SubsLifecycleHttpSoap11Endpoint" binding="tns:SubsLifecycleSoap11Binding">
+            <soap:address location="http://192.168.193.58:8997/services/SubsLifecycle.SubsLifecycleHttpSoap11Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="SubsLifecycleHttpSoap12Endpoint" binding="tns:SubsLifecycleSoap12Binding">
+            <soap12:address location="http://192.168.193.58:8997/services/SubsLifecycle.SubsLifecycleHttpSoap12Endpoint/"/>
+        </wsdl:port>
+        <wsdl:port name="SubsLifecycleHttpEndpoint" binding="tns:SubsLifecycleHttpBinding">
+            <http:address location="http://192.168.193.58:8997/services/SubsLifecycle.SubsLifecycleHttpEndpoint/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
