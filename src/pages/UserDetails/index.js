@@ -21,7 +21,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
-import { getUserDetails } from "../../use-cases/get-user-details";
+import { getAllergiesDetails, getNCDDetails, getUserDetails } from "../../use-cases/get-user-details";
 import { editUser } from "../../use-cases/edit-user";
 import { Label } from "@mui/icons-material";
 import Swal from "sweetalert2";
@@ -33,8 +33,28 @@ const UserDetails = () => {
   const [user, setUser] = useState({});
   const MySwal = withReactContent(Swal);
   const [selectedNCD,setSelectedNCD] = useState([6]);
+  const [allNCD,setAllNCD] = useState([]);
+  const [allAllergies,setAllAllergies] = useState([]);
   const [selectedAllergies,setSelectedAllergies] = useState([6]);
   const [isUpdate,setIsUpdate] = useState(false);
+
+  const [queryParameters] = useSearchParams();
+
+  useEffect(() => {
+    const isUpdate = queryParameters.get("isUpdate")
+    // console.log(isUpdate);
+    if(isUpdate == "true"){
+      setIsUpdate(true);
+      getUserDetails().then((res) => {setUser(res.data);setSelectedAllergies(res.data.allergy);setSelectedNCD(res.data.ncd)});
+      getNCDDetails().then((res)=>setAllNCD(res.data));
+      getAllergiesDetails().then((res)=>setAllAllergies(res.data));
+    }
+    
+  }, []);
+
+  console.log(user)
+  
+  useEffect(()=>{},[selectedAllergies])
 
   const handleChange = (event) => {
     setUser((prevState) => ({
@@ -44,66 +64,53 @@ const UserDetails = () => {
   };
 
   const handleNCDClick =(event) => {
-    let selectedNCDlist = selectedNCD;
-    if(selectedNCD.includes(parseInt(event.target.name))){
-      selectedNCDlist.splice(selectedNCDlist.indexOf(parseInt(event.target.name)),1);
-    }else{
-      selectedNCDlist.push(parseInt(event.target.name));
-    }
-    setSelectedNCD(selectedNCDlist);
+
+    setSelectedNCD(prev => {
+      let newState = [...prev];
+
+      const index = newState.findIndex(a=> a.ncdId == parseInt(event.target.value));
+
+      if(index === -1) {
+        newState.push({ncdId:parseInt(event.target.value),ncdName:event.target.name});
+      } else {
+        newState.splice(index,1);
+      }
+
+      return newState;
+    })
   }
 
 
   const handleAllergyClick =(event) => {
-    let selectedAllergieslist = selectedAllergies;
-    if(selectedAllergies.includes(parseInt(event.target.name))){
-      selectedAllergieslist.splice(selectedAllergieslist.indexOf(parseInt(event.target.name)),1);
-    }else{
-      selectedAllergieslist.push(parseInt(event.target.name));
-    }
-    setSelectedAllergies(selectedAllergieslist);
+    setSelectedAllergies(prev => {
+      let newState = [...prev];
+
+      const index = newState.findIndex(a=> a.allergyId == parseInt(event.target.value));
+
+      if(index === -1) {
+        newState.push({allergyId:parseInt(event.target.value),allergyName:event.target.name});
+      } else {
+        newState.splice(index,1);
+      }
+
+      return newState;
+    })
   }
 
-  const ncdList = [
-    "Cardiovascular disease",
-    "Cancer",
-    "Chronic respiratory disease",
-    "Diabetes",
-    "Arthritis",
-    "Hypertension"
-  ]
-  const allergies = ["Peanuts", "Tree nuts", "Shellfish", "Fish", "Eggs", "Milk", "Wheat", "Soy", "Sesame", "Mustard", "Sulfites", "Corn", "Gluten", "Celery"]
-  const [profileInfo,setProfileInfo] = useState({weight:85,height:180,gender:1,activeLevel:2,goal:"Weight Loss",firstName:"Hasitha",lastName:"Lakmal",useId:"1560",email:"hasithalakmal@gmail.com",dob:"1999/06/17",allergies:["Peanuts", "Tree nuts", "Shellfish", "Fish", "Eggs", "Milk", "Wheat", "Soy", "Sesame", "Mustard", "Sulfites", "Corn", "Gluten", "Celery"],
-ncd:["Diabetes","Arthritis"]});
-const [queryParameters] = useSearchParams();
-  useEffect(() => {
-    const isUpdate = queryParameters.get("isUpdate")
-    console.log(isUpdate);
-    if(isUpdate == "true"){
-      setIsUpdate(true);
-      getUserDetails().then((res) => setUser(res.data));
-    }
-    
-  }, []);
-
-  // const handleSubmit =
-  //   ((event) => {
-  //     event.preventDefault();
-  //   },
-  //   []);
-console.log(user);
   const save = () => {
-    user.nsdList = selectedNCD;
+    user.allergy = selectedAllergies;
+    user.ncd = selectedNCD;
     if(!user.gymID){
       user.gymID =user.gymID;
     }
     
     editUser(user).then(()=>{MySwal.fire("success!", "Profile information update successful....!", "success");}).catch((e)=>{
-      alert(e)
-      //  MySwal.fire("ERROR", "Please contact admin", "error");
+      // alert(e)
+       MySwal.fire("ERROR", "Please contact admin", "error");
     });
     console.log(user)
   };
+
 
   return (
     <>
@@ -158,6 +165,7 @@ console.log(user);
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="gender"
                 onChange={handleChange}
+                value={user?.gender || ''}
               >
                 <FormControlLabel value="female" control={<Radio />} label="Female" color="secondary" />
                 <FormControlLabel value="male" control={<Radio />} label="Male" color="secondary" />
@@ -169,7 +177,6 @@ console.log(user);
               Date Of Birth
               <TextField
                 fullWidth
-                // label="Last name"
                 name="dob"
                 onChange={handleChange}
                 placeholder="YYYY/MM/DD"
@@ -181,7 +188,6 @@ console.log(user);
               phone
               <TextField
                 fullWidth
-                // label="First name"
                 name="phone"
                 onChange={handleChange}
                 required
@@ -194,7 +200,6 @@ console.log(user);
               E-mail
               <TextField
                 fullWidth
-                // label="Email Address"
                 name="email"
                 onChange={handleChange}
                 required
@@ -228,12 +233,13 @@ console.log(user);
                   name="goal"
                   label="goal"
                   onChange={handleChange}
+                  value={user.goal|| ''}
                 >
-                  <MenuItem value={10}>Weight Loss</MenuItem>
-                  <MenuItem value={20}>Muscle Building (Bulking)</MenuItem>
-                  <MenuItem value={30}>Muscle Toning</MenuItem> 
-                  <MenuItem value={40}>Increasing Strength</MenuItem>
-                  <MenuItem value={50}>Rehabilitation and Injury Recovery</MenuItem>
+                  <MenuItem value={"10"}>Weight Loss</MenuItem>
+                  <MenuItem value={"20"}>Muscle Building (Bulking)</MenuItem>
+                  <MenuItem value={"30"}>Muscle Toning</MenuItem> 
+                  <MenuItem value={"40"}>Increasing Strength</MenuItem>
+                  <MenuItem value={"50"}>Rehabilitation and Injury Recovery</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -248,11 +254,12 @@ console.log(user);
               <FormGroup>
 
               <Grid container>
-                {ncdList.map((disease,index)=>(
-                    <Grid item xs={6} md={6}>
-                      <FormControlLabel control={<Checkbox/>} label={disease} name={index} onChange={handleNCDClick}/>
+                {allNCD.map((disease,index)=>{
+                        
+                    return (<Grid item xs={6} md={6}>
+                      <FormControlLabel control={<Checkbox checked={selectedNCD.find(a=> a.ncdId == disease.ncdId) !== undefined} onChange={handleNCDClick}/>} label={disease.ncdName} name={disease.ncdName} value={disease.ncdId}/>
                     </Grid>
-                ))}
+                )})}
                 </Grid>
               </FormGroup>
         </Box>
@@ -265,11 +272,12 @@ console.log(user);
               <FormGroup>
 
               <Grid container>
-                {allergies.map((allergy,index)=>(
+                {allAllergies.map((allergy,index)=>{
+                  return (
                     <Grid item xs={6} md={6}>
-                      <FormControlLabel control={<Checkbox/>} label={allergy} name={index} onChange={handleAllergyClick}/>
+                      <FormControlLabel control={<Checkbox checked={selectedAllergies.find(a=> a.allergyId == allergy.allergyId) !== undefined} onChange={handleAllergyClick}/>} label={allergy.allergyName} name={allergy.allergyName} value={allergy.allergyId} />
                     </Grid>
-                ))}
+                )})}
                 </Grid>
               </FormGroup>
           <Grid container spacing={3}>

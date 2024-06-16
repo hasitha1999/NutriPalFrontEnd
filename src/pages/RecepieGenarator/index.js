@@ -11,39 +11,8 @@ import Drawer from '@mui/material/Drawer';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import {CheckCircle} from "@mui/icons-material";
 import { getAllsavedRecepie, savedSearchRecepieApi, searchRecepieApi } from "../../use-cases/api-recepie";
 
-let dummyCardData = [
-    {
-        title: 'pizza',
-        description:
-            'Pizza is a savory dish of Italian origin consisting of a usually round, flattened base of leavened wheat-based dough topped with tomatoes, cheese, and often various other ingredients such as anchovies, mushrooms, onions, olives, pineapple, meat, etc., which is then baked at a high temperature, traditionally in a wood-fired oven.',
-        image: 'https://www.seriouseats.com/thmb/e4sA_9qtrgBpy34K4nl8NrC2eMs=/1500x1125/smart/filters:no_upscale()/2019_07_15_FoodLab_VersatilePizzaDough_VickyWasik_3-efc28cb1b2bf4342ad0c9d71a82fe11b.jpg'
-    },
-    {
-        title: 'sushi',
-        description:
-            'Sushi is a Japanese dish consisting of small balls or rolls of vinegar-flavored cold-cooked rice served with a garnish of raw fish, vegetables, or egg.',
-        image: 'https://www.thespruceeats.com/thmb/qQXsEdkWsGGid6wINPHmOy0ZoGA=/960x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/sushi-rolls-462998198-587673105f9b584db3a44ae3.jpg'
-    },
-    {
-        title: 'burger',
-        description:
-            'A burger is a sandwich consisting of one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun. The patty may be pan-fried, grilled, smoked, or flame-broiled.',
-        image: 'https://www.bbcgoodfood.com/sites/default/files/recipe-collections/collection-image/2013/05/burger-and-fries.jpg'
-    },
-    {
-        title: 'ice cream',
-        description:
-            'Ice cream is a sweetened frozen food typically eaten as a snack or dessert. It is usually made from dairy products, such as milk and cream, and often combined with fruits or other ingredients and flavors.',
-        image: 'https://www.thespruceeats.com/thmb/pDnOuNq4T9fmOxIsqM6s8c3-AQs=/960x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/homemade-vanilla-ice-cream-recipe-1945754-hero-01-79503e69f24f4760a4b42a7f9a5e5f54.jpg'
-    }
-];
 
 const filterOptions = {
     items: [
@@ -103,7 +72,6 @@ const RecepieGenarator = () => {
                 });   
             })
         }).catch((e)=>{
-            alert(e)
         });
     }
 
@@ -112,7 +80,6 @@ const RecepieGenarator = () => {
         searchRecepieApi(searchData.searchItemName).then((response)=>{
             setSearchResult(response.data.hits);
         }).catch((e)=>{
-            alert(e)
         });
     };
    
