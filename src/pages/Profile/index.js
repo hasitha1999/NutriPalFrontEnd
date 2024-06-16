@@ -28,7 +28,7 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import Stack from "@mui/material/Stack";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserDetails } from "../../use-cases/get-user-details";
+import { getNCDDetails, getUserDetails } from "../../use-cases/get-user-details";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 20,
@@ -38,21 +38,13 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 const Profile = () => {
   let navigate = useNavigate();
   const [user, setUser] = useState({});
-  const ncdList = [
-    "Cardiovascular disease",
-    "Cancer",
-    "Chronic respiratory disease",
-    "Diabetes",
-    "Arthritis",
-    "Hypertension"
-  ]
-  const [profileInfo,setProfileInfo] = useState({weight:85,height:180,gender:1,activeLevel:2,goal:"Weight Loss",firstName:"Hasitha",lastName:"Lakmal",useId:"1560",email:"hasithalakmal@gmail.com",dob:"1999/06/17",allergies:["Peanuts", "Tree nuts", "Shellfish", "Fish", "Eggs", "Milk", "Wheat", "Soy", "Sesame", "Mustard", "Sulfites", "Corn", "Gluten", "Celery"],
-ncd:["Diabetes","Arthritis"]});
+  const [allNCD,setAllNCD] = useState([]);
   const routeChange = (value) => {
     navigate(value);
   };
   useEffect(() => {
-    getUserDetails().then((res) => setUser(res.data))
+    getUserDetails().then((res) => setUser(res.data));
+    getNCDDetails().then((res)=>setAllNCD(res.data));
   }, []);
   const findHelthyWeight =(tragetBMI)=>{
     return Math.round(tragetBMI * (user.height/100) ** 2)
@@ -156,28 +148,12 @@ ncd:["Diabetes","Arthritis"]});
                 Active Level : 
               </Typography>
             <Box sx={{ width: '50%' }}>
-              <BorderLinearProgress color="secondary"  variant="determinate" value={100/user.activeLevel} />
+              <BorderLinearProgress color="secondary"  variant="determinate" value={user.activeLevel * 25}/>
             </Box>
           </CardContent>
         </Card>
       </Grid>
-      {/* <Stack spacing={1} direction="column" sx={{ m: 2, mb: 10 }}>
-        <Button
-          color="secondary"
-          startIcon={<AssignmentIcon sx={{ mr: 2 }} />}
-          size="large"
-          sx={{
-            display: "flex",
-            justifyContent: "flex-start",
-            fontSize: "20px",
-          }}
-          onClick={() => {
-            routeChange(`/expensesRecord`);
-          }}
-        >
-          Expenses Record
-        </Button>
-      </Stack> */}
+
       </Grid>
       <Grid
               container
@@ -202,7 +178,7 @@ ncd:["Diabetes","Arthritis"]});
           <Divider />
           <CardContent sx={{ ml: 3,color: "#878787"}}>
           <Typography variant="h5" margin={1}>
-              Main Goal : {profileInfo.goal}
+              Main Goal : {user.goal}
           </Typography>
             <Divider />
             <Typography
@@ -254,8 +230,8 @@ ncd:["Diabetes","Arthritis"]});
               Food Allergy
               </Typography>
               <Divider />
-              {profileInfo.allergies.map((allergy, index) => {
-                return  allergy + " | "
+              {user.allergy?.map((allergy, index) => {
+                return  allergy.allergyName + " | "
               }  
               )}
               <br></br>
@@ -266,9 +242,9 @@ ncd:["Diabetes","Arthritis"]});
               <FormGroup>
 
               <Grid container>
-                {ncdList.map((disease,index)=>(
+                {allNCD?.map((disease,index)=>(
                     <Grid item xs={6} md={6}>
-                      <FormControlLabel disabled control={<Checkbox checked={profileInfo.ncd.includes(disease)} />} label={disease} />
+                      <FormControlLabel disabled control={<Checkbox checked={user.ncd.find(a=> a.ncdId == disease.ncdId) !== undefined} />} label={disease.ncdName} />
                     </Grid>
                 ))}
                 </Grid>

@@ -18,6 +18,8 @@ import Stack from "@mui/material/Stack";
 import {CustomButton} from "../../theme/CustomThemeComponents"
 import {CustomPaper} from "../../theme/CustomThemeComponents"
 import {StackLayout} from  "../../theme/CustomThemeComponents"
+import SupportInputField from "../../component-ui/SupportInputField";
+
 
 
 const NutritionMeter = () => {
@@ -82,6 +84,8 @@ const NutritionMeter = () => {
   const [totalCalories, setTotalCalories] = useState(0);
   const [showWarning, setShowWarning] = useState(false);
   const [inputError, setInputError] = useState(false);
+
+  const [itemList, setItemList] = useState([])
 
   useEffect(() => {
     const calculateTotalCalories = nutritionItems.reduce(
@@ -191,10 +195,14 @@ const NutritionMeter = () => {
       0
     );
   };
+  const addItemToList = (newItem) => {
+    setItemList((prevItemList) => [...prevItemList, newItem]);
+    console.log("itemList", newItem)
+  };
 
   const rows = [totalCalories, totalProtein(), totalCarbs(), totalFat()];
   return (
-    <Box sx={{minHeight: "100vh", py: 4 }}>
+     <Box sx={{minHeight: "100vh", py: 4 }}>
       <Container>
         <Typography variant="h3" component="h1" align="center" gutterBottom>
             Nutrition Calculator
@@ -204,51 +212,61 @@ const NutritionMeter = () => {
             Total calories exceed recommended limit (1000 calories)!
           </Alert>
         )}
-        <Grid container spacing={2} mb={4}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label="Item Name"
-              variant="outlined"
-              value={newItem.name}
-              onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-              error={inputError && !newItem.name}
-              helperText={inputError && !newItem.name ? "Required" : ""}
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <TextField
-              fullWidth
-              type="number"
-              label="Amount"
-              variant="outlined"
-              value={newItem.protein}
-              onChange={(e) =>
-                setNewItem({ ...newItem, protein: e.target.value })
-              }
-              error={inputError && newItem.protein < 0}
-              helperText={
-                inputError && newItem.protein < 0 ? "Invalid value" : ""
-              }
-            />
-          </Grid>
-          <Grid item xs={6} sm={3}>
-            <Select
-                fullWidth
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={newItem.unitType}
-                label="Unit Type"
+        {/*<Grid container spacing={2} mb={4}>*/}
+        {/*  <Grid item xs={12} sm={6}>*/}
+        {/*    <TextField*/}
+        {/*      fullWidth*/}
+        {/*      label="Item Name"*/}
+        {/*      variant="outlined"*/}
+        {/*      value={newItem.name}*/}
+        {/*      onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}*/}
+        {/*      error={inputError && !newItem.name}*/}
+        {/*      helperText={inputError && !newItem.name ? "Required" : ""}*/}
+        {/*    />*/}
+        {/*  </Grid>*/}
+        {/*  <Grid item xs={6} sm={3}>*/}
+        {/*    <TextField*/}
+        {/*      fullWidth*/}
+        {/*      type="number"*/}
+        {/*      label="Amount"*/}
+        {/*      variant="outlined"*/}
+        {/*      value={newItem.protein}*/}
+        {/*      onChange={(e) =>*/}
+        {/*        setNewItem({ ...newItem, protein: e.target.value })*/}
+        {/*      }*/}
+        {/*      error={inputError && newItem.protein < 0}*/}
+        {/*      helperText={*/}
+        {/*        inputError && newItem.protein < 0 ? "Invalid value" : ""*/}
+        {/*      }*/}
+        {/*    />*/}
+        {/*  </Grid>*/}
+        {/*  <Grid item xs={6} sm={3}>*/}
+        {/*    <Select*/}
+        {/*        fullWidth*/}
+        {/*        labelId="demo-simple-select-label"*/}
+        {/*        id="demo-simple-select"*/}
+        {/*        value={newItem.unitType}*/}
+        {/*        label="Unit Type"*/}
 
 
-            >
-              <MenuItem value={10}>grams</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </Grid>
+        {/*    >*/}
+        {/*      <MenuItem value={10}>grams</MenuItem>*/}
+        {/*      <MenuItem value={20}>Twenty</MenuItem>*/}
+        {/*      <MenuItem value={30}>Thirty</MenuItem>*/}
+        {/*    </Select>*/}
+        {/*  </Grid>*/}
 
-        </Grid>
+        {/*</Grid>*/}
+        {/*<SupportInputField addItem={addItemToList} />*/}
+        <SupportInputField addItem={(value)=>addItemToList(value)} />
+        {itemList.map((item,index) => (
+            <div key={index}>
+            <SupportInputField addItem={addItemToList} />
+            </div>
+        ))}
+
+
+
         {/*<Grid container spacing={2} mb={4}>*/}
           <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
           {/*<Grid item xs={12} sm={6} container alignItems="center" rowSpacing={1}>*/}
