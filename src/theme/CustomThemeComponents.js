@@ -15,7 +15,7 @@ export const CustomButton = styled(Button)(({ theme }) => ({
     },
 }));
 
-export const CustomPaper = styled(Paper)(({theme}) =>({
+export const CustomPaper = styled(Paper) (({theme}) =>({
     padding : '15px 15px',
     margin : '20px auto',
     width : '80%',
@@ -54,3 +54,22 @@ export const StackLayout = ({ parameter1,stylePack , titleClass='title-header', 
         </Stack>
     );
 };
+
+export const WidgetTheme =  styled(Paper)(({theme}) =>({
+    padding : '10px 10px',
+    margin : '20px auto',
+    width : '15%',
+    '& .main-header': {
+        fontSize: '1rem',
+        textAlign: 'center',
+        fontWeight: 'bold'
+    },
+    '& .title-header' : {
+        fontSize: '1rem',
+        textAlign: 'center',
+        fontWeight: 'bold'
+    }
+
+
+
+}))
