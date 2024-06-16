@@ -32,10 +32,10 @@ const UserDetails = () => {
   
   const [user, setUser] = useState({});
   const MySwal = withReactContent(Swal);
-  const [selectedNCD,setSelectedNCD] = useState([6]);
+  const [selectedNCD,setSelectedNCD] = useState([]);
   const [allNCD,setAllNCD] = useState([]);
   const [allAllergies,setAllAllergies] = useState([]);
-  const [selectedAllergies,setSelectedAllergies] = useState([6]);
+  const [selectedAllergies,setSelectedAllergies] = useState([]);
   const [isUpdate,setIsUpdate] = useState(false);
 
   const [queryParameters] = useSearchParams();
@@ -46,9 +46,9 @@ const UserDetails = () => {
     if(isUpdate == "true"){
       setIsUpdate(true);
       getUserDetails().then((res) => {setUser(res.data);setSelectedAllergies(res.data.allergy);setSelectedNCD(res.data.ncd)});
-      getNCDDetails().then((res)=>setAllNCD(res.data));
-      getAllergiesDetails().then((res)=>setAllAllergies(res.data));
     }
+    getNCDDetails().then((res)=>setAllNCD(res.data));
+    getAllergiesDetails().then((res)=>setAllAllergies(res.data));
     
   }, []);
 
@@ -240,6 +240,22 @@ const UserDetails = () => {
                   <MenuItem value={"30"}>Muscle Toning</MenuItem> 
                   <MenuItem value={"40"}>Increasing Strength</MenuItem>
                   <MenuItem value={"50"}>Rehabilitation and Injury Recovery</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid xs={12} md={3}>
+            <FormControl fullWidth>
+                Active Level
+                <Select
+                  name="activeLevel"
+                  label="activeLevel"
+                  onChange={handleChange}
+                  value={user.activeLevel|| ''}
+                >
+                  <MenuItem value={1}>Level 1</MenuItem>
+                  <MenuItem value={2}>Level 2</MenuItem>
+                  <MenuItem value={3}>Level 3</MenuItem> 
+                  <MenuItem value={4}>Level 4</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

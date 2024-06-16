@@ -18,10 +18,6 @@ const columns = [
     header: "Gender",
   },
   {
-    accessorKey: "nic",
-    header: "NIC",
-  },
-  {
     accessorKey: "dob",
     header: "Date of Birth",
   },
@@ -32,14 +28,11 @@ const columns = [
   {
     accessorKey: "height",
     header: "Height",
+  },
+  {
+    accessorKey: "weight",
+    header: "Height",
   }
-  // {
-  //   accessorKey: "totalBalance",
-  //   header: "Total Balance",
-  //   Cell: ({ cell }) => (
-  //     '$ ' + cell.getValue()
-  //   ),
-  // },
 ];
 
 const UserList = () => {
