@@ -34,6 +34,8 @@ export const CustomPaper = styled(Paper) (({theme}) =>({
     },
     '& .sub-header' : {
         fontSize: '1rem',
+        fontWeight: 'bold',
+        textAlign: 'center'
     },
 
 }))
@@ -56,11 +58,12 @@ export const StackLayout = ({ parameter1,stylePack , titleClass='title-header', 
 };
 
 export const WidgetTheme =  styled(Paper)(({theme}) =>({
+    background: 'rgba(131, 75, 255, 0.5)',
     padding : '10px 10px',
     margin : '20px auto',
-    width : '15%',
+    width : '20%',
     '& .main-header': {
-        fontSize: '1rem',
+        fontSize: '1.5rem',
         textAlign: 'center',
         fontWeight: 'bold'
     },
@@ -68,8 +71,13 @@ export const WidgetTheme =  styled(Paper)(({theme}) =>({
         fontSize: '1rem',
         textAlign: 'center',
         fontWeight: 'bold'
+    },
+    '& .responsive-img' : {
+        width: '20%',
+        height: 'auto',
+        maxWidth: '100%',
+        margin: '0 auto',
+        display: 'block'
     }
-
-
 
 }))
