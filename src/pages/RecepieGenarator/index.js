@@ -66,7 +66,7 @@ const RecepieGenarator = () => {
             response.data.map((uri)=>{
                 savedSearchRecepieApi(uri.recipieURI).then((response)=>{
                     makelist.push(response.data.hits[0]);
-                    setSearchResult(makelist);
+                    setSearchResult((prv) => makelist);
                 }).catch((e)=>{
                     alert(e)
                 });   

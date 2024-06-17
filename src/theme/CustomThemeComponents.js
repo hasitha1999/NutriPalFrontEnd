@@ -49,8 +49,8 @@ export const StackLayout = ({ parameter1,stylePack , titleClass='title-header', 
             spacing={2}
             borderBottom = '0.2px dotted #747575'
         >
-                <div><Typography className={titleClass}>{parameter1.label} </Typography></div>
-            <div>{(parameter1.quantity / serving).toFixed(2)}{parameter1.unit}</div>
+                <div><Typography className={titleClass}>{parameter1?.label} </Typography></div>
+            <div>{(parameter1?.quantity / serving).toFixed(2)}{parameter1?.unit}</div>
         </Stack>
     );
 };

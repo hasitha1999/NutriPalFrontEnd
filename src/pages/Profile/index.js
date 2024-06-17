@@ -244,7 +244,7 @@ const Profile = () => {
               <Grid container>
                 {allNCD?.map((disease,index)=>(
                     <Grid item xs={6} md={6}>
-                      <FormControlLabel disabled control={<Checkbox checked={user.ncd.find(a=> a.ncdId == disease.ncdId) !== undefined} />} label={disease.ncdName} />
+                      <FormControlLabel disabled control={<Checkbox checked={user.ncd?.find(a=> a.ncdId == disease.ncdId) !== undefined} />} label={disease.ncdName} />
                     </Grid>
                 ))}
                 </Grid>
