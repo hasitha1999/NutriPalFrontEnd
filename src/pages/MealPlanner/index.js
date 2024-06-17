@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Typography from '@mui/material/Typography';
 import { Box, Button, Grid, InputAdornment, TextField } from "@mui/material";
+import { getPrediction } from "../../use-cases/get-mealplaner";
 
 const MealPlanner = () => {
     const [request,setRequest] = useState({ Calories:0,
@@ -12,13 +13,28 @@ const MealPlanner = () => {
         FiberContent: 0,
         SugarContent: 0,
         ProteinContent: 0});
-        
+
     const handleChange = (event) => {
         setRequest((prevState) => ({
           ...prevState,
           [event.target.name]: event.target.value,
         }));
       };
+    const getRecipie = () => {
+      var bodyFormData = new FormData();
+      bodyFormData.append("Calories",request.Calories);
+      bodyFormData.append("FatContent",request.FatContent);
+      bodyFormData.append("SaturatedFatContent",request.SaturatedFatContent);
+      bodyFormData.append("CholesterolContent",request.CholesterolContent);
+      bodyFormData.append("SodiumContent",request.SodiumContent);
+      bodyFormData.append("CarbohydrateContent",request.CarbohydrateContent);
+      bodyFormData.append("FiberContent",request.FiberContent);
+      bodyFormData.append("SugarContent",request.SugarContent);
+      bodyFormData.append("ProteinContent",request.ProteinContent); 
+      getPrediction(bodyFormData).then((res)=>{
+              console.log(res);
+      });
+    }
   return (
     <div>
         <Typography variant="h3" sx={{margin:'15px 0px 0px 20px'}}>Meal Planner</Typography>
@@ -150,7 +166,7 @@ const MealPlanner = () => {
             
           </Grid>
           <div style={{display:'flex', justifyContent:'flex-end'}}>
-            <Button variant="contained" color="success">
+            <Button variant="contained" color="success" onClick={getRecipie}>
                 Submit
             </Button>
           </div>
