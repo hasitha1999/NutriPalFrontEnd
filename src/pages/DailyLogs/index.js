@@ -16,6 +16,7 @@ import CanvasJSReact from "@canvasjs/react-charts";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {getWaterManagmentData} from "../../use-cases/get-water-managment-data";
 import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list-by-month";
+import {getUserDetails} from "../../use-cases/get-user-details";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -28,21 +29,56 @@ const DailyLogs = () => {
   const [profileInfo,setProfileInfo] = useState({weight:85,height:180,gender:1,activeLevel:2,goal:"Weight Loss",firstName:"Hasitha",lastName:"Lakmal",useId:"1560",email:"hasithalakmal@gmail.com",dob:"1999/06/17",});
   const [upperRange,setUpperRange] = useState();
   const [lowerRange,setLowerRange] = useState();
-  const handleChange = (event) => {
-    setlog((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
+  const [chartData, setChartData] = useState({
+          animationEnabled: true,
+          exportEnabled: false,
+          theme: "light2",
+          title: {
+            text: "Change by Weight",
+          },
+          axisY: {
+            title: " Change",
+            gridThickness: 0,
+            lineThickness: 1,
+          },
+          axisX: {
+            title: "Days of Month",
+            prefix: "W",
+            interval: 2,
+          },
+          data: [
+            {
+              type: "line",
+              toolTipContent: "{x}: {y}",
+              dataPoints: [],
+            },
+          ],
+        })
+  const [user,setUser] = useState({})
+
+        const handleChange = (event) => {
+          setlog((prevState) => ({
+            ...prevState,
+            [event.target.name]: event.target.value,
+          }));
+        };
 
   useEffect(()=>{
-    BMICalculator()
     caloryRangeSelector()
-    getChartDataByType("3")
+    getDailyLogDataByType(1)
+    getChartDataByType(1)
+    getUserDetails().then((res) => {
+      setUser(res.data)
+      console.log("user", res.data)
+      BMICalculator(res.data.weight, res.data.height)
+    });
+
   },[])
   
-  const BMICalculator = () => {
-      let bmivalue = Math.round(profileInfo.weight*10/((profileInfo.height/100) ** 2))/10
+  const BMICalculator = (weight, height) => {
+      let bmivalue = Math.round(weight*10/((height/100) ** 2))/10
+    console.log("weight", weight)
+    console.log("bmivalue", bmivalue)
       setBMI(bmivalue);
     if (bmivalue > 40) {
         setCategory("extreme obese")
@@ -61,60 +97,40 @@ const DailyLogs = () => {
       setBMIColor("blue")
     }
   };
-  const options = {
-    animationEnabled: true,
-    exportEnabled: false,
-    theme: "light2", // "light2", "dark1", "dark2"
-    title: {
-      text: "Change by Weight",
-    },
-    axisY: {
-      title: " Change",
-      gridThickness: 0,
-      lineThickness: 1,
-    },
-    axisX: {
-      title: "Days of Month",
-      prefix: "W",
-      interval: 2,
-    },
-    data: [
-      {
-        type: "line",
-        toolTipContent: "Week {x}: {y}",
-        dataPoints: [
-          { x: 1, y: 64 },
-          { x: 2, y: 61 },
-          { x: 3, y: 64 },
-          { x: 4, y: 62 },
-          { x: 5, y: 64 },
-          { x: 6, y: 60 },
-          { x: 7, y: 58 },
-          { x: 8, y: 59 },
-          { x: 9, y: 53 },
-          { x: 10, y: 54 },
-          { x: 11, y: 61 },
-          { x: 12, y: 60 },
-          { x: 13, y: 55 },
-          { x: 14, y: 60 },
-          { x: 15, y: 56 },
-          { x: 16, y: 60 },
-          { x: 17, y: 59.5 },
-          { x: 18, y: 63 },
-          { x: 19, y: 58 },
-          { x: 20, y: 54 },
-          { x: 21, y: 59 },
-          { x: 22, y: 64 },
-          { x: 23, y: 59 },
-        ],
-      },
-    ],
-  };
+  // const options = {
+  //   animationEnabled: true,
+  //   exportEnabled: false,
+  //   theme: "light2", // "light2", "dark1", "dark2"
+  //   title: {
+  //     text: "Change by Weight",
+  //   },
+  //   axisY: {
+  //     title: " Change",
+  //     gridThickness: 0,
+  //     lineThickness: 1,
+  //   },
+  //   axisX: {
+  //     title: "Days of Month",
+  //     prefix: "W",
+  //     interval: 2,
+  //   },
+  //   data: [
+  //     {
+  //       type: "line",
+  //       toolTipContent: "{x}: {y}",
+  //       dataPoints: [
+  //         {x: '2024-06-18', y: 23.45},
+  //         {x: '2024-06-22', y: 60.45}
+  //       ],
+  //     },
+  //   ],
+  // };
 
   const tabChange = (event, newValue) => {
     console.log("value", event)
     setValue(newValue);
     getDailyLogDataByType(newValue);
+    getChartDataByType(newValue);
   };
 
   const findHelthyWeight =(tragetBMI)=>{
@@ -164,12 +180,38 @@ const DailyLogs = () => {
   }
 
   const getChartDataByType = (newValue) =>{
+
     let logType = ""
-    newValue == '2' ? logType = "Calorie" : newValue == '3' ?  logType = "Water" : logType = "Weight";
+    newValue == 3 ? logType = "Weight" : newValue == 1 ?  logType = "Water" : logType = "Calorie";
+    console.log("logType", logType)
     getDailyLogDataListByMonth(logType).then((e)=>{
-      console.log(e)
+
+      let newDataPoints = [];
+      let processedDataPoints = []
+      newDataPoints = e.data;
+      if (newDataPoints.length != 0){
+        newDataPoints.forEach((item)=>
+          processedDataPoints.push({
+            x : new Date(item.date),
+            y : item.userInputValue
+          })
+        )
+      }
+      setChartData(prevChartData => ({
+        ...prevChartData,
+        title: {
+          text: `Change by ${logType}`,
+        },
+        data: [
+          {
+            ...prevChartData.data[0],
+            dataPoints: processedDataPoints,
+          },
+        ],
+      }));
 
     })
+    console.log("Chart Data", chartData)
 
   }
 
@@ -194,12 +236,12 @@ const DailyLogs = () => {
               indicatorColor="secondary"
               centered
             >
-              <Tab label="Weight Log" value="1" />
+              <Tab label="Water Log" value="1" />
               <Tab label="Calory Log" value="2" />
-              <Tab label="Water Log" value="3" />
+              <Tab label="Weight Log" value="3" />
             </TabList>
           </Box>
-          <TabPanel value="1">
+          <TabPanel value="3">
             <Grid
               container
               spacing={1}
@@ -208,7 +250,7 @@ const DailyLogs = () => {
               justifyContent="center"
             >
               <Grid xs={12} md={9}>
-                <CanvasJSChart options={options} />
+                <CanvasJSChart options={chartData} />
               </Grid>
               <Grid xs={6} md={2} align="center" sx={{visibility: { xs: "hidden", md: "visible" }}}>
                 <img
@@ -282,7 +324,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.height} cm
+                      {user?.height} cm
                     </Typography>
                     <Typography
                       variant="h6"
@@ -322,7 +364,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.gender === 1 ? "Male":"Female"}
+                      {user?.gender === 1 ? "Male":"Female"}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -364,7 +406,7 @@ const DailyLogs = () => {
               justifyContent="center"
             >
               <Grid xs={12} md={9}>
-                <CanvasJSChart options={options} />
+                <CanvasJSChart options={chartData} />
               </Grid>
             </Grid>
             <Grid
@@ -431,7 +473,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.weight} kg
+                      {user?.weight} kg
                     </Typography>
                     <Typography
                       variant="h6"
@@ -471,7 +513,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.gender === 1 ? "Male":"Female"}
+                      {user?.gender === 1 ? "Male":"Female"}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -504,7 +546,7 @@ const DailyLogs = () => {
               </CardActions>
             </Grid>
           </TabPanel>
-          <TabPanel value="3">
+          <TabPanel value="1">
           <Grid
               container
               spacing={1}
@@ -513,7 +555,7 @@ const DailyLogs = () => {
               justifyContent="center"
             >
               <Grid xs={12} md={9}>
-                <CanvasJSChart options={options} />
+                <CanvasJSChart options={chartData} />
               </Grid>
             </Grid>
             <Grid
@@ -575,7 +617,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.weight} kg
+                      {user?.weight} kg
                     </Typography>
                     <Typography
                       variant="h6"
@@ -615,7 +657,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.gender === 1 ? "Male":"Female"}
+                      {user?.gender === 1 ? "Male":"Female"}
                     </Typography>
                     <Typography
                       variant="h6"
