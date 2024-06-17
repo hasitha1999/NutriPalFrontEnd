@@ -13,7 +13,6 @@ const SupportInputField = (props) =>{
     const [inputError, setInputError] = useState(false);
 
     return(
-        // <div style={{margin:'0 auto', width:'100%'}}>
             <Grid container spacing={2} mb={4}  alignItems="center" justifyContent="center">
                 <Grid item xs={12} sm={6} md={3} >
                     <TextField
@@ -64,7 +63,6 @@ const SupportInputField = (props) =>{
                 </Grid>
 
             </Grid>
-            // </div>
     )
 }
 

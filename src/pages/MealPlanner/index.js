@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import RecipeCard from "../../component-ui/RecipeCard";
 import Typography from '@mui/material/Typography';
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import {CheckCircle} from "@mui/icons-material";
-import { Box, Grid, InputAdornment, TextField } from "@mui/material";
+import { Box, Button, Grid, InputAdornment, TextField } from "@mui/material";
 
 const MealPlanner = () => {
-
-    const [request,setRequest] = useState({});
-
-
+    const [request,setRequest] = useState({ Calories:0,
+        FatContent: 0,
+        SaturatedFatContent: 0,
+        CholesterolContent: 0,
+        SodiumContent: 0,
+        CarbohydrateContent: 0,
+        FiberContent: 0,
+        SugarContent: 0,
+        ProteinContent: 0});
+        
     const handleChange = (event) => {
         setRequest((prevState) => ({
           ...prevState,
@@ -22,77 +22,139 @@ const MealPlanner = () => {
   return (
     <div>
         <Typography variant="h3" sx={{margin:'15px 0px 0px 20px'}}>Meal Planner</Typography>
-        <Box sx={{ m:10 }}>
+        <Box sx={{ m:10}}>
           <Grid container spacing={3}>
             <Grid xs={12} md={3} sx={{ mr:2 }}>
-              First name
+            Calories
               <TextField
                 fullWidth
-                name="firstName"
+                name="Calories"
+                onChange={handleChange}
+                required
+                type="number"
+                InputProps={{
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                  }}
+              />
+            </Grid>
+            <Grid xs={12} md={3} sx={{ mr:2 }}>
+             Fat Content
+              <TextField
+                fullWidth
+                name="FatContent"
+                type="number"
                 onChange={handleChange}
                 required
                 InputProps={{
-                    endAdornment : <InputAdornment position="end">kg</InputAdornment>
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
                   }}
-                
-                // value={user.firstName}
               />
             </Grid>
             <Grid xs={12} md={3} sx={{ mr:2 }}>
-              Last name
+            SaturatedFat Content
               <TextField
                 fullWidth
-                name="lastName"
+                type="number"
+                name="SaturatedFatContent"
                 onChange={handleChange}
                 required
-                // value={user.lastName}
+                InputProps={{
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                  }}
+              />
+            </Grid>
+            
+        </Grid>
+        <Grid container spacing={3} sx={{ mt:3}}>
+            <Grid xs={12} md={3} sx={{ mr:2}}>
+            Cholesterol Content
+              <TextField
+                fullWidth
+                type="number"
+                name="CholesterolContent"
+                onChange={handleChange}
+                required
+                InputProps={{
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                  }}
+              />
+            </Grid>
+            <Grid xs={12} md={3} sx={{ mr:2}}>
+            Sodium Content
+              <TextField
+                fullWidth
+                type="number"
+                name="SodiumContent"
+                onChange={handleChange}
+                required
+                InputProps={{
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                  }}
               />
             </Grid>
             <Grid xs={12} md={3} sx={{ mr:2 }}>
-             Gym ID
+            Carbohydrate Content
               <TextField
                 fullWidth
-                name="gymID"
+                type="number"
+                name="CarbohydrateContent"
                 onChange={handleChange}
                 required
-                // value={user.gymID}
+                InputProps={{
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                  }}
               />
             </Grid>
             
           </Grid>
           <Grid container spacing={3} sx={{ mt:3}}>
             <Grid xs={12} md={3} sx={{ mr:2}}>
-              First name
+            Fiber Content
               <TextField
                 fullWidth
-                name="firstName"
+                type="number"
+                name="FiberContent"
                 onChange={handleChange}
                 required
-                // value={user.firstName}
+                InputProps={{
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                  }}
               />
             </Grid>
             <Grid xs={12} md={3} sx={{ mr:2}}>
-              Last name
+            Sugar Content
               <TextField
                 fullWidth
-                name="lastName"
+                type="number"
+                name="SugarContent"
                 onChange={handleChange}
                 required
-                // value={user.lastName}
+                InputProps={{
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                  }}
               />
             </Grid>
             <Grid xs={12} md={3} sx={{ mr:2 }}>
-             Gym ID
+            Protein Content
               <TextField
                 fullWidth
-                name="gymID"
+                type="number"
+                name="ProteinContent"
                 onChange={handleChange}
                 required
-                // value={user.gymID}
+                InputProps={{
+                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                  }}
               />
             </Grid>
             
           </Grid>
+          <div style={{display:'flex', justifyContent:'flex-end'}}>
+            <Button variant="contained" color="success">
+                Submit
+            </Button>
+          </div>
+
         </Box>
     </div>
   );
