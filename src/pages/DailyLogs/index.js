@@ -16,6 +16,7 @@ import CanvasJSReact from "@canvasjs/react-charts";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {getWaterManagmentData} from "../../use-cases/get-water-managment-data";
 import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list-by-month";
+import {getUserDetails} from "../../use-cases/get-user-details";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -53,6 +54,7 @@ const DailyLogs = () => {
             },
           ],
         })
+  const [user,setUser] = useState({})
 
         const handleChange = (event) => {
           setlog((prevState) => ({
@@ -62,13 +64,21 @@ const DailyLogs = () => {
         };
 
   useEffect(()=>{
-    BMICalculator()
     caloryRangeSelector()
+    getDailyLogDataByType(1)
     getChartDataByType(1)
+    getUserDetails().then((res) => {
+      setUser(res.data)
+      console.log("user", res.data)
+      BMICalculator(res.data.weight, res.data.height)
+    });
+
   },[])
   
-  const BMICalculator = () => {
-      let bmivalue = Math.round(profileInfo.weight*10/((profileInfo.height/100) ** 2))/10
+  const BMICalculator = (weight, height) => {
+      let bmivalue = Math.round(weight*10/((height/100) ** 2))/10
+    console.log("weight", weight)
+    console.log("bmivalue", bmivalue)
       setBMI(bmivalue);
     if (bmivalue > 40) {
         setCategory("extreme obese")
@@ -314,7 +324,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.height} cm
+                      {user?.height} cm
                     </Typography>
                     <Typography
                       variant="h6"
@@ -354,7 +364,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.gender === 1 ? "Male":"Female"}
+                      {user?.gender === 1 ? "Male":"Female"}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -463,7 +473,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.weight} kg
+                      {user?.weight} kg
                     </Typography>
                     <Typography
                       variant="h6"
@@ -503,7 +513,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.gender === 1 ? "Male":"Female"}
+                      {user?.gender === 1 ? "Male":"Female"}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -607,7 +617,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.weight} kg
+                      {user?.weight} kg
                     </Typography>
                     <Typography
                       variant="h6"
@@ -647,7 +657,7 @@ const DailyLogs = () => {
                       variant="h3"
                       sx={{ margin: "15px 0px 0px 15px" }}
                     >
-                      {profileInfo?.gender === 1 ? "Male":"Female"}
+                      {user?.gender === 1 ? "Male":"Female"}
                     </Typography>
                     <Typography
                       variant="h6"
