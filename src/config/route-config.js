@@ -81,7 +81,7 @@ const routeConfig = [
     path: "/recepieGenarator",
     element: <RecepieGenarator />,
     icon: <Restaurant fontSize="large" />,
-    label: "Recepie Genarator",
+    label: "Recipe Genarator",
     menu: true,
     roles: ["USER"],
     noAuth: false,

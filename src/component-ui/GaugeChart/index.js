@@ -1,6 +1,6 @@
 import React from "react";
-import {Gauge} from "@mui/x-charts";
 import {Typography} from "@mui/material";
+import {Gauge} from "@mui/x-charts";
 
 
 const GaugeChart = (props) =>{

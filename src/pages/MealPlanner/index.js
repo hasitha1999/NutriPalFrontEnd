@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import Typography from '@mui/material/Typography';
 import { Box, Button, Grid, InputAdornment, TextField } from "@mui/material";
 import { getPrediction } from "../../use-cases/get-mealplaner";
+import MealPlanCard from "../../component-ui/MealPlanCard";
 
 const MealPlanner = () => {
+  const [searchResult,setSearchResult] = useState([]);
+  const [error,setError] = useState(false);
     const [request,setRequest] = useState({ Calories:0,
         FatContent: 0,
         SaturatedFatContent: 0,
@@ -15,12 +18,16 @@ const MealPlanner = () => {
         ProteinContent: 0});
 
     const handleChange = (event) => {
+      setError(true);
         setRequest((prevState) => ({
           ...prevState,
           [event.target.name]: event.target.value,
         }));
       };
+
+
     const getRecipie = () => {
+
       var bodyFormData = new FormData();
       bodyFormData.append("Calories",request.Calories);
       bodyFormData.append("FatContent",request.FatContent);
@@ -31,9 +38,12 @@ const MealPlanner = () => {
       bodyFormData.append("FiberContent",request.FiberContent);
       bodyFormData.append("SugarContent",request.SugarContent);
       bodyFormData.append("ProteinContent",request.ProteinContent); 
-      getPrediction(bodyFormData).then((res)=>{
-              console.log(res);
-      });
+      if(error){
+        getPrediction(bodyFormData).then((res)=>{
+          let data = JSON.parse(res.data.replaceAll("NaN","0"));
+          setSearchResult(data);
+          });
+      }
     }
   return (
     <div>
@@ -49,7 +59,7 @@ const MealPlanner = () => {
                 required
                 type="number"
                 InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                    endAdornment : <InputAdornment position="end">kCal</InputAdornment>
                   }}
               />
             </Grid>
@@ -91,7 +101,7 @@ const MealPlanner = () => {
                 onChange={handleChange}
                 required
                 InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                    endAdornment : <InputAdornment position="end">mg</InputAdornment>
                   }}
               />
             </Grid>
@@ -104,7 +114,7 @@ const MealPlanner = () => {
                 onChange={handleChange}
                 required
                 InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
+                    endAdornment : <InputAdornment position="end">mg</InputAdornment>
                   }}
               />
             </Grid>
@@ -171,6 +181,15 @@ const MealPlanner = () => {
             </Button>
           </div>
 
+        </Box>
+        <Box sx={{ flexGrow: 1, width: '90%', margin:'5px auto' }}>
+            <Grid container spacing={{ xs: 2, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                {searchResult.map((itemData,index)=>(
+                    <Grid item xs={2} sm={4} md={3} key={index}>
+                        <MealPlanCard itemData={itemData}/>
+                    </Grid>
+                ))}
+            </Grid>
         </Box>
     </div>
   );

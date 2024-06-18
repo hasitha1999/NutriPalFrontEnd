@@ -87,7 +87,7 @@ const RecepieGenarator = () => {
 
   return (
     <div>
-        <Typography variant="h3" sx={{margin:'15px 0px 0px 20px'}}>Recepie Genarator</Typography>
+        <Typography variant="h3" sx={{margin:'15px 0px 0px 20px'}}>Recipe Genarator</Typography>
 
         <Grid container spacing={3}>
          <Grid xs={12} md={9}>
