@@ -17,6 +17,7 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import {getWaterManagmentData} from "../../use-cases/get-water-managment-data";
 import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list-by-month";
 import {getUserDetails} from "../../use-cases/get-user-details";
+import {createOrUpdateDailyLog} from "../../use-cases/create-or-update-daily-log";
 
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -55,6 +56,8 @@ const DailyLogs = () => {
           ],
         })
   const [user,setUser] = useState({})
+  const [initialData, setInitialData] = useState({})
+  const [isButtonLoading, setIsButtonLoading] = React.useState(false);
 
         const handleChange = (event) => {
           setlog((prevState) => ({
@@ -134,25 +137,25 @@ const DailyLogs = () => {
   };
 
   const findHelthyWeight =(tragetBMI)=>{
-    return Math.round(tragetBMI * (profileInfo.height/100) ** 2)
+    return Math.round(tragetBMI * (user.height/100) ** 2)
   }
   const caloryCalculator = (rangeValue) =>{
-    return Math.round((profileInfo.weight * 2.2) * rangeValue)
+    return Math.round((user.weight * 2.2) * rangeValue)
   }
   const calculateWaterIntake = ()=>{
-    return  Math.round(((profileInfo.weight * 2.2)/2)*29.574*100)/100
+    return  Math.round(((user.weight * 2.2)/2)*29.574*100)/100
   }
   const caloryRangeSelector = ()=>{
-    if(profileInfo.goal === "Weight Loss"){
-      if(profileInfo.activeLevel === 1){
+    if(user.goal === "Weight Loss"){
+      if(user.activeLevel === 1){
         setUpperRange(12);
         setLowerRange(14);
       }else{
         setUpperRange(14);
         setLowerRange(16);
       }
-    }else if(profileInfo.goal === "Maintainance"){
-      if(profileInfo.activeLevel === 1){
+    }else if(user.goal === "Maintainance"){
+      if(user.activeLevel === 1){
         setUpperRange(14);
         setLowerRange(16);
       }else{
@@ -160,7 +163,7 @@ const DailyLogs = () => {
         setLowerRange(18);
       }
     }else{
-      if(profileInfo.activeLevel === 1){
+      if(user.activeLevel === 1){
         setUpperRange(18);
         setLowerRange(20);
       }else{
@@ -175,8 +178,27 @@ const DailyLogs = () => {
     let logType = ""
     newValue == '2' ? logType = "Calorie" : newValue == '3' ?  logType = "Water" : logType = "Weight";
     getWaterManagmentData(logType).then((e)=>{
+      setInitialData(e.data)
 
     })
+  }
+  const sendUserInputs = (amount, logType) =>{
+    let payLoad = {
+      logId : initialData?.logId,
+      logType : logType,
+      userInput : initialData?.userInput + amount,
+      weight : initialData?.weight
+    }
+    setIsButtonLoading(true)
+    createOrUpdateDailyLog(payLoad).then((e)=>{
+      getWaterManagmentData(logType).then((e)=>{
+        setInitialData(e.data)
+
+      })
+      setIsButtonLoading(false);
+
+    })
+
   }
 
   const getChartDataByType = (newValue) =>{
@@ -683,7 +705,7 @@ const DailyLogs = () => {
                   size="medium"
                   sx={{ bgcolor: "#8A47EB", color: "#fff" }}
                   value="50"
-                  //   onClick={save}
+                    onClick={()=>sendUserInputs(80, 'Water')}
                 >
                   Save details
                 </Button>
