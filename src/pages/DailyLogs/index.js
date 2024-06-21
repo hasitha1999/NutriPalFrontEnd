@@ -75,7 +75,7 @@ const DailyLogs = () => {
     getChartDataByType(1)
     getUserDetails().then((res) => {
       setUser(res.data)
-      console.log("user", res.data)
+      console.log("user", res.status)
       BMICalculator(res.data.weight, res.data.height)
     });
 

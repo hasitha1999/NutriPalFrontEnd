@@ -17,7 +17,7 @@ const Auth = (props) => {
     console.log(userRole, sessionStorage.getItem("ROLE"), props.roles)
     sessionStorage.removeItem("TOKEN");
     sessionStorage.removeItem("ROLE");
-    navigate("/login");
+    navigate("/");
   }
   
     const requestInterceptor = server.interceptors.request.use(

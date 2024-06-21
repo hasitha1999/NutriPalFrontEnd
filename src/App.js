@@ -5,6 +5,7 @@ import Layout from "./component-content/Layout";
 import routeConfig from "./config/route-config";
 import Auth from "./component-content/Auth";
 import LoginLayout from "./component-content/LoginLayout";
+import { CssBaseline } from "@mui/material";
 
 function App() {
 
@@ -12,6 +13,7 @@ function App() {
     <ThemeProvider
       theme={getTheme("light")}
     >
+      <CssBaseline />
       <BrowserRouter>
         <Routes>
           {routeConfig.map((route) => (

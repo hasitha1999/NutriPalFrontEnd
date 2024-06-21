@@ -1,23 +1,16 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { getforgotPassword, loginUser } from "../../use-cases/login-user";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Alert } from "@mui/material";
 import { Report } from "@mui/icons-material";
+import { Alert, Card, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
+import Logo from "../../component-content/Layout/Logo";
+import { getforgotPassword, loginUser } from "../../use-cases/login-user";
+import { CustomTextField } from "../../component-ui/CustomTextField/CustomTextField";
 
 const userData = {
   gymID: "",
@@ -30,19 +23,24 @@ export default function SignIn() {
     ...userData,
   });
   const [showErrorMessage, setShowErrorMessage] = React.useState(false);
-  const [commonError, setCommonError] = React.useState('');
+  const [commonError, setCommonError] = React.useState("");
   const MySwal = withReactContent(Swal);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   React.useEffect(() => {
-    const error = searchParams.get("error")
-    if(error) {
-      if(error === 'session-expired') {
-        setCommonError('Session Expired')
+    const error = searchParams.get("error");
+    if (error) {
+      if (error === "session-expired") {
+        setCommonError("Session Expired");
       }
     }
-  }, [])
+
+    if (searchParams.get("logout")) {
+      sessionStorage.removeItem("TOKEN");
+      sessionStorage.removeItem("ROLE");
+    }
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -71,7 +69,7 @@ export default function SignIn() {
         navigate("/home");
       })
       .catch((error) => {
-        setShowErrorMessage(true)
+        setShowErrorMessage(true);
       });
   };
 
@@ -89,115 +87,164 @@ export default function SignIn() {
   const forgotPassword = () => {
     if (formData.gymID.trim() === "") {
       MySwal.fire("ERROR", "Gym ID is required", "error");
-    }else{
+    } else {
       getforgotPassword(formData).then((response) => {
-        MySwal.fire("success!", "Password reset process will recived via email", "success")
-      }
-        
-      )
+        MySwal.fire(
+          "success!",
+          "Password reset process will recived via email",
+          "success"
+        );
+      });
     }
-
-  }
+  };
 
   return (
-    <Container component="main"  >
-      <CssBaseline />
-      <Box
-        sx={{
-          marginTop: 20,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingTop: 1,
-          padding: 3,
-          borderRadius: "10px",
-        }}
+    <Box
+      sx={{
+        position: "relative",
+        "&:before": {
+          content: '""',
+          background: "radial-gradient(#d2f1df, #d3d7fa, #bad8f4)",
+          backgroundSize: "400% 400%",
+          animation: "gradient 15s ease infinite",
+          position: "absolute",
+          height: "100%",
+          width: "100%",
+          opacity: "0.3",
+        },
+      }}
+      component={"form"}
+      onSubmit={handleSubmit}
+    >
+      <Grid
+        container
+        spacing={0}
+        justifyContent="center"
+        sx={{ height: "100vh" }}
       >
-       <Avatar
-          sx={{ width: 200, height: 200 }}
-          alt="Remy Sharp"
-          src="logo.png"
-        ></Avatar>
-        <Typography component="h1" variant="h2" color="#fff">
-        <strong>Nutri-Pal</strong>
-        </Typography>
-        {showErrorMessage && (
-          <Alert
-            color="error"
-            icon={<Report />}
-            onClose={() => setShowErrorMessage(false)}
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          lg={4}
+          xl={3}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Card
+            elevation={9}
+            sx={{ p: 4, zIndex: 1, width: "100%", maxWidth: "500px" }}
           >
-            Invalid Gym ID or Password
-          </Alert>
-        )}
-        {commonError && (
-          <Alert
-            color="error"
-            icon={<Report />}
-            onClose={() => setCommonError("")}
-          >
-            {commonError}
-          </Alert>
-        )}
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1}}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            hiddenLabel
-            id="gymID"
-            placeholder ="Gym ID"
-            name="gymID"
-            autoComplete="gymID"
-            autoFocus
-            value={formData.gymID}
-            onChange={handleFormValueChange}
-            error={formErrorMessages.gymID !== ""}
-            helperText={formErrorMessages.gymID}
-            InputProps={{
-              style: {
-                borderRadius: "20px",
-                border: "1px solid white",
-              }
-            }}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            placeholder ="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={formData.password}
-            onChange={handleFormValueChange}
-            error={formErrorMessages.password !== ""}
-            helperText={formErrorMessages.password}
-            InputProps={{
-              style: {
-                borderRadius: "20px",
-                border: "1px solid white",
-              }
-            }}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2,borderRadius: "20px",p:2,fontSize:"20px"}}
-          >
-            Log In
-          </Button>
-          <Grid container>
-            <Grid item >
-              <Link variant="body2" color="#fff" onClick={forgotPassword}>
-                Forgot password? Click Here
-              </Link>
-            </Grid>
-          </Grid>
-        </Box>
-      </Box>
-    </Container>
+            <Box display="flex" alignItems="center" justifyContent="center">
+              <Logo />
+            </Box>
+
+            <Box>
+              {showErrorMessage && (
+                <Alert
+                  sx={{ display: "flex", alignItems: "center" }}
+                  color="error"
+                  icon={<Report />}
+                  onClose={() => setShowErrorMessage(false)}
+                >
+                  Invalid Gym ID or Password
+                </Alert>
+              )}
+              {commonError && (
+                <Alert
+                  sx={{ display: "flex", alignItems: "center" }}
+                  color="error"
+                  icon={<Report />}
+                  onClose={() => setCommonError("")}
+                >
+                  {commonError}
+                </Alert>
+              )}
+            </Box>
+
+            <Stack>
+              <Box>
+                <Typography
+                  variant="subtitle1"
+                  fontWeight={600}
+                  component="label"
+                  htmlFor="username"
+                  mb="5px"
+                >
+                  Username
+                </Typography>
+                <CustomTextField
+                  variant="outlined"
+                  fullWidth
+                  autoFocus
+                  value={formData.gymID}
+                  onChange={handleFormValueChange}
+                  error={formErrorMessages.gymID !== ""}
+                  helperText={formErrorMessages.gymID}
+                  placeholder="Gym ID"
+                  name="gymID"
+                  autoComplete="gymID"
+                  required
+                />
+              </Box>
+              <Box mt="25px">
+                <Typography
+                  variant="subtitle1"
+                  fontWeight={600}
+                  component="label"
+                  htmlFor="password"
+                  mb="5px"
+                >
+                  Password
+                </Typography>
+                <CustomTextField
+                  type="password"
+                  variant="outlined"
+                  fullWidth
+                  value={formData.password}
+                  onChange={handleFormValueChange}
+                  error={formErrorMessages.password !== ""}
+                  helperText={formErrorMessages.password}
+                  name="password"
+                  placeholder="Password"
+                  autoComplete="current-password"
+                  required
+                />
+              </Box>
+              <Stack
+                justifyContent="flex-end"
+                direction="row"
+                alignItems="center"
+                my={2}
+              >
+                <Typography
+                  fontWeight="500"
+                  sx={{
+                    textDecoration: "none",
+                    color: "primary.main",
+                    cursor: "pointer",
+                  }}
+                  onClick={forgotPassword}
+                >
+                  Forgot Password ?
+                </Typography>
+              </Stack>
+            </Stack>
+            <Box>
+              <Button
+                color="primary"
+                variant="contained"
+                size="large"
+                fullWidth
+                type="submit"
+              >
+                Sign In
+              </Button>
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
