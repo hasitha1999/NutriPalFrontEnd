@@ -58,6 +58,9 @@ const DailyLogs = () => {
   const [user,setUser] = useState({})
   const [initialData, setInitialData] = useState({})
   const [isButtonLoading, setIsButtonLoading] = React.useState(false);
+  const [calorie,setCalorie] = React.useState(0)
+  const [water,setWater] = React.useState(0)
+  const [weight,setWeight] = React.useState(0)
 
         const handleChange = (event) => {
           setlog((prevState) => ({
@@ -186,7 +189,7 @@ const DailyLogs = () => {
     let payLoad = {
       logId : initialData?.logId,
       logType : logType,
-      userInput : initialData?.userInput + amount,
+      userInput : amount,
       weight : initialData?.weight
     }
     setIsButtonLoading(true)
@@ -328,7 +331,7 @@ const DailyLogs = () => {
                     sx={{ border: "1px solid #878787", height: "140px" }}
                   >
 
-                    <Input inputProps={{style: {fontSize:40,textAlign: 'center' },disableUnderline: true }} endAdornment={<span style={{fontSize:30}}>kg</span>} placeholder={profileInfo?.weight}/>
+                    <Input onChange={(e)=>setWeight(previousValue=> previousValue = e.target.value)} inputProps={{style: {fontSize:40,textAlign: 'center' },disableUnderline: true }} endAdornment={<span style={{fontSize:30}}>kg</span>} placeholder={profileInfo?.weight}/>
                     <Typography
                       variant="h6"
                       sx={{ margin: "15px 0px 0px 15px" }}
@@ -412,7 +415,7 @@ const DailyLogs = () => {
                   size="medium"
                   sx={{ bgcolor: "#8A47EB", color: "#fff" }}
                   value="50"
-                  //   onClick={save}
+                  onClick={()=>sendUserInputs(weight, 'Weight')}
                 >
                   Save details
                 </Button>
@@ -477,7 +480,7 @@ const DailyLogs = () => {
                     sx={{ border: "1px solid #878787", height: "140px" }}
                   >
 
-                    <Input inputProps={{style: {fontSize:40,textAlign: 'center' },disableUnderline: true }} endAdornment={<span style={{fontSize:30}}>kCal</span>} placeholder={0}/>
+                    <Input onChange={(e)=>setCalorie(previousValue => previousValue = e.target.value)} inputProps={{style: {fontSize:40,textAlign: 'center' },disableUnderline: true }} endAdornment={<span style={{fontSize:30}}>kCal</span>} placeholder={0}/>
                     <Typography
                       variant="h6"
                       sx={{ margin: "15px 0px 0px 15px" }}
@@ -561,7 +564,7 @@ const DailyLogs = () => {
                   size="medium"
                   sx={{ bgcolor: "#8A47EB", color: "#fff" }}
                   value="50"
-                  //   onClick={save}
+                    onClick={()=>sendUserInputs(calorie, 'Calorie')}
                 >
                   Save details
                 </Button>
@@ -621,7 +624,7 @@ const DailyLogs = () => {
                     sx={{ border: "1px solid #878787", height: "140px" }}
                   >
 
-                    <Input inputProps={{style: {fontSize:40,textAlign: 'center' },disableUnderline: true }} endAdornment={<span style={{fontSize:30}}>Ltr</span>} placeholder={0}/>
+                    <Input onChange={(e)=>setWater(previousValue => previousValue=e.target.value)} inputProps={{style: {fontSize:40,textAlign: 'center' },disableUnderline: true }} endAdornment={<span style={{fontSize:30}}>Ltr</span>} placeholder={0}/>
                     <Typography
                       variant="h6"
                       sx={{ margin: "15px 0px 0px 15px" }}
@@ -705,7 +708,7 @@ const DailyLogs = () => {
                   size="medium"
                   sx={{ bgcolor: "#8A47EB", color: "#fff" }}
                   value="50"
-                    onClick={()=>sendUserInputs(80, 'Water')}
+                    onClick={()=>sendUserInputs(water, 'Water')}
                 >
                   Save details
                 </Button>

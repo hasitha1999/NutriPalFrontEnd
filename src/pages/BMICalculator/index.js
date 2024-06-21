@@ -27,7 +27,6 @@ const NutritionMeter = () => {
     borderBottom : '0.2px dotted #747575'
   }
   const [showWarning, setShowWarning] = useState(false);
-  const unitTypes = {10:"g"}
   const [serving,setServing] = useState(1);
   const [totalNutrient,setTotalNutrient] = useState({});
   const [itemList, setItemList] = useState([])
@@ -36,7 +35,7 @@ const NutritionMeter = () => {
   const addItemToList = (newItem) => {
     setItemList((prevItemList) => {
      let newState =  [...prevItemList]
-     let recreatedItem = newItem.amount +" "+ unitTypes[newItem.unitType]+" " + newItem.name;
+     let recreatedItem = newItem.amount +" "+ newItem.unitType+" " + newItem.name;
      newState.push(recreatedItem);
      return newState;
     });
@@ -80,14 +79,7 @@ const NutritionMeter = () => {
                 >
                   Search Item
                 </CustomButton>
-              <CustomButton
-                variant="contained"
-                color="error"
-                onClick={removeAllItem}
-                fullWidth
-              >
-                Clear All
-              </CustomButton>
+              
           </Stack>
           {Object.keys(totalNutrient).length > 0?
           <CustomPaper elevation={24}>
