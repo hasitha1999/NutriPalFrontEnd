@@ -10,7 +10,7 @@ const MealPlanCard = (props) => {
     <div><Card sx={{ maxWidth: 345, background:'#bfffde' }}>
     <CardHeader
         sx={{textAlign:'center'}}
-        title={props.itemData.Name} 
+        title={props.itemData.label} 
     />
     <CardContent sx={{height:150, overflow:'hidden'}}>
       <Typography>Calories <span style={{float:"inline-end"}}>{props.itemData.Calories} kCal</span></Typography>

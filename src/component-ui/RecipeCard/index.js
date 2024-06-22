@@ -49,18 +49,6 @@ const RecipeCard = (props) =>{
        MySwal.fire("ERROR", "Please contact admin", "error");
     });
   }
-
-  // useEffect(()=>{contentBuilder()},[])
-
-  // const contentBuilder =() =>{
-  //   for (let index = 0; index < 5; index++) {
-  //       setContent((prevState) => ({
-  //           ...prevState,
-  //           [props.itemData.digest[index].label]: props.itemData.digest[index].label,
-  //         }));
-      
-  //   }
-  // }
   const handleSearch = (searchTerm) => {
     if (searchTerm.trim()) {
       const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchTerm)}`;
@@ -70,17 +58,17 @@ const RecipeCard = (props) =>{
 
     return (
         <>
-        <Card sx={{ maxWidth: 345, background:'#bfffde' }}>
+        <Card sx={{ maxWidth: 360, background:'#E8F7FF',minHeight:400 }}>
             <CardHeader
-                sx={{textAlign:'center'}}
+                sx={{textAlign:'center',minHeight: 100 }}
                 title={props.title} 
             />
             <CardMedia
-                sx={{ height: 140 }}
+                sx={{ minHeight: 150 }}
                 image={props.image}
                 title="green iguana"
             />
-            <CardContent sx={{height:120, overflow:'hidden'}}>
+            <CardContent sx={{minHeight:120, overflow:'hidden'}}>
                 {props.itemData.digest.map((item,index)=>{
                   if(index < 4){
                       return <Typography>{item.label}<span style={{float:"inline-end"}}>{(item.total/serving).toFixed(2)}{item.unit}</span></Typography>

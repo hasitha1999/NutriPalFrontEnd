@@ -7,7 +7,10 @@ const Widget = (props) =>{
     return(
         <WidgetTheme>
             <div>
-                <img src={props.imgSrc} alt="Example" className="responsive-img"/>
+                {props.hasImage == true?
+                    <img src={props.imgSrc} alt="Example" className="responsive-img"/> :""
+                }
+                
                 <Typography className="main-header">{props.mainTitle}</Typography>
                 <Typography className="title-header">{props.value}</Typography>
             </div>

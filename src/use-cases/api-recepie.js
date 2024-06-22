@@ -8,3 +8,5 @@ export const saveRecepie = (Data) => server.post(process.env.REACT_APP_API_BASE_
 export const savedSearchRecepieApi = (searchData) => server.get(`https://api.edamam.com/api/recipes/v2/by-uri?type=public&uri=${encodeURIComponent(searchData)}&app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9`);
 
 export const getAllsavedRecepie = () => server.post(process.env.REACT_APP_API_BASE_URL + '/recipe/getAllSavedRecipes');
+
+export const searchMealApi = (searchData) => server.get(`https://api.edamam.com/search?app_id=900da95e&app_key=40698503668e0bb3897581f4766d77f9&cuisineType=Indian&nutrients%5BPROCNT%5D=${searchData.ProteinMin}-${searchData.ProteinMax}&nutrients%5BCHOCDF%5D=${searchData.CarbsMin}-${searchData.CarbsMax}&nutrients%5BFAT%5D=${searchData.FatMin}-${searchData.FatMax}&q=${searchData.q}`);

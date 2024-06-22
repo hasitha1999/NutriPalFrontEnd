@@ -16,15 +16,11 @@ const HomePage = () => {
   const MySwal = withReactContent(Swal);
 
     const getCurrentDateFormatted = ()=> {
-        // Get current date
         const currentDate = new Date();
-
-        // Extract year, date and month
         const year = currentDate.getFullYear();
         const day = String(currentDate.getDate()).padStart(2, '0');
         const month = String(currentDate.getMonth() + 1).padStart(2, '0');
 
-        // Format the date
         return `${year}-${day}-${month}`;
     }
     const [category,setCategory] = useState();
@@ -66,10 +62,10 @@ const HomePage = () => {
 
         <CustomPaper style={{width:'90%'}}>
             <Stack direction="row">
-                <Widget imgSrc="/img/Dashboard/water.png" mainTitle="Water" value="90" ></Widget>
-                <Widget imgSrc="/img/Dashboard/weight.png" mainTitle="Weight" value="90"></Widget>
-                <Widget imgSrc="/img/Dashboard/bmi.png" mainTitle="BMI" value="90"></Widget>
-                <Widget imgSrc="/img/Dashboard/calories.png" mainTitle="Calories " value="90"></Widget>
+                <Widget imgSrc="/img/Dashboard/water.png" mainTitle="2500 kCal" value="90" hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/weight.png" mainTitle="45 g" value="90" hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/bmi.png" mainTitle="139-202 g" value="90" hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/calories.png" mainTitle="32-135 g " value="90" hasImage={true}></Widget>
             </Stack>
         </CustomPaper>
 
