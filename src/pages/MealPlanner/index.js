@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Typography from '@mui/material/Typography';
-import { Box, Button, Grid, InputAdornment, Stack, TextField } from "@mui/material";
+import { Box, Button, Grid, InputAdornment, Stack, TextField, styled } from "@mui/material";
 import MealPlanCard from "../../component-ui/MealPlanCard";
 import Widget from "../../component-ui/Widget";
 import { CustomPaper } from "../../theme/CustomThemeComponents";
@@ -8,6 +8,14 @@ import RangeInput from "../../component-ui/RangeInput";
 import { searchMealApi } from "../../use-cases/api-recepie";
 import RecipeCard from "../../component-ui/RecipeCard";
 import { CustomTextField } from "../../component-ui/CustomTextField/CustomTextField";
+
+const CustomButton = styled((props) => <Button {...props} />)(
+  ({ theme }) => ({
+      backgroundColor:theme.palette.grey[500]
+  })
+);
+
+
 
 const MealPlanner = () => {
   const [searchResult,setSearchResult] = useState([]);
@@ -87,10 +95,11 @@ const MealPlanner = () => {
           </Stack>
         </Box>
         <div style={{display:'flex', justifyContent:'flex-end'}}>
-            <Button variant="contained" color="warning" onClick={getRecipie} sx={{ml:2,width:"5vw"}} >
-                Reset
-            </Button>
-            <Button variant="contained" color="info" onClick={getRecipie} sx={{ml:2,width:"5vw"}}>
+
+            <CustomButton variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw"}}>
+            Reset
+            </CustomButton>
+            <Button variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw"}} >
                 Generate
             </Button>
           </div>
