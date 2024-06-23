@@ -1,24 +1,34 @@
 import React, { useState } from "react";
 import Typography from '@mui/material/Typography';
-import { Box, Button, Grid, InputAdornment, TextField } from "@mui/material";
-import { getPrediction } from "../../use-cases/get-mealplaner";
+import { Box, Button, Grid, InputAdornment, Stack, TextField, styled } from "@mui/material";
 import MealPlanCard from "../../component-ui/MealPlanCard";
+import Widget from "../../component-ui/Widget";
+import { CustomPaper } from "../../theme/CustomThemeComponents";
+import RangeInput from "../../component-ui/RangeInput";
+import { searchMealApi } from "../../use-cases/api-recepie";
+import RecipeCard from "../../component-ui/RecipeCard";
+import { CustomTextField } from "../../component-ui/CustomTextField/CustomTextField";
+
+const CustomButton = styled((props) => <Button {...props} />)(
+  ({ theme }) => ({
+      backgroundColor:theme.palette.grey[500]
+  })
+);
+
+
 
 const MealPlanner = () => {
   const [searchResult,setSearchResult] = useState([]);
-  const [error,setError] = useState(false);
-    const [request,setRequest] = useState({ Calories:0,
-        FatContent: 0,
-        SaturatedFatContent: 0,
-        CholesterolContent: 0,
-        SodiumContent: 0,
-        CarbohydrateContent: 0,
-        FiberContent: 0,
-        SugarContent: 0,
-        ProteinContent: 0});
+  const [error,setError] = useState(true);
+    const [request,setRequest] = useState({CarbsMax:"400",
+      CarbsMin:"10",
+      FatMax:"50",
+      FatMin: "0",
+      ProteinMax:"300",
+      ProteinMin:"0",});
 
     const handleChange = (event) => {
-      setError(true);
+      setError(false);
         setRequest((prevState) => ({
           ...prevState,
           [event.target.name]: event.target.value,
@@ -27,166 +37,77 @@ const MealPlanner = () => {
 
 
     const getRecipie = () => {
-
-      var bodyFormData = new FormData();
-      bodyFormData.append("Calories",request.Calories);
-      bodyFormData.append("FatContent",request.FatContent);
-      bodyFormData.append("SaturatedFatContent",request.SaturatedFatContent);
-      bodyFormData.append("CholesterolContent",request.CholesterolContent);
-      bodyFormData.append("SodiumContent",request.SodiumContent);
-      bodyFormData.append("CarbohydrateContent",request.CarbohydrateContent);
-      bodyFormData.append("FiberContent",request.FiberContent);
-      bodyFormData.append("SugarContent",request.SugarContent);
-      bodyFormData.append("ProteinContent",request.ProteinContent); 
-      if(error){
-        getPrediction(bodyFormData).then((res)=>{
-          let data = JSON.parse(res.data.replaceAll("NaN","0"));
-          setSearchResult(data);
+        searchMealApi(request).then((res)=>{
+          setSearchResult(res.data.hits);
           });
-      }
+      
     }
+    const getCurrentDateFormatted = ()=> {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const day = String(currentDate.getDate()).padStart(2, '0');
+      const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+
+      return `${year}-${day}-${month}`;
+  }
   return (
     <div>
-        <Typography variant="h3" sx={{margin:'15px 0px 0px 20px'}}>Meal Planner</Typography>
-        <Box sx={{ m:10}}>
-          <Grid container spacing={3}>
-            <Grid xs={12} md={3} sx={{ mr:2 }}>
-            Calories
-              <TextField
-                fullWidth
-                name="Calories"
-                onChange={handleChange}
-                required
-                type="number"
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">kCal</InputAdornment>
-                  }}
+        <CustomPaper style={{width:'90%'}}>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography className="main-header">Meal Planner</Typography>
+                <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
+            </Stack>
+        </CustomPaper>
+
+            <Stack direction="row">
+                <Widget  mainTitle="2500 kCal" value="calories per day"  hasImage={false}></Widget>
+                <Widget  mainTitle="45 g" value="fat per day" hasImage={false}></Widget>
+                <Widget  mainTitle="139-202 g" value="carbs per day" hasImage={false}></Widget>
+                <Widget  mainTitle="32-135 g " value="proteins per day" hasImage={false}></Widget>
+ 
+            </Stack>
+            <Stack direction="row">
+            <Typography sx={{m:2}}>Ingrediants You Have</Typography>
+              <CustomTextField
+                  fullWidth
+                  name="q"
+                  onChange={handleChange}
+                  required
+                  type="text"
+                />
+            </Stack>
+
+        <Box sx={{display:'flex', justifyContent:'center'}}>
+       
+        <Stack >
+              <RangeInput
+                name="Carbs"
+                handleChange ={handleChange}
               />
-            </Grid>
-            <Grid xs={12} md={3} sx={{ mr:2 }}>
-             Fat Content
-              <TextField
-                fullWidth
-                name="FatContent"
-                type="number"
-                onChange={handleChange}
-                required
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
-                  }}
+              <RangeInput
+                name="Fat"
+                handleChange ={handleChange}
               />
-            </Grid>
-            <Grid xs={12} md={3} sx={{ mr:2 }}>
-            SaturatedFat Content
-              <TextField
-                fullWidth
-                type="number"
-                name="SaturatedFatContent"
-                onChange={handleChange}
-                required
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
-                  }}
+              <RangeInput
+                name="Protein"
+                handleChange ={handleChange}
               />
-            </Grid>
-            
-        </Grid>
-        <Grid container spacing={3} sx={{ mt:3}}>
-            <Grid xs={12} md={3} sx={{ mr:2}}>
-            Cholesterol Content
-              <TextField
-                fullWidth
-                type="number"
-                name="CholesterolContent"
-                onChange={handleChange}
-                required
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">mg</InputAdornment>
-                  }}
-              />
-            </Grid>
-            <Grid xs={12} md={3} sx={{ mr:2}}>
-            Sodium Content
-              <TextField
-                fullWidth
-                type="number"
-                name="SodiumContent"
-                onChange={handleChange}
-                required
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">mg</InputAdornment>
-                  }}
-              />
-            </Grid>
-            <Grid xs={12} md={3} sx={{ mr:2 }}>
-            Carbohydrate Content
-              <TextField
-                fullWidth
-                type="number"
-                name="CarbohydrateContent"
-                onChange={handleChange}
-                required
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
-                  }}
-              />
-            </Grid>
-            
-          </Grid>
-          <Grid container spacing={3} sx={{ mt:3}}>
-            <Grid xs={12} md={3} sx={{ mr:2}}>
-            Fiber Content
-              <TextField
-                fullWidth
-                type="number"
-                name="FiberContent"
-                onChange={handleChange}
-                required
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
-                  }}
-              />
-            </Grid>
-            <Grid xs={12} md={3} sx={{ mr:2}}>
-            Sugar Content
-              <TextField
-                fullWidth
-                type="number"
-                name="SugarContent"
-                onChange={handleChange}
-                required
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
-                  }}
-              />
-            </Grid>
-            <Grid xs={12} md={3} sx={{ mr:2 }}>
-            Protein Content
-              <TextField
-                fullWidth
-                type="number"
-                name="ProteinContent"
-                onChange={handleChange}
-                required
-                InputProps={{
-                    endAdornment : <InputAdornment position="end">g</InputAdornment>
-                  }}
-              />
-            </Grid>
-            
-          </Grid>
-          <div style={{display:'flex', justifyContent:'flex-end'}}>
-            <Button variant="contained" color="success" onClick={getRecipie}>
-                Submit
+          </Stack>
+        </Box>
+        <div style={{display:'flex', justifyContent:'flex-end'}}>
+
+            <CustomButton variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw"}}>
+            Reset
+            </CustomButton>
+            <Button variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw"}} >
+                Generate
             </Button>
           </div>
-
-        </Box>
-        <Box sx={{ flexGrow: 1, width: '90%', margin:'5px auto' }}>
+        <Box sx={{ flexGrow: 1, width: '90%', marginTop:'15px' }}>
             <Grid container spacing={{ xs: 2, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                {searchResult.map((itemData,index)=>(
+                {searchResult.map((item,index)=>(
                     <Grid item xs={2} sm={4} md={3} key={index}>
-                        <MealPlanCard itemData={itemData}/>
+                        <RecipeCard title={item.recipe.label} image={item.recipe.image} itemData={item.recipe}/>
                     </Grid>
                 ))}
             </Grid>

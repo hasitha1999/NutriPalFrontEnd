@@ -4,7 +4,6 @@ import {Gauge, gaugeClasses } from "@mui/x-charts";
 
 
 const GaugeChart = (props) =>{
-    const [colorCode, setColorCode] = React.useState("")
 
     console.log(props.level)
 

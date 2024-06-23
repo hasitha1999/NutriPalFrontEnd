@@ -6,14 +6,17 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
-import { Box, Divider, Grid, Modal, Stack } from '@mui/material';
+import { Box, Divider, Grid, IconButton, Modal, Stack, styled } from '@mui/material';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useState } from 'react';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useEffect } from 'react';
 import { CustomPaper, StackLayout } from '../../theme/CustomThemeComponents';
 import { Link } from 'react-router-dom';
 import { saveRecepie } from '../../use-cases/api-recepie';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import LocalDiningIcon from '@mui/icons-material/LocalDining';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -35,8 +38,11 @@ const style = {
     spacing : 2,
     borderBottom : '0.2px dotted #747575'
   }
-  
-
+  const CustomButton = styled((props) => <Button {...props} />)(
+    ({ theme }) => ({
+        backgroundColor:theme.palette.grey[500]
+    })
+  );
 const RecipeCard = (props) =>{
   const MySwal = withReactContent(Swal);
   const [open, setOpen] = useState(false);
@@ -49,18 +55,6 @@ const RecipeCard = (props) =>{
        MySwal.fire("ERROR", "Please contact admin", "error");
     });
   }
-
-  // useEffect(()=>{contentBuilder()},[])
-
-  // const contentBuilder =() =>{
-  //   for (let index = 0; index < 5; index++) {
-  //       setContent((prevState) => ({
-  //           ...prevState,
-  //           [props.itemData.digest[index].label]: props.itemData.digest[index].label,
-  //         }));
-      
-  //   }
-  // }
   const handleSearch = (searchTerm) => {
     if (searchTerm.trim()) {
       const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(searchTerm)}`;
@@ -70,27 +64,28 @@ const RecipeCard = (props) =>{
 
     return (
         <>
-        <Card sx={{ maxWidth: 345, background:'#bfffde' }}>
+        <Card elevation={2} sx={{backgroundImage:`url(${props.image})`}}>
+          <div>
             <CardHeader
-                sx={{textAlign:'center'}}
+                sx={{textAlign:'center',minHeight: 80 }}
                 title={props.title} 
             />
-            <CardMedia
-                sx={{ height: 140 }}
-                image={props.image}
-                title="green iguana"
-            />
-            <CardContent sx={{height:120, overflow:'hidden'}}>
+            <CardContent sx={{minHeight:80, overflow:'hidden'}}>
+            <Typography>Calories<span style={{float:"inline-end"}}>{1000}kCal</span></Typography>
                 {props.itemData.digest.map((item,index)=>{
-                  if(index < 4){
+                  if(index < 3){
                       return <Typography>{item.label}<span style={{float:"inline-end"}}>{(item.total/serving).toFixed(2)}{item.unit}</span></Typography>
                   }
                 })}
             </CardContent>
             <CardActions sx={{justifyContent: 'flex-end' }}>
-                <Button size="small" color="success" variant="contained" onClick={addToSave}>Add</Button>
-                <Button size="small" color="success" variant="contained" onClick={handleOpen}>Read More</Button>
+                <IconButton aria-label="add to favorites" color="error">
+                  <FavoriteIcon />
+                </IconButton>
+                <IconButton color="black" onClick={addToSave}><LocalDiningIcon/></IconButton>
+                <IconButton color="black" onClick={handleOpen}><ReadMoreIcon/></IconButton>
             </CardActions>
+          </div>
         </Card>
         <Modal
         open={open}

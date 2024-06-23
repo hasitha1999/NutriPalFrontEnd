@@ -8,10 +8,14 @@ const Widget = (props) =>{
 
         <WidgetTheme>
             <div>
-                <img src={props.imgSrc} alt="Example" className="responsive-img"/>
+
+                {props.hasImage === true?
+                    <img src={props.imgSrc} alt="Example" className="responsive-img"/> :""
+                }
                 <Tooltip title={props.tooltipTitle}>
                     <Typography className="main-header">{props.mainTitle}</Typography>
                 </Tooltip>
+
                 <Typography className="title-header">{props.value}</Typography>
             </div>
         </WidgetTheme>

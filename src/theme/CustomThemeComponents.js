@@ -1,10 +1,9 @@
+import React from "react";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import {Divider} from "@mui/material";
-
 
 export const CustomButton = styled(Button)(({ theme }) => ({
     fontSize: '1.25rem',
@@ -71,7 +70,7 @@ export const StackLayout = ({ parameter1,stylePack , titleClass='title-header', 
 };
 
 export const WidgetTheme =  styled(Paper)(({theme}) =>({
-    background: 'rgba(131, 75, 255, 0.5)',
+    background:theme.palette.secondary.light,
     padding : '10px 10px',
     margin : '20px auto',
     width : '20%',
@@ -83,7 +82,7 @@ export const WidgetTheme =  styled(Paper)(({theme}) =>({
     '& .title-header' : {
         fontSize: '1rem',
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 400
     },
     '& .responsive-img' : {
         width: '20%',

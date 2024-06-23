@@ -19,15 +19,11 @@ const HomePage = () => {
   const MySwal = withReactContent(Swal);
 
     const getCurrentDateFormatted = ()=> {
-        // Get current date
         const currentDate = new Date();
-
-        // Extract year, date and month
         const year = currentDate.getFullYear();
         const day = String(currentDate.getDate()).padStart(2, '0');
         const month = String(currentDate.getMonth() + 1).padStart(2, '0');
 
-        // Format the date
         return `${year}-${day}-${month}`;
     }
 
@@ -79,10 +75,12 @@ const HomePage = () => {
 
         <CustomPaper style={{width:'90%'}}>
             <Stack direction="row">
-                <Widget imgSrc="/img/Dashboard/water.png" mainTitle="BMR" value={`${statisticDataList.bmr?.toFixed(2)} kCal`} tooltipTitle="Basic Metabolic Rate"></Widget>
-                <Widget imgSrc="/img/Dashboard/weight.png" mainTitle="TDEE" value={statisticDataList.tdee?.toFixed(2)} tooltipTitle="Total Daily Energy Expenditure"></Widget>
-                <Widget imgSrc="/img/Dashboard/bmi.png" mainTitle="Water Intake" value={`${statisticDataList.waterIntake?.toFixed(2)/1000}L`}></Widget>
-                <Widget imgSrc="/img/Dashboard/calories.png" mainTitle="BMI" value={`${statisticDataList.bmi?.toFixed(2)}`}  tooltipTitle="Body Mass Index"></Widget>
+
+                <Widget imgSrc="/img/Dashboard/water.png" mainTitle="BMR" value={`${statisticDataList.bmr?.toFixed(2)} kCal`} tooltipTitle="Basic Metabolic Rate" hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/weight.png" mainTitle="TDEE" value={statisticDataList.tdee?.toFixed(2)} tooltipTitle="Total Daily Energy Expenditure" hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/bmi.png" mainTitle="Water Intake" value={`${statisticDataList.waterIntake?.toFixed(2)/1000}L`} hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/calories.png" mainTitle="BMI" value={`${statisticDataList.bmi?.toFixed(2)}`}  tooltipTitle="Body Mass Index" hasImage={true}></Widget>
+
             </Stack>
         </CustomPaper>
 

@@ -37,7 +37,7 @@ const Auth = (props) => {
         if (error.response?.status === 403) {
           sessionStorage.removeItem("TOKEN");
           sessionStorage.removeItem("ROLE");
-          navigate("/login");
+          navigate("/");
         } else if (error.response.status === 404) {
           setGlobalError("Not Found");
         } else if (error.response.status !== 400) {

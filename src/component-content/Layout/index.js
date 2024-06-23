@@ -22,17 +22,6 @@ const PageWrapper = styled("div")(() => ({
 
 const Layout = (props) => {
   const role = sessionStorage.getItem("ROLE");
-  const menuRoutes = routeConfig.filter(
-    (route) =>
-      route.menu && route?.roles?.find((routeRole) => routeRole === role)
-  );
-
-  const navigate = useNavigate();
-
-  const handleRoute = (path) => {
-    navigate(path);
-  };
-
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [isMobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
