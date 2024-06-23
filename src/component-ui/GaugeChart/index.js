@@ -8,8 +8,6 @@ const GaugeChart = (props) =>{
     const propValueCalculator = () =>{
         if (props.value != 0){
             
-
-
         }
     }
     return(
