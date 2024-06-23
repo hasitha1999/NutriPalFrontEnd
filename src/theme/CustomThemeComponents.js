@@ -27,6 +27,12 @@ export const CustomPaper = styled(Paper) (({theme}) =>({
         fontSize: '1.25rem',
         fontWeight: 'bold'
     },
+
+    '& .sub-gray-header' : {
+        fontSize: '1.2rem',
+
+        color: '#71797E'
+    },
     '& .title-header' : {
         fontSize: '1rem',
         fontWeight: 'bold'
@@ -36,6 +42,13 @@ export const CustomPaper = styled(Paper) (({theme}) =>({
         fontWeight: 'bold',
         textAlign: 'center'
     },
+    '& .responsive-title-img' : {
+        width: '20%',
+        height: 'auto',
+        // maxWidth: '100%',
+        // margin: '0 auto',
+        display: 'block'
+    }
 
 }))
 

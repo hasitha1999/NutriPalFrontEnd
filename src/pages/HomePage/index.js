@@ -8,7 +8,10 @@ import Stack from "@mui/material/Stack";
 import GaugeChart from "../../component-ui/GaugeChart";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-
+import PieChartComponent from "../../component-ui/PieChartComponent";
+import {getPieChartData} from "../../use-cases/get-pie-chart-data";
+import  {getGaugeChartData} from "../../use-cases/get-gauge-chart-data";
+import {getStatisticDashboardData} from "../../use-cases/get-statistic-dashboard-data";
 
 
 const HomePage = () => {
@@ -23,34 +26,43 @@ const HomePage = () => {
 
         return `${year}-${day}-${month}`;
     }
-    const [category,setCategory] = useState();
-    const [profileInfo,setProfileInfo] = useState({weight:285,height:180,gender:1,activeLevel:2,goal:"Weight Loss",firstName:"Hasitha",lastName:"Lakmal",useId:"1560",email:"hasithalakmal@gmail.com",dob:"1999/06/17",});
-    const [bmiColor,setBMIColor] = useState();
-    const [bmi,setBMI] = useState(0);
+
+
+    const [pieChartDataList, setPieChartDataList] = useState([]);
+    const [gaugeChartDataList, setGaugeChartDataList] = useState([]);
+    const [statisticDataList, setStatisticDataList] = useState({});
 
     useEffect(()=>{
-        BMICalculator()
+        getPieChartDataList()
+        getGaugeChartDataList()
+        statisticData()
+
     },[])
-    const BMICalculator = () => {
-        let bmivalue = Math.round(profileInfo.weight*10/((profileInfo.height/100) ** 2))/10
-        setBMI(bmivalue);
-        if (bmivalue > 40) {
-            setCategory("extreme obese")
-            setBMIColor("#fe4d01")
-        } else if (bmivalue > 30) {
-            setCategory("obese")
-            setBMIColor("orange")
-        } else if (bmivalue > 25) {
-            setCategory("over weight")
-            setBMIColor("#B5970a")
-        } else if (bmivalue > 18.5) {
-            setCategory("normal")
-            setBMIColor("green")
-        } else {
-            setCategory("under weight")
-            setBMIColor("blue")
-        }
-    };
+
+    const getPieChartDataList = () =>{
+        getPieChartData().then((e)=>{
+            console.log(e)
+            if (e.data.length !==0) {
+                setPieChartDataList([...e.data])
+                console.log("pie", pieChartDataList);
+            }
+
+        })
+
+    }
+    const getGaugeChartDataList = () =>{
+        getGaugeChartData().then((e)=>{
+            console.log(e)
+            setGaugeChartDataList([...e.data])
+        })
+    }
+    const statisticData = () => {
+        getStatisticDashboardData().then((e) =>{
+            console.log(e);
+            setStatisticDataList({...e.data})
+        })
+    }
+
   return (
     <div>
         <CustomPaper style={{width:'90%'}}>
@@ -60,50 +72,49 @@ const HomePage = () => {
             </Stack>
         </CustomPaper>
 
+
         <CustomPaper style={{width:'90%'}}>
             <Stack direction="row">
-                <Widget imgSrc="/img/Dashboard/water.png" mainTitle="2500 kCal" value="90" hasImage={true}></Widget>
-                <Widget imgSrc="/img/Dashboard/weight.png" mainTitle="45 g" value="90" hasImage={true}></Widget>
-                <Widget imgSrc="/img/Dashboard/bmi.png" mainTitle="139-202 g" value="90" hasImage={true}></Widget>
-                <Widget imgSrc="/img/Dashboard/calories.png" mainTitle="32-135 g " value="90" hasImage={true}></Widget>
+
+                <Widget imgSrc="/img/Dashboard/water.png" mainTitle="BMR" value={`${statisticDataList.bmr?.toFixed(2)} kCal`} tooltipTitle="Basic Metabolic Rate" hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/weight.png" mainTitle="TDEE" value={statisticDataList.tdee?.toFixed(2)} tooltipTitle="Total Daily Energy Expenditure" hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/bmi.png" mainTitle="Water Intake" value={`${statisticDataList.waterIntake?.toFixed(2)/1000}L`} hasImage={true}></Widget>
+                <Widget imgSrc="/img/Dashboard/calories.png" mainTitle="BMI" value={`${statisticDataList.bmi?.toFixed(2)}`}  tooltipTitle="Body Mass Index" hasImage={true}></Widget>
+
             </Stack>
         </CustomPaper>
 
         <CustomPaper style={{width:'90%'}}>
+            <span className="second-header">Today Progress</span>
             <Grid
                 container
                 direction="row"
-                justifyContent="flex-start"
+                justifyContent="space-between"
                 alignItems="flex-start"
+                spacing={12}
             >
-                <Grid item xs>
-                    <Grid
-                        container
-                        direction="column"
-                        justifyContent="flex-start"
-                        alignItems="flex-start"
-                    >
-                    <GaugeChart title="Today Water Intake"/>
-                    <GaugeChart title="Today Calery Intake"/>
+                <Grid item xs={6} md={3} sx={{marginLeft:'40px', marginRight:'0px', marginTop:'10px'}}>
+                    <div className="sub-gray-header" style={{margin: '10px auto'}}>Calories</div>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <img className="responsive-title-img" src="/img/Dashboard/calorie.png" alt="calorie" />
+                        <div className="sub-header">{statisticDataList.totalCalorie} kCal</div>
+                    </div>
+                </Grid>
+
+                <Grid item xs={6} md={8}>
+                    <Grid container spacing={2} justifyContent="flex-end">
+                        {gaugeChartDataList.length !== 0 ?gaugeChartDataList.map((chartData, index) => <Grid item> <GaugeChart title={chartData.type} value={chartData.percentage} level={chartData.level}  key={index}/></Grid>):null}
                     </Grid>
                 </Grid>
 
-                <Grid item>
-
-                        <img
-                            width="150px"
-                            height="380px"
-                            src={`img/${category}_${profileInfo.gender === 1?"boy":"girl"}.webp`}
-                            alt="BMIImage"
-                        />
-                        <h2 style={{ margin: "2px", color: bmiColor }}>{category}</h2>
-                </Grid>
             </Grid>
+
         </CustomPaper>
 
 
-       <Box sx={{align:"center"}}>
-       </Box>
+        <CustomPaper style={{width:'90%'}}>
+            <PieChartComponent chartData={pieChartDataList} title="Total calorie intake"/>
+        </CustomPaper>
     </div>
   );
 }
