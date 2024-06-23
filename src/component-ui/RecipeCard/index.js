@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
-import { Box, Divider, Grid, IconButton, Modal, Stack, styled } from '@mui/material';
+import { Box, Divider, Grid, IconButton, Modal, Stack, Tooltip, styled } from '@mui/material';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useState } from 'react';
@@ -14,9 +14,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useEffect } from 'react';
 import { CustomPaper, StackLayout } from '../../theme/CustomThemeComponents';
 import { Link } from 'react-router-dom';
-import { saveRecepie } from '../../use-cases/api-recepie';
+import { recipeMarkAsEat, removeRecipe, saveRecepie } from '../../use-cases/api-recepie';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
+import DeleteIcon from '@mui/icons-material/Delete';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -48,12 +49,71 @@ const RecipeCard = (props) =>{
   const [open, setOpen] = useState(false);
   const [totalNutrient,setTotalNutrient] = useState(props.itemData.totalNutrients);
   const [serving,setServing] = useState(props.itemData.yield);
+  const [digest,setDigest] = useState(props.itemData.digest.slice(0, 3))
+  const [calories,setCalories] = useState(0);
+  console.log(props);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  useEffect(()=>{
+    caloriesCal(digest);
+  },[])
   const addToSave = () => {
-    saveRecepie({recipieURI:props.itemData.uri}).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
-       MySwal.fire("ERROR", "Please contact admin", "error");
+    let recipe = {image:props.image,title:props.title,itemData:JSON.stringify({digest:digest,calories:props.itemData.calories,yield:props.itemData.yield,totalNutrients:props.itemData.totalNutrients})}
+    MySwal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, save it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        saveRecepie(recipe).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
+          MySwal.fire("ERROR", "Please contact admin", "error");
+       });
+      }
     });
+
+  }
+  const RemoveFromSave = ()=>{
+    MySwal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Remove it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeRecipe({recipeId:props.recipeId}).then(()=>{
+          props.loadAllrecepie();
+          MySwal.fire("success!", "Successfully removed", "success");}
+        ).catch((e)=>{
+          MySwal.fire("ERROR", "Please contact admin", "error");
+       });
+      }
+    });
+  }
+  const markAsEat=()=>{
+    MySwal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes,I'm Eat it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        recipeMarkAsEat({digest:digest}).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
+          MySwal.fire("ERROR", "Please contact admin", "error");
+       });
+    
+      }
+    });
+    
   }
   const handleSearch = (searchTerm) => {
     if (searchTerm.trim()) {
@@ -62,28 +122,49 @@ const RecipeCard = (props) =>{
     }
   };
 
+  const caloriesCal = (digest) =>{
+    let calCount = 0
+    digest.map((item,index)=>{
+    if(item.label == "Fat"){
+      calCount = (item.total) * 9
+    }else{
+      calCount = (item.total) * 4
+    }
+    setCalories((prev)=>prev + calCount);
+      })
+  }
+
     return (
         <>
-        <Card elevation={2} sx={{backgroundImage:`url(${props.image})`}}>
-          <div>
+        <Card elevation={2} sx={{backgroundImage:`url(${props.image})`,minHeight:300}}>
+          <div style={{backgroundColor:"rgba(255, 255, 255, 0.7)",minHeight:300,display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
             <CardHeader
                 sx={{textAlign:'center',minHeight: 80 }}
                 title={props.title} 
             />
             <CardContent sx={{minHeight:80, overflow:'hidden'}}>
-            <Typography>Calories<span style={{float:"inline-end"}}>{1000}kCal</span></Typography>
-                {props.itemData.digest.map((item,index)=>{
-                  if(index < 3){
-                      return <Typography>{item.label}<span style={{float:"inline-end"}}>{(item.total/serving).toFixed(2)}{item.unit}</span></Typography>
-                  }
+            <Typography>Calories<span style={{float:"inline-end"}}>{(calories/serving).toFixed(2)}kCal</span></Typography>
+                {digest.map((item,index)=>{
+                    return <Typography>{item.label}<span style={{float:"inline-end"}}>{(item.total/serving).toFixed(2)}{item.unit}</span></Typography>
+                  
                 })}
             </CardContent>
-            <CardActions sx={{justifyContent: 'flex-end' }}>
-                <IconButton aria-label="add to favorites" color="error">
-                  <FavoriteIcon />
+            <CardActions sx={{justifyContent: 'flex-end'}}>
+
+              {props.itemData.digest.length > 4 ?<Tooltip title="Add to favorite" placement="bottom">
+                <IconButton  onClick={addToSave} color="black">
+                <FavoriteIcon />
                 </IconButton>
-                <IconButton color="black" onClick={addToSave}><LocalDiningIcon/></IconButton>
-                <IconButton color="black" onClick={handleOpen}><ReadMoreIcon/></IconButton>
+              </Tooltip>:
+              <Tooltip title="Remove from favorite" placement="bottom">
+                <IconButton  onClick={RemoveFromSave} color="error">
+                    <DeleteIcon/>
+                </IconButton>
+              </Tooltip>}
+              <Tooltip title="Mark as Eat" placement="bottom">
+                <IconButton color="black" onClick={markAsEat}><LocalDiningIcon/></IconButton></Tooltip>
+                <Tooltip title="Read More" placement="bottom">
+                <IconButton color="black" onClick={handleOpen}><ReadMoreIcon/></IconButton></Tooltip>
             </CardActions>
           </div>
         </Card>
@@ -99,7 +180,7 @@ const RecipeCard = (props) =>{
           {props.title}
           </Typography>
           <CustomPaper elevation={24}>
-          <Typography className="second-header">Amount Per Serving<span style={{float:"inline-end"}}>{(props.itemData.calories/serving).toFixed(2)} kCal</span></Typography>
+          <Typography className="second-header">Amount Per Serving<span style={{float:"inline-end"}}>{(calories/serving).toFixed(2)} kCal</span></Typography>
           <Divider/>
           <Stack justifyContent="space-between" style={{marginTop: "10px"}}>
 

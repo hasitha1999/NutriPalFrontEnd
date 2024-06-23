@@ -37,18 +37,11 @@ const RecepieGenarator = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [searchData,setSearchData] = useState({});
     const [searchResult,setSearchResult] = useState([]);
-    const [uriList,setURIList] = useState();
+    const [isNotSearch,setIsNotSearch] = useState(false);
 
     useEffect(()=>{
         loadAllrecepie();
     },[])
-
-    useEffect(()=>{
-        setURIList(searchResult);
-    },[searchResult])
-
-
- 
     const handleChange = (event) => {
         setSearchData((prevState) => ({
           ...prevState,
@@ -61,16 +54,8 @@ const RecepieGenarator = () => {
 
     const loadAllrecepie = ()=>{
         getAllsavedRecepie().then((response)=>{
-            
-            let makelist = [];
-            response.data.map((uri)=>{
-                savedSearchRecepieApi(uri.recipieURI).then((response)=>{
-                    makelist.push(response.data.hits[0]);
-                    setSearchResult((prv) => makelist);
-                }).catch((e)=>{
-                    alert(e)
-                });   
-            })
+            setSearchResult(response.data)
+            setIsNotSearch(true)
         }).catch((e)=>{
         });
     }
@@ -79,6 +64,7 @@ const RecepieGenarator = () => {
     const searchRecepie = () => {
         searchRecepieApi(searchData.searchItemName).then((response)=>{
             setSearchResult(response.data.hits);
+            setIsNotSearch(false)
         }).catch((e)=>{
         });
     };
@@ -104,13 +90,18 @@ const RecepieGenarator = () => {
             </IconButton>
         </Grid>
         </Grid>
-
+        <Typography variant="h5" sx={{ margin: '40px' }}>{isNotSearch?"Favourite Recipes":"Search Result"}</Typography>
         <Box sx={{ flexGrow: 1, width: '90%', margin:'5px auto' }}>
             <Grid container spacing={{ xs: 2, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {console.log(searchResult)}
-                {searchResult.map((item,index)=>(
+                {isNotSearch?
+                searchResult.map((item,index)=>(
                     <Grid item xs={2} sm={4} md={3} key={index}>
-                        <RecipeCard title={item.recipe.label} image={item.recipe.image} itemData={item.recipe}/>
+                        <RecipeCard title={item.recipe.title} image={item.recipe.image} itemData={JSON.parse(item.recipe?.itemData)} recipeId={item.recipe.recipeId} loadAllrecepie={loadAllrecepie}/>
+                    </Grid>
+                )):searchResult.map((item,index)=>(
+                    <Grid item xs={2} sm={4} md={3} key={index}>
+                        <RecipeCard title={item.recipe.label} image={item.recipe.image} itemData={item.recipe} recipeId={null}/>
                     </Grid>
                 ))}
             </Grid>
