@@ -15,6 +15,7 @@ const RangeInput = (props) => {
     name={props.name+"Min"}
     onChange={props.handleChange}
     defaultValue = "Min"
+    value = {props.values[1]}
     required
     type="number"
     InputProps={{
@@ -26,6 +27,7 @@ const RangeInput = (props) => {
     name={props.name+"Max"}
     onChange={props.handleChange}
     defaultValue = "Max"
+    value = {props.values[0]}
     required
     type="number"
     InputProps={{

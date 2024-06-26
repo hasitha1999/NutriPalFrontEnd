@@ -17,8 +17,8 @@ const LinkStyled = styled(Link)(({theme}) => ({
 const Logo = () => {
   return (
     <LinkStyled href="/">
-      <img src="/logo.png" alt="logo" height={60} width={65} priority />
-      <Typography variant="h2">NutriPal</Typography>
+      <img src="/logo.png" alt="logo" height={60} width={180} priority />
+      {/* <Typography variant="h2">NutriPal</Typography> */}
     </LinkStyled>
   );
 };

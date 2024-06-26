@@ -140,7 +140,7 @@ const RecipeCard = (props) =>{
 
     return (
         <>
-        <Card elevation={2} sx={{backgroundImage:`url(${props.image})`,minHeight:300}}>
+        <Card elevation={2} sx={{backgroundImage:`url(${props.image})`,minHeight:300,backgroundRepeat: "no-repeat",backgroundSize: "cover"}}>
           <div style={{backgroundColor:"rgba(255, 255, 255, 0.7)",minHeight:300,display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
             <CardHeader
                 sx={{textAlign:'center',minHeight: 80 }}

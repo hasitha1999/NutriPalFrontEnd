@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Typography from '@mui/material/Typography';
-import { Box, Button, Grid, InputAdornment, Stack, TextField, styled } from "@mui/material";
+import { Box, Button, Grid, InputAdornment, Skeleton, Stack, TextField, styled } from "@mui/material";
 import MealPlanCard from "../../component-ui/MealPlanCard";
 import Widget from "../../component-ui/Widget";
 import { CustomPaper } from "../../theme/CustomThemeComponents";
@@ -20,7 +20,9 @@ const CustomButton = styled((props) => <Button {...props} />)(
 const RecipeGenarator = () => {
   const [searchResult,setSearchResult] = useState([]);
   const [error,setError] = useState(true);
-    const [request,setRequest] = useState({CarbsMax:"400",
+
+  const [isLoading, setIsLoading] = useState(false);
+    const [request,setRequest] = useState({q:"",CarbsMax:"400",
       CarbsMin:"10",
       FatMax:"50",
       FatMin: "0",
@@ -37,10 +39,20 @@ const RecipeGenarator = () => {
 
 
     const getRecipie = () => {
+      setIsLoading(true);
         searchMealApi(request).then((res)=>{
           setSearchResult(res.data.hits);
+          setIsLoading(false);
           });
       
+    }
+    const resetAll = () =>{
+        setRequest({q:"",CarbsMax:"400",
+          CarbsMin:"10",
+          FatMax:"50",
+          FatMin: "0",
+          ProteinMax:"300",
+          ProteinMin:"0",})
     }
     const getCurrentDateFormatted = ()=> {
       const currentDate = new Date();
@@ -74,6 +86,7 @@ const RecipeGenarator = () => {
                   fullWidth
                   name="q"
                   onChange={handleChange}
+                  value={request.q}
                   required
                   type="text"
                 />
@@ -85,34 +98,49 @@ const RecipeGenarator = () => {
               <RangeInput
                 name="Carbs"
                 handleChange ={handleChange}
+                values = {[request.CarbsMax,request.CarbsMin]}
               />
               <RangeInput
                 name="Fat"
                 handleChange ={handleChange}
+                values = {[request.FatMax,request.FatMin]}
               />
               <RangeInput
                 name="Protein"
                 handleChange ={handleChange}
+                values = {[request.ProteinMax,request.ProteinMin]}
               />
           </Stack>
         </Box>
         <div style={{display:'flex', justifyContent:'flex-end'}}>
 
-            <CustomButton variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw",bgcolor:"gray"}}>
+            <CustomButton variant="contained" onClick={resetAll} sx={{ml:2,width:"5vw",bgcolor:"gray"}}>
             Reset
             </CustomButton>
             <Button variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw"}} >
                 Generate
             </Button>
           </div>
-        <Box sx={{ flexGrow: 1, marginTop:'15px' }}>
-            <Grid container spacing={{ xs: 2, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                {searchResult.map((item,index)=>(
-                    <Grid item xs={2} sm={4} md={3} key={index}>
-                        <RecipeCard title={item.recipe.label} image={item.recipe.image} itemData={item.recipe}/>
-                    </Grid>
-                ))}
+        <Box sx={{ flexGrow: 1, marginTop: "15px" }}>
+          {isLoading ? (
+            <RecipeGeneratorSkeleton />
+          ) : (
+            <Grid
+              container
+              spacing={{ xs: 2, md: 1 }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+            >
+              {searchResult.map((item, index) => (
+                <Grid item xs={2} sm={4} md={3} key={index}>
+                  <RecipeCard
+                    title={item.recipe.label}
+                    image={item.recipe.image}
+                    itemData={item.recipe}
+                  />
+                </Grid>
+              ))}
             </Grid>
+          )}
         </Box>
       </CustomPaper>
     </div>
@@ -120,3 +148,26 @@ const RecipeGenarator = () => {
 }
 
 export default RecipeGenarator
+
+const RecipeGeneratorSkeleton = () => (
+  <>
+    <Grid
+      container
+      spacing={{ xs: 2, md: 1 }}
+      columns={{ xs: 4, sm: 8, md: 12 }}
+    >
+      <Grid item xs={2} sm={4} md={3} mt={4}>
+        <Skeleton variant="rounded" height={300} />
+      </Grid>
+      <Grid item xs={2} sm={4} md={3} mt={4}>
+        <Skeleton variant="rounded" height={300} />
+      </Grid>
+      <Grid item xs={2} sm={4} md={3} mt={4}>
+        <Skeleton variant="rounded" height={300} />
+      </Grid>
+      <Grid item xs={2} sm={4} md={3} mt={4}>
+        <Skeleton variant="rounded" height={300} />
+      </Grid>
+    </Grid>
+  </>
+);
