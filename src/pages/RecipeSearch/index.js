@@ -11,7 +11,10 @@ import Drawer from '@mui/material/Drawer';
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { getAllsavedRecepie, savedSearchRecepieApi, searchRecepieApi } from "../../use-cases/api-recepie";
+import { CustomPaper } from "../../theme/CustomThemeComponents";
+import { Stack } from "@mui/material";
 
 
 const filterOptions = {
@@ -33,7 +36,7 @@ const filterOptions = {
 
 
 
-const RecepieGenarator = () => {
+const RecipeSearch = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [searchData,setSearchData] = useState({});
     const [searchResult,setSearchResult] = useState([]);
@@ -69,12 +72,24 @@ const RecepieGenarator = () => {
         });
     };
    
-
+    const getCurrentDateFormatted = ()=> {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+  
+        return `${year}-${day}-${month}`;
+    }
 
   return (
     <div>
-        <Typography variant="h3" sx={{margin:'15px 0px 0px 20px'}}>Recipe Genarator</Typography>
-
+        <CustomPaper style={{width:'90%'}}>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography className="main-header">Recipe Search</Typography>
+                <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
+            </Stack>
+        </CustomPaper>
+        <CustomPaper style={{width:'90%'}}>
         <Grid container spacing={3}>
          <Grid xs={12} md={9}>
          <TextField 
@@ -85,9 +100,9 @@ const RecepieGenarator = () => {
          value={searchData.searchItemName}/>
          </Grid><Grid xs={12} md={3} sx={{marginTop:'4%',marginLeft:{xs:"9%",md:'0%'}}}>
             <Button variant="contained" onClick={searchRecepie} sx={{bgcolor:'green',marginLeft:"3px"}}>Search</Button>
-            <IconButton  aria-label="fingerprint" color="secondary" onClick={toggleDrawer(true)}>
-                <TuneSharpIcon />
-            </IconButton>
+            {!isNotSearch?<IconButton  aria-label="fingerprint" color="secondary" onClick={toggleDrawer(true)} size="large">
+                <TuneSharpIcon fontSize="inherit" />
+            </IconButton>:null}
         </Grid>
         </Grid>
         <Typography variant="h5" sx={{ margin: '40px' }}>{isNotSearch?"Favourite Recipes":"Search Result"}</Typography>
@@ -97,7 +112,7 @@ const RecepieGenarator = () => {
                 {isNotSearch?
                 searchResult.map((item,index)=>(
                     <Grid item xs={2} sm={4} md={3} key={index}>
-                        <RecipeCard title={item.recipe.title} image={item.recipe.image} itemData={JSON.parse(item.recipe?.itemData)} recipeId={item.recipe.recipeId} loadAllrecepie={loadAllrecepie}/>
+                        <RecipeCard title={item.recipe.title} image={item.recipe?.image} itemData={JSON.parse(item.recipe?.itemData)} recipeId={item.recipe.recipeId} loadAllrecepie={loadAllrecepie}/>
                     </Grid>
                 )):searchResult.map((item,index)=>(
                     <Grid item xs={2} sm={4} md={3} key={index}>
@@ -106,6 +121,7 @@ const RecepieGenarator = () => {
                 ))}
             </Grid>
         </Box>
+        </CustomPaper>
         <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
             <Box sx={{ width: 350, padding:'50px 20px', display: 'flex',flexDirection: 'column',justifyContent: 'space-between', height:'100%'}}>
                 <div>
@@ -143,4 +159,4 @@ const RecepieGenarator = () => {
   );
 }
 
-export default RecepieGenarator
+export default RecipeSearch

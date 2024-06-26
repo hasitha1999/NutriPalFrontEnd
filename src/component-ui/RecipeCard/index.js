@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
-import { Box, Divider, Grid, IconButton, Modal, Stack, Tooltip, styled } from '@mui/material';
+import { Box, Divider, Grid, IconButton, Modal, Paper, Stack, Tooltip, styled } from '@mui/material';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useState } from 'react';
@@ -18,6 +18,7 @@ import { recipeMarkAsEat, removeRecipe, saveRecepie } from '../../use-cases/api-
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import LocalDiningIcon from '@mui/icons-material/LocalDining';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { FavoriteBorder } from '@mui/icons-material';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -25,7 +26,8 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 800,
     bgcolor: '#fff',
-    border: '2px solid #000',
+    border: '1px solid #000',
+    borderRadius : "10px",
     boxShadow: 24,
     p: 4,
   };
@@ -69,7 +71,9 @@ const RecipeCard = (props) =>{
       confirmButtonText: "Yes, save it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        saveRecepie(recipe).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
+        saveRecepie(recipe).then(()=>{MySwal.fire("success!", "Successfully saved", "success");
+          window.location.reload();
+        }).catch((e)=>{
           MySwal.fire("ERROR", "Please contact admin", "error");
        });
       }
@@ -107,7 +111,7 @@ const RecipeCard = (props) =>{
       confirmButtonText: "Yes,I'm Eat it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        recipeMarkAsEat({digest:digest}).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
+        recipeMarkAsEat({nutriant : digest}).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
           MySwal.fire("ERROR", "Please contact admin", "error");
        });
     
@@ -143,22 +147,23 @@ const RecipeCard = (props) =>{
                 title={props.title} 
             />
             <CardContent sx={{minHeight:80, overflow:'hidden'}}>
-            <Typography>Calories<span style={{float:"inline-end"}}>{(calories/serving).toFixed(2)}kCal</span></Typography>
+            <Typography>Calories<span style={{float:"inline-end"}}>{(calories).toFixed(2)}kCal</span></Typography>
                 {digest.map((item,index)=>{
-                    return <Typography>{item.label}<span style={{float:"inline-end"}}>{(item.total/serving).toFixed(2)}{item.unit}</span></Typography>
+                    return <Typography>{item.label}<span style={{float:"inline-end"}}>{(item.total).toFixed(2)}{item.unit}</span></Typography>
                   
                 })}
+            <Typography>serving <span style={{float:"inline-end"}}>{serving}</span></Typography>
             </CardContent>
             <CardActions sx={{justifyContent: 'flex-end'}}>
 
               {props.itemData.digest.length > 4 ?<Tooltip title="Add to favorite" placement="bottom">
                 <IconButton  onClick={addToSave} color="black">
-                <FavoriteIcon />
+                <FavoriteBorder />
                 </IconButton>
               </Tooltip>:
               <Tooltip title="Remove from favorite" placement="bottom">
                 <IconButton  onClick={RemoveFromSave} color="error">
-                    <DeleteIcon/>
+                    <FavoriteIcon/>
                 </IconButton>
               </Tooltip>}
               <Tooltip title="Mark as Eat" placement="bottom">
@@ -179,8 +184,7 @@ const RecipeCard = (props) =>{
           <Typography className="main-header" variant="h4">
           {props.title}
           </Typography>
-          <CustomPaper elevation={24}>
-          <Typography className="second-header">Amount Per Serving<span style={{float:"inline-end"}}>{(calories/serving).toFixed(2)} kCal</span></Typography>
+          <Typography className="second-header"  style={{marginTop: "15px"}}>Amount Per Serving<span style={{float:"inline-end"}}>{(calories/serving).toFixed(2)} kCal</span></Typography>
           <Divider/>
           <Stack justifyContent="space-between" style={{marginTop: "10px"}}>
 
@@ -203,9 +207,8 @@ const RecipeCard = (props) =>{
             <StackLayout serving ={serving} parameter1={totalNutrient['CA']}   />
             <StackLayout serving ={serving} parameter1={totalNutrient['FE']}  />
           </Stack>
-          </CustomPaper>
 
-          <Typography id="modal-modal-title" variant="h6" component="h2" >
+          <Typography id="modal-modal-title" variant="h6" component="h2"  style={{marginTop: "10px"}} >
             Recepie : <a  onClick={()=>{handleSearch(props.title)}}>Click here to watch recepie</a>
           </Typography>
           </div>

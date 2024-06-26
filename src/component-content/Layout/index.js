@@ -37,8 +37,9 @@ const Layout = (props) => {
         <Container
           sx={{
             paddingTop: "20px",
-            maxWidth: "1200px",
+            
           }}
+          style={{maxWidth: "100%"}}
         >
           <Box sx={{ minHeight: "calc(100vh - 170px)" }}>{props.children}</Box>
         </Container>

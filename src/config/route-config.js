@@ -4,14 +4,14 @@ import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 import UserDetails from "../pages/UserDetails";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import MealPlannerComponent from "../pages/MealPlanner";
 import UserList from "../pages/ViewAllUsers";
 import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
 import DailyLogs from "../pages/DailyLogs";
 import WaterMgt from "../pages/WaterMgt";
 import BmiCalculator from "../pages/BMICalculator";
 import ResetPassword from "../pages/ResetPassword";
-import RecepieGenarator from "../pages/RecepieGenarator";
+import RecipeGenarator from "../pages/RecipeGenarator";
+import RecipeSearch from "../pages/RecipeSearch";
 const routeConfig = [
   {
     id: 1,
@@ -66,24 +66,25 @@ const routeConfig = [
     roles: ["USER", "ADMIN"],
     noAuth: false,
   },
+
   {
     id: 9,
-    path: "/mealplaner",
-    element: <MealPlannerComponent />,
-    roles: ["USER"],
+    path: "/recipeGenarator",
+    element: <RecipeGenarator />,
+    icon: <Restaurant fontSize="medium" />,
+    label: "Recipe Genarator",
     menu: true,
-    icon: <RamenDining fontSize="medium" />,
-    label: "Meal Planner",
+    roles: ["USER"],
     noAuth: false,
   },
   {
     id: 10,
-    path: "/recepieGenarator",
-    element: <RecepieGenarator />,
-    icon: <Restaurant fontSize="medium" />,
-    label: "Recepie Genarator",
-    menu: true,
+    path: "/recipeSearch",
+    element: <RecipeSearch />,
     roles: ["USER"],
+    menu: true,
+    icon: <RamenDining fontSize="medium" />,
+    label: "Recipe Search",
     noAuth: false,
   },
   {

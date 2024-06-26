@@ -4,6 +4,7 @@ import {
   Typography,
   Box,
   Alert, Divider,
+  Button,
 } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -51,35 +52,43 @@ const NutritionMeter = () => {
       setTotalNutrient(response.data.totalNutrients);
     })
   }
+  const getCurrentDateFormatted = ()=> {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+
+    return `${year}-${day}-${month}`;
+}
   return (
-     <Box sx={{minHeight: "100vh", py: 4 }}>
-      <Container>
-        <Typography variant="h3" component="h1" align="center" gutterBottom>
-            Nutrition Calculator
-        </Typography>
+     <div>
+        <CustomPaper style={{width:'90%'}}>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography className="main-header">Nutrition Calculator</Typography>
+                <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
+            </Stack>
+        </CustomPaper>
+        <CustomPaper style={{width:'90%'}}>
         {showWarning && (
           <Alert severity="warning" icon={<FontAwesomeIcon icon={faTimes} />}>
             Total calories exceed recommended limit (1000 calories)!
           </Alert>
         )}
-        <SupportInputField addItem={(value)=>addItemToList(value)} />
+        <SupportInputField addItem={(value)=>addItemToList(value)} isNewRecord={true}/>
         {itemList.map((item,index) => (
             <div key={index}>
-            <SupportInputField addItem={addItemToList} />
+            <SupportInputField addItem={addItemToList} isNewRecord={false} />
             </div>
         ))}
 
           <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
 
-                <CustomButton
-                  variant="contained"
-                  color="success"
-                  onClick={searchItems}
-                  fullWidth
-                >
-                  Search Item
-                </CustomButton>
-              
+          <Button variant="contained" onClick={searchItems} sx={{ml:2,width:"10vw",bgcolor:"gray"}}>
+            Reset
+            </Button>
+            <Button variant="contained" onClick={searchItems} sx={{ml:2,width:"10vw"}} >
+            Search Item
+            </Button>
           </Stack>
           {Object.keys(totalNutrient).length > 0?
           <CustomPaper elevation={24}>
@@ -108,9 +117,8 @@ const NutritionMeter = () => {
             <StackLayout serving ={serving} parameter1={totalNutrient['FE']}  />
           </Stack>
           </CustomPaper> : ""}
-
-      </Container>
-    </Box>
+        </CustomPaper>
+    </div>
   );
 };
 

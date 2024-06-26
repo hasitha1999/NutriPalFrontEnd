@@ -17,7 +17,7 @@ const CustomButton = styled((props) => <Button {...props} />)(
 
 
 
-const MealPlanner = () => {
+const RecipeGenarator = () => {
   const [searchResult,setSearchResult] = useState([]);
   const [error,setError] = useState(true);
     const [request,setRequest] = useState({CarbsMax:"400",
@@ -54,18 +54,20 @@ const MealPlanner = () => {
     <div>
         <CustomPaper style={{width:'90%'}}>
             <Stack direction="row" justifyContent="space-between">
-                <Typography className="main-header">Meal Planner</Typography>
+                <Typography className="main-header">Recipe Generator</Typography>
                 <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
             </Stack>
         </CustomPaper>
-
-            <Stack direction="row">
+        <CustomPaper style={{width:'90%'}}>
+            <Stack direction="row" >
                 <Widget  mainTitle="2500 kCal" value="calories per day"  hasImage={false}></Widget>
                 <Widget  mainTitle="45 g" value="fat per day" hasImage={false}></Widget>
                 <Widget  mainTitle="139-202 g" value="carbs per day" hasImage={false}></Widget>
                 <Widget  mainTitle="32-135 g " value="proteins per day" hasImage={false}></Widget>
  
             </Stack>
+        </CustomPaper>
+        <CustomPaper style={{width:'90%'}}>
             <Stack direction="row">
             <Typography sx={{m:2}}>Ingrediants You Have</Typography>
               <CustomTextField
@@ -96,14 +98,14 @@ const MealPlanner = () => {
         </Box>
         <div style={{display:'flex', justifyContent:'flex-end'}}>
 
-            <CustomButton variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw"}}>
+            <CustomButton variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw",bgcolor:"gray"}}>
             Reset
             </CustomButton>
             <Button variant="contained" onClick={getRecipie} sx={{ml:2,width:"5vw"}} >
                 Generate
             </Button>
           </div>
-        <Box sx={{ flexGrow: 1, width: '90%', marginTop:'15px' }}>
+        <Box sx={{ flexGrow: 1, marginTop:'15px' }}>
             <Grid container spacing={{ xs: 2, md: 1 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                 {searchResult.map((item,index)=>(
                     <Grid item xs={2} sm={4} md={3} key={index}>
@@ -112,8 +114,9 @@ const MealPlanner = () => {
                 ))}
             </Grid>
         </Box>
+      </CustomPaper>
     </div>
   );
 }
 
-export default MealPlanner
+export default RecipeGenarator
