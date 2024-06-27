@@ -119,7 +119,7 @@ const WaterIntakeInformation = () => {
         </Stack>
         <CardContent sx={{ ml: 15, color: "#878787", margin: '0 4%' }}>
             <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="flex-start" direction={{ xs: 'column', md: 'row' }} sx={{ marginTop: '50px' }}>
-                <GaugeChart width={400} height={400} />
+                <GaugeChart width={400} height={400} value={currentWaterIntake}/>
                 <Stack spacing={3} justifyContent="center" alignItems="center" direction="column" sx={{ marginTop: '50px' }}>
                     <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px' }} onClick={() => waterMeterCalculator(150)} loading={isButtonLoading}>ADD 150 ML</CustomButton>
                     <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px' }} onClick={() => waterMeterCalculator(200)} loading={isButtonLoading}>ADD 200 ML</CustomButton>

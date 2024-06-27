@@ -12,6 +12,9 @@ import PieChartComponent from "../../component-ui/PieChartComponent";
 import {getPieChartData} from "../../use-cases/get-pie-chart-data";
 import  {getGaugeChartData} from "../../use-cases/get-gauge-chart-data";
 import {getStatisticDashboardData} from "../../use-cases/get-statistic-dashboard-data";
+import LineChartComponent from "../../component-ui/LineChartComponent";
+import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list-by-month";
+
 
 
 const HomePage = () => {
@@ -31,13 +34,23 @@ const HomePage = () => {
     const [pieChartDataList, setPieChartDataList] = useState([]);
     const [gaugeChartDataList, setGaugeChartDataList] = useState([]);
     const [statisticDataList, setStatisticDataList] = useState({});
+    const [lineChartXAxisData,setLineCharXAxistData] = useState([]);
+    const [lineChartYAxisData,setLineCharYAxistData] = useState([])
 
     useEffect(()=>{
         getPieChartDataList()
         getGaugeChartDataList()
         statisticData()
+        getChartDataByType()
 
-    },[])
+    },[]);
+    useEffect(() => {
+        console.log("Updated lineChartXAxisData", lineChartXAxisData);
+    }, [lineChartXAxisData]);
+
+    useEffect(() => {
+        console.log("Updated lineChartYAxisData", lineChartYAxisData);
+    }, [lineChartYAxisData]);
 
     const getPieChartDataList = () =>{
         getPieChartData().then((e)=>{
@@ -61,6 +74,34 @@ const HomePage = () => {
             console.log(e);
             setStatisticDataList({...e.data})
         })
+    }
+
+    const getChartDataByType = () =>{
+
+        getDailyLogDataListByMonth("Water").then((e)=>{
+
+            let newDataPoints = [];
+            let processedDataPoints = []
+            newDataPoints = e.data;
+            console.log("newDataPoints", newDataPoints)
+            if (newDataPoints.length != 0){
+               let xAxisData = newDataPoints.map(item => new Date(item.date))
+               let yAxisData = newDataPoints.map(item =>item.userInputValue)
+                    // processedDataPoints.push({
+                    //     x : new Date(item.date),
+                    //     y : item.userInputValue
+                    // })
+                    setLineCharXAxistData(xAxisData);
+                    setLineCharYAxistData(yAxisData);
+
+            }
+            console.log("lineChartXAxisData",lineChartXAxisData)
+
+
+
+        })
+
+
     }
 
   return (
@@ -96,8 +137,8 @@ const HomePage = () => {
                 <Grid item xs={6} md={3} sx={{marginLeft:'40px', marginRight:'0px', marginTop:'10px'}}>
                     <div className="sub-gray-header" style={{margin: '10px auto'}}>Calories</div>
                     <div style={{display: 'flex', alignItems: 'center'}}>
-                        <img className="responsive-title-img" src="/img/Dashboard/calorie.png" alt="calorie" />
-                        <div className="sub-header">{statisticDataList.totalCalorie} kCal</div>
+                        <img className="responsive-title-img" src="/img/Dashboard/calorie.png" alt="calorie"  style={{width:'50%', height: 'auto'}}/>
+                        <div className="second-header">{statisticDataList.totalCalorie} kCal</div>
                     </div>
                 </Grid>
 
@@ -111,10 +152,19 @@ const HomePage = () => {
 
         </CustomPaper>
 
-
         <CustomPaper style={{width:'90%'}}>
-            <PieChartComponent chartData={pieChartDataList} title="Total calorie intake"/>
+        <Stack direction="row" alignItems="center" >
+
+            <div style={{width:'90%',height: '100%'}}>
+                <PieChartComponent chartData={pieChartDataList} title="Total calorie intake"/>
+
+            </div>
+            <div>
+                <LineChartComponent xAxisData={lineChartXAxisData} yAxisData={lineChartYAxisData}/>
+            </div>
+        </Stack>
         </CustomPaper>
+
     </div>
   );
 }

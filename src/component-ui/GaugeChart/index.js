@@ -21,6 +21,8 @@ const GaugeChart = (props, width = 120, height = 120) =>{
             return "#fa896b"
 
 
+        } else {
+            return "#2196f3"
         }
     };
 
