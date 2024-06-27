@@ -7,6 +7,7 @@ import {
   Grid,
   Input,
   InputAdornment,
+  Stack,
   Tab,
   TextField,
   Typography,
@@ -18,7 +19,12 @@ import {getWaterManagmentData} from "../../use-cases/get-water-managment-data";
 import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list-by-month";
 import {getUserDetails} from "../../use-cases/get-user-details";
 import {createOrUpdateDailyLog} from "../../use-cases/create-or-update-daily-log";
-
+import { CustomPaper } from "../../theme/CustomThemeComponents";
+import WaterCalorieLog from "../../component-ui/WaterCalorieLog";
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { Opacity } from "@mui/icons-material";
+import SpeedIcon from '@mui/icons-material/Speed';
+import CustomTabs from "../../component-ui/CustomTabs";
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const DailyLogs = () => {
@@ -71,8 +77,6 @@ const DailyLogs = () => {
 
   useEffect(()=>{
     caloryRangeSelector()
-    getDailyLogDataByType(1)
-    getChartDataByType(1)
     getUserDetails().then((res) => {
       setUser(res.data)
       console.log("user", res.status)
@@ -103,40 +107,12 @@ const DailyLogs = () => {
       setBMIColor("blue")
     }
   };
-  // const options = {
-  //   animationEnabled: true,
-  //   exportEnabled: false,
-  //   theme: "light2", // "light2", "dark1", "dark2"
-  //   title: {
-  //     text: "Change by Weight",
-  //   },
-  //   axisY: {
-  //     title: " Change",
-  //     gridThickness: 0,
-  //     lineThickness: 1,
-  //   },
-  //   axisX: {
-  //     title: "Days of Month",
-  //     prefix: "W",
-  //     interval: 2,
-  //   },
-  //   data: [
-  //     {
-  //       type: "line",
-  //       toolTipContent: "{x}: {y}",
-  //       dataPoints: [
-  //         {x: '2024-06-18', y: 23.45},
-  //         {x: '2024-06-22', y: 60.45}
-  //       ],
-  //     },
-  //   ],
-  // };
+
 
   const tabChange = (event, newValue) => {
     console.log("value", event)
     setValue(newValue);
-    getDailyLogDataByType(newValue);
-    getChartDataByType(newValue);
+
   };
 
   const findHelthyWeight =(tragetBMI)=>{
@@ -177,14 +153,7 @@ const DailyLogs = () => {
 
   }
 
-  const getDailyLogDataByType = (newValue) => {
-    let logType = ""
-    newValue == '2' ? logType = "Calorie" : newValue == '3' ?  logType = "Water" : logType = "Weight";
-    getWaterManagmentData(logType).then((e)=>{
-      setInitialData(e.data)
 
-    })
-  }
   const sendUserInputs = (amount, logType) =>{
     let payLoad = {
       logId : initialData?.logId,
@@ -204,56 +173,55 @@ const DailyLogs = () => {
 
   }
 
-  const getChartDataByType = (newValue) =>{
 
-    let logType = ""
-    newValue == 3 ? logType = "Weight" : newValue == 1 ?  logType = "Water" : logType = "Calorie";
-    console.log("logType", logType)
-    getDailyLogDataListByMonth(logType).then((e)=>{
+  const getCurrentDateFormatted = ()=> {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
 
-      let newDataPoints = [];
-      let processedDataPoints = []
-      newDataPoints = e.data;
-      if (newDataPoints.length != 0){
-        newDataPoints.forEach((item)=>
-          processedDataPoints.push({
-            x : new Date(item.date),
-            y : item.userInputValue
-          })
-        )
-      }
-      setChartData(prevChartData => ({
-        ...prevChartData,
-        title: {
-          text: `Change by ${logType}`,
-        },
-        data: [
-          {
-            ...prevChartData.data[0],
-            dataPoints: processedDataPoints,
-          },
-        ],
-      }));
-
-    })
-    console.log("Chart Data", chartData)
-
-  }
+    return `${year}-${day}-${month}`;
+}
+const tabValues = [
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <SpeedIcon sx={{ marginRight: 1 }} />
+        Weight log
+      </Box>
+    ),
+    component: <WaterCalorieLog main={"28.3"} sub={"Weight Loss"} logType={"Weight"}/>,
+  },
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <WhatshotIcon sx={{ marginRight: 1 }} />
+        Calorie Intake
+      </Box>
+    ),
+    component: <WaterCalorieLog main={"Weight Loss"} sub={"Your Goal"} logType={"Calorie"}/>,
+  },
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <Opacity sx={{ marginRight: 1 }} />
+        Water Intake
+      </Box>
+    ),
+    component: <WaterCalorieLog main={"Take 0.5 - 1L of water while exercising."} sub={""} logType={"Water"}/>,
+  },
+];
 
   return (
     <>
-      <Typography variant="h3" sx={{ margin: "15px 0px 0px 20px" }}>
-        Daily Logs
-      </Typography>
-      <Card
-        sx={{
-          m: 1,
-          borderRadius: 3,
-          border: "1px solid #000",
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <TabContext value={value}>
+      <CustomPaper style={{width:'90%'}}>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography className="main-header">Daily Logs</Typography>
+                <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
+            </Stack>
+        </CustomPaper>
+        <CustomPaper style={{width:'90%'}}>
+        {/* <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList
               onChange={tabChange}
@@ -715,8 +683,11 @@ const DailyLogs = () => {
               </CardActions>
             </Grid>
           </TabPanel>
-        </TabContext>
-      </Card>
+        </TabContext> */}
+            <div>
+               <CustomTabs tabValues={tabValues} />
+          </div>
+        </CustomPaper>
     </>
   );
 };

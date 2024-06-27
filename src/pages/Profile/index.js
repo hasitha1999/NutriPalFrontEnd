@@ -5,13 +5,13 @@ import {
   styled
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ProfileInformation from "../../component-content/ProfileInformation";
 import CustomTabs from "../../component-ui/CustomTabs";
 import {
-  getNCDDetails,
   getUserDetails,
 } from "../../use-cases/get-user-details";
+import DietaryPreferences from "../../component-ui/DietaryPreferences";
+import Security from "../../component-ui/Security";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 20,
@@ -19,22 +19,10 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const Profile = () => {
-  let navigate = useNavigate();
   const [user, setUser] = useState({});
-  const [allNCD, setAllNCD] = useState([]);
-  const routeChange = (value) => {
-    navigate(value);
-  };
   useEffect(() => {
     getUserDetails().then((res) => setUser(res.data));
-    getNCDDetails().then((res) => setAllNCD(res.data));
   }, []);
-  const findHelthyWeight = (tragetBMI) => {
-    return Math.round(tragetBMI * (user.height / 100) ** 2);
-  };
-  const calculateWaterIntake = () => {
-    return Math.round(((user.weight * 2.2) / 2) * 29.574 * 100) / 100;
-  };
 
   const tabValues = [
     {
@@ -53,7 +41,7 @@ const Profile = () => {
           Dietary Preferences
         </Box>
       ),
-      component: <ProfileInformation />,
+      component: <DietaryPreferences />,
     },
     {
       label: (
@@ -62,7 +50,7 @@ const Profile = () => {
           Security
         </Box>
       ),
-      component: <>Health Information'</>,
+      component: <Security />,
     },
   ];
 

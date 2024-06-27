@@ -3,7 +3,7 @@ import {Typography} from "@mui/material";
 import {Gauge, gaugeClasses } from "@mui/x-charts";
 
 
-const GaugeChart = (props) =>{
+const GaugeChart = (props, width = 120, height = 120) =>{
 
     console.log(props.level)
 
@@ -28,7 +28,7 @@ const GaugeChart = (props) =>{
     return(
         <div>
             <Typography className="sub-header">{props.title}</Typography>
-            <Gauge width={120} height={120} value={props.value}   sx={(theme) => ({
+            <Gauge width={props.width} height={props.height} value={props.value}   sx={(theme) => ({
                 [`& .${gaugeClasses.valueArc}`]: {
                     fill: getGaugeColor(props.level),
                 }

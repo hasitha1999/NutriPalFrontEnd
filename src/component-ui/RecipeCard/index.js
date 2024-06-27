@@ -111,7 +111,18 @@ const RecipeCard = (props) =>{
       confirmButtonText: "Yes,I'm Eat it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        recipeMarkAsEat({nutriant : digest}).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
+        let eatNutriant = {}
+        {digest.map((item,index)=>{
+          if(item.label == "Fat"){
+            eatNutriant["fat"]=(item.total/serving).toFixed(2)
+          }else if (item.label == "Carbs"){
+            eatNutriant["carbs"]=(item.total/serving).toFixed(2)
+          }else if(item.label == "Protein"){
+            eatNutriant["protein"]=(item.total/serving).toFixed(2)
+          } 
+      })}
+      eatNutriant["calorie"]=(calories/serving).toFixed(2)
+        recipeMarkAsEat(eatNutriant).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
           MySwal.fire("ERROR", "Please contact admin", "error");
        });
     
@@ -140,7 +151,7 @@ const RecipeCard = (props) =>{
 
     return (
         <>
-        <Card elevation={2} sx={{backgroundImage:`url(${props.image})`,minHeight:300}}>
+        <Card elevation={2} sx={{backgroundImage:`url(${props.image})`,minHeight:300,backgroundRepeat: "no-repeat",backgroundSize: "cover"}}>
           <div style={{backgroundColor:"rgba(255, 255, 255, 0.7)",minHeight:300,display:"flex",flexDirection:"column",justifyContent:"space-between"}}>
             <CardHeader
                 sx={{textAlign:'center',minHeight: 80 }}

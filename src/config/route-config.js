@@ -8,10 +8,10 @@ import UserList from "../pages/ViewAllUsers";
 import { Calculate, Dashboard, EventNote, ManageAccounts, Opacity, RamenDining, Restaurant,} from "@mui/icons-material";
 import DailyLogs from "../pages/DailyLogs";
 import WaterMgt from "../pages/WaterMgt";
-import BmiCalculator from "../pages/BMICalculator";
 import ResetPassword from "../pages/ResetPassword";
 import RecipeGenarator from "../pages/RecipeGenarator";
 import RecipeSearch from "../pages/RecipeSearch";
+import NutritionMeter from "../pages/NutritionMeter";
 const routeConfig = [
   {
     id: 1,
@@ -89,10 +89,10 @@ const routeConfig = [
   },
   {
     id: 11,
-    path: "/bmiCal",
-    element: <BmiCalculator />,
+    path: "/nutritionMeter",
+    element: <NutritionMeter />,
     icon: <Calculate fontSize="medium" />,
-    label: "Nutrition Calculator",
+    label: "Nutrition Meter",
     menu: true,
     roles: ["USER"],
     noAuth: false,
