@@ -17,6 +17,7 @@ import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list
 import OpacityIcon from "@mui/icons-material/Opacity";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import {LineChart} from "@mui/x-charts";
 
 
 
@@ -87,19 +88,19 @@ const HomePage = () => {
             let processedDataPoints = []
             newDataPoints = e.data;
             console.log("newDataPoints", newDataPoints)
-            if (newDataPoints.length != 0){
-               let xAxisData = newDataPoints.map(item => new Date(item.date))
-               let yAxisData = newDataPoints.map(item =>item.userInputValue)
+            // if (newDataPoints.length != 0){
+
                     // processedDataPoints.push({
                     //     x : new Date(item.date),
                     //     y : item.userInputValue
                     // })
-                    setLineCharXAxistData(xAxisData);
-                    setLineCharYAxistData(yAxisData);
+                    setLineCharXAxistData(newDataPoints.x);
+                    setLineCharYAxistData(newDataPoints.y);
 
-            }
+            // }
             console.log("lineChartXAxisData",lineChartXAxisData)
 
+            return newDataPoints;
 
 
         })
@@ -130,10 +131,10 @@ const HomePage = () => {
         <CustomPaper style={{width:'90%'}}>
             <Stack direction="row">
 
-                <Widget imgSrc="/img/Dashboard/water.png" mainTitle="BMR" value={`${statisticDataList.bmr?.toFixed(2)} kCal`} tooltipTitle="Basic Metabolic Rate" hasImage={true}></Widget>
-                <Widget imgSrc="/img/Dashboard/weight.png" mainTitle="TDEE" value={statisticDataList.tdee?.toFixed(2)} tooltipTitle="Total Daily Energy Expenditure" hasImage={true}></Widget>
-                <Widget imgSrc="/img/Dashboard/bmi.png" mainTitle="Water Intake" value={`${statisticDataList.waterIntake?.toFixed(2)/1000}L`} hasImage={true}></Widget>
-                <Widget imgSrc="/img/Dashboard/calories.png" mainTitle="BMI" value={`${statisticDataList.bmi?.toFixed(2)}`}  tooltipTitle="Body Mass Index" hasImage={true}></Widget>
+                <Widget bgColor="rgba(51, 235, 145, 0.3)" imgSrc="/img/Dashboard/bmr.png" mainTitle="BMR" value={`${statisticDataList.bmr?.toFixed(2)} kCal`} tooltipTitle="Basic Metabolic Rate" hasImage={true}></Widget>
+                <Widget bgColor="rgba(255, 23, 68, 0.3)" imgSrc="/img/Dashboard/flash.png" mainTitle="TDEE" value={statisticDataList.tdee?.toFixed(2)} tooltipTitle="Total Daily Energy Expenditure" hasImage={true}></Widget>
+                <Widget bgColor="rgba(51, 234, 255, 0.3)"  imgSrc="/img/Dashboard/water.png"  mainTitle="Water Intake" value={`${statisticDataList.waterIntake?.toFixed(2)/1000}L`} hasImage={true}></Widget>
+                <Widget bgColor="rgba(246, 104, 94, 0.6)" imgSrc="/img/Dashboard/bmi.png"  mainTitle="BMI" value={`${statisticDataList.bmi?.toFixed(2)}`}  tooltipTitle="Body Mass Index" hasImage={true}></Widget>
 
             </Stack>
         </CustomPaper>
@@ -157,7 +158,7 @@ const HomePage = () => {
 
                 <Grid item xs={6} md={8}>
                     <Grid container spacing={2} justifyContent="flex-end">
-                        {gaugeChartDataList.length !== 0 ?gaugeChartDataList.map((chartData, index) => <Grid item> <GaugeChart title={chartData.type} value={chartData.percentage} level={chartData.level}  key={index}/></Grid>):null}
+                        {gaugeChartDataList.length !== 0 ?gaugeChartDataList.map((chartData, index) => <Grid item> <GaugeChart title={chartData.type} value={chartData.percentage} level={chartData.level}  key={index} height={180} width={180}/></Grid>):null}
                     </Grid>
                 </Grid>
 
@@ -165,18 +166,30 @@ const HomePage = () => {
 
         </CustomPaper>
 
-        <CustomPaper style={{width:'90%'}}>
-        <Stack direction="row" alignItems="center" >
 
-            <div style={{width:'90%',height: '100%'}}>
+        <Stack direction="column"alignItems="stretch" style={{width:'100%', margin:'0 auto'}} >
+            <CustomPaper style={{height: '100%'}}>
+            {/*<div style={{width:'90%',height: '100%'}}>*/}
                 <PieChartComponent chartData={pieChartDataList} title="Total calorie intake"/>
 
-            </div>
-            <div>
-                <LineChartComponent xAxisData={lineChartXAxisData} yAxisData={lineChartYAxisData}/>
-            </div>
+            {/*</div>*/}
+            </CustomPaper>
+            <CustomPaper>
+                {/*<LineChartComponent xAxisData={lineChartXAxisData} yAxisData={lineChartYAxisData}/>*/}
+                <LineChart
+                    xAxis={[{ scaleType: 'point',data: lineChartXAxisData}]}
+                    series={[
+                        {
+                            data: lineChartYAxisData,
+                            area: true,
+                        },
+                    ]}
+                    width={1000}
+                    height={400}
+                />
+            </CustomPaper>
         </Stack>
-        </CustomPaper>
+
 
     </div>
   );

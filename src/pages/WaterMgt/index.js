@@ -27,7 +27,7 @@ const WaterMgt = () => {
     const [cards, setCards] = useState([
         { color: "#46f280", label: "Weekly Average", backgroundColor: '#46f280', unit: "ML / DAY" },
         { color: "#34a8eb", label: "Monthly Average", backgroundColor: '#34a8eb', unit: "ML / Month" },
-        { color: "#f2c968", label: "Average Completion", backgroundColor: '#f2c968', unit: "%" },
+        { color: "#f2c968", label: "Average Completion Rate (Week)", backgroundColor: '#f2c968', unit: "%" },
     ]);
 
     const [waterDataStatList, setWaterDataStatList] = useState([])
@@ -69,11 +69,30 @@ const WaterMgt = () => {
   }
 
   const getWeekWaterIntakeDataList = () =>{
+      let passValue = 0;
+      let passRate;
+
       getWeekWaterIntakeData().then((e)=>{
           console.log("getWeekWaterIntakeData",e.data)
           setWaterDataStatList(e.data)
+          if(e.data.length>0){
+                e.data.forEach(item => {
+                    if(item.archived){
+                        passValue++
+                    }
+                })
+              passRate = (passValue / e.data.length)*100
+              setCards(prevCards => [
+                  ...prevCards.slice(0, 2), // Keep the first two elements unchanged
+                  {
+                      ...prevCards[2],
+                      unit: `${passRate}%`  // Replace with your desired new unit value for the third element
+                  }
+              ]);
+          }
       })
       console.log("waterDataStatList",waterDataStatList)
+
   }
 
   return (

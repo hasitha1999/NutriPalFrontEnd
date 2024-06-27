@@ -69,27 +69,26 @@ export const StackLayout = ({ parameter1,stylePack , titleClass='title-header', 
     );
 };
 
-export const WidgetTheme =  styled(Paper)(({theme}) =>({
-    background:theme.palette.secondary.light,
-    padding : '10px 10px',
-    margin : '20px auto',
-    width : '20%',
+export const WidgetTheme = styled(Paper)(({ theme, bgColor }) => ({
+    background: bgColor || theme.palette.secondary.light,
+    padding: '10px 10px',
+    margin: '20px auto',
+    width: '20%',
     '& .main-header': {
         fontSize: '1.5rem',
         textAlign: 'center',
         fontWeight: 'bold'
     },
-    '& .title-header' : {
+    '& .title-header': {
         fontSize: '1rem',
         textAlign: 'center',
         fontWeight: 400
     },
-    '& .responsive-img' : {
+    '& .responsive-img': {
         width: '20%',
         height: 'auto',
         maxWidth: '100%',
         margin: '0 auto',
         display: 'block'
     }
-
-}))
+}));

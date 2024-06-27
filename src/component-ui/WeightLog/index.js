@@ -13,7 +13,7 @@ const WeightLog = (props) => {
         x: ["2024-06-24", "2024-06-25", "2024-06-26", "2024-06-27", "2024-06-28", "2024-06-29"],
         y: [2, 5.5, 2, 8.5, 1.5, 5],
       });
-    const [initialData, setInitialData] = useState({})
+  const [initialData, setInitialData] = useState({})
   const [category,setCategory] = useState();
   const [bmi,setBMI] = useState(0);
   const [bmiColor,setBMIColor] = useState();
