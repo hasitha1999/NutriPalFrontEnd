@@ -119,10 +119,9 @@ const RecipeCard = (props) =>{
             eatNutriant["carbs"]=(item.total/serving).toFixed(2)
           }else if(item.label == "Protein"){
             eatNutriant["protein"]=(item.total/serving).toFixed(2)
-          }
-          
-        
+          } 
       })}
+      eatNutriant["calorie"]=(calories/serving).toFixed(2)
         recipeMarkAsEat(eatNutriant).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
           MySwal.fire("ERROR", "Please contact admin", "error");
        });
