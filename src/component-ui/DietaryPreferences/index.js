@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import {
+  getAllDietTypes,
   getAllergiesDetails,
   getUserDetails,
 } from "../../use-cases/get-user-details";
@@ -41,6 +42,7 @@ const DietaryPreferences = () => {
   const [allAllergies, setAllAllergies] = useState([]);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [dietTypes, setDietTypes] = useState([]);
 
   useEffect(() => {
     getUserDetails().then((res) => {
@@ -49,6 +51,7 @@ const DietaryPreferences = () => {
       setIsLoading(false);
     });
     getAllergiesDetails().then((res) => setAllAllergies(res.data));
+    getAllDietTypes().then((res) => setDietTypes(res.data));
   }, []);
 
   const handleEnableEdit = () => {
@@ -59,19 +62,6 @@ const DietaryPreferences = () => {
   const handleCancel = () => {
     setIsEdit(false);
     setUser(originalUser);
-  };
-
-  const handleChange = (event) => {
-    const isNum =
-      event.target.name === "weight" ||
-      event.target.name === "height" ||
-      event.target.name === "activeLevel";
-    setUser((prevState) => ({
-      ...prevState,
-      [event.target.name]: isNum
-        ? parseInt(event.target.value)
-        : event.target.value,
-    }));
   };
 
   const save = () => {
@@ -99,11 +89,39 @@ const DietaryPreferences = () => {
     console.log(user);
   };
 
-  const findHelthyWeight = (tragetBMI) => {
-    return Math.round(tragetBMI * (user.height / 100) ** 2);
+  const handleChange = (event) => {
+    if (event.target.checked) {
+      const allergy = allAllergies.find(
+        (allergy) => allergy.allergyId === parseInt(event.target.value)
+      );
+      setUser((prev) => {
+        const newAllergies = [...prev.allergy, allergy];
+        return {
+          ...prev,
+          allergy: newAllergies,
+        };
+      });
+    } else {
+      setUser((prev) => {
+        const allergies = [...prev.allergy];
+        const index = allergies.find(
+          (a) => a.allergyId === parseInt(event.target.value)
+        );
+        allergies.splice(index, 1);
+
+        return {
+          ...prev,
+          allergy: allergies,
+        };
+      });
+    }
   };
-  const calculateWaterIntake = () => {
-    return Math.round(((user.weight * 2.2) / 2) * 29.574 * 100) / 100;
+
+  const handleDietTypeChange = (event) => {
+    setUser((prev) => ({
+      ...prev,
+      dietType: parseInt(event.target.value),
+    }));
   };
 
   return (
@@ -128,11 +146,35 @@ const DietaryPreferences = () => {
                       label={allergy.allergyName}
                       name={allergy.allergyId}
                       disabled={!isEdit}
+                      checked={user.allergy.find(
+                        (userAllergy) =>
+                          allergy.allergyId === userAllergy.allergyId
+                      )}
+                      onChange={handleChange}
                     />
                   </FormControl>
                 </Box>
               </Grid>
             ))}
+          </Grid>
+          <Box display="flex" alignItems={"center"}>
+            <Typography variant="h4">Diet Type</Typography>
+          </Box>
+          <Grid container spacing={2} mt={1}>
+            <Grid item md={6} sm={12}>
+              <CustomSelect
+                name="dietType"
+                onChange={handleDietTypeChange}
+                value={user.dietType || ""}
+                disabled={!isEdit}
+                fullWidth
+                size={"small"}
+              >
+                {dietTypes.map((dt) => (
+                  <MenuItem value={dt.dietId}>{dt.dietName}</MenuItem>
+                ))}
+              </CustomSelect>
+            </Grid>
           </Grid>
           <Grid container spacing={2} mt={2}>
             <Grid item>
@@ -180,22 +222,16 @@ const DietaryPreferencesSkeleton = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box mt={4}>
+      <Box>
         <Skeleton height={40} width={"25%"} />
         <Grid container spacing={2}>
           <Grid item xs={3}>
             <Skeleton height={40} />
           </Grid>
-          <Grid item xs={3}>
-            <Skeleton height={40} />
-          </Grid>
-          <Grid item xs={3}>
-            <Skeleton height={40} />
-          </Grid>
-          <Grid item xs={3}>
-            <Skeleton height={40} />
-          </Grid>
         </Grid>
+      </Box>
+      <Box mt={4}>
+        <Skeleton height={60} width={"10%"} />
       </Box>
     </>
   );

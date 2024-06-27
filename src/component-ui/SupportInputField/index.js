@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Grid, MenuItem, Select, TextField } from "@mui/material";
+import {
+  FormHelperText,
+  Grid,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 import { Add, Delete } from "@mui/icons-material";
 
@@ -11,8 +17,40 @@ const SupportInputField = (props) => {
   });
   const [inputError, setInputError] = useState(false);
   const [isEdit, setIsEdit] = useState(props.item === undefined);
+  const [errors, setErrors] = useState({
+    name: "",
+    amount: "",
+    unitType: "",
+  });
 
   const handleAdd = () => {
+    let isValid = true;
+    const errorObject = {
+      name: "",
+      amount: "",
+      unitType: "",
+    };
+
+    if (newItem.name.trim() === "") {
+      errorObject.name = "Cannot be Empty!";
+      isValid = false;
+    }
+
+    if (newItem.amount.trim() === "") {
+      errorObject.amount = "Cannot be Empty!";
+      isValid = false;
+    }
+
+    if (newItem.unitType.trim() === "") {
+      errorObject.unitType = "Cannot be Empty!";
+      isValid = false;
+    }
+
+    if (!isValid) {
+      setErrors(errorObject);
+      return;
+    }
+
     props.addItem(newItem, props.index);
 
     if (!props.item) {
@@ -22,6 +60,18 @@ const SupportInputField = (props) => {
         unitType: "",
       });
     }
+  };
+
+  const handleChange = (event) => {
+    setNewItem((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
+
+    setErrors((prev) => ({
+      ...prev,
+      [event.target.name]: "",
+    }));
   };
 
   return (
@@ -37,10 +87,11 @@ const SupportInputField = (props) => {
           fullWidth
           label="Item Name"
           variant="outlined"
+          name="name"
           value={newItem.name}
-          onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-          error={inputError && !newItem.name}
-          helperText={inputError && !newItem.name ? "Required" : ""}
+          onChange={handleChange}
+          error={errors.name}
+          helperText={errors.name}
           disabled={!isEdit}
         />
       </Grid>
@@ -51,10 +102,11 @@ const SupportInputField = (props) => {
           type="number"
           label="Amount"
           variant="outlined"
+          name="amount"
           value={newItem.amount}
-          onChange={(e) => setNewItem({ ...newItem, amount: e.target.value })}
-          error={inputError && newItem.amount < 0}
-          helperText={inputError && newItem.amount < 0 ? "Invalid value" : ""}
+          onChange={handleChange}
+          error={errors.amount}
+          helperText={errors.amount}
           disabled={!isEdit}
         />
       </Grid>
@@ -65,13 +117,18 @@ const SupportInputField = (props) => {
           id="demo-simple-select"
           value={newItem.unitType}
           label="Unit Type"
-          onChange={(e) => setNewItem({ ...newItem, unitType: e.target.value })}
+          name="unitType"
+          onChange={handleChange}
           disabled={!isEdit}
+          error={errors.unitType}
         >
           <MenuItem value={"g"}>g</MenuItem>
           <MenuItem value={"kg"}>kg</MenuItem>
           <MenuItem value={"cup"}>cup</MenuItem>
         </Select>
+        <FormHelperText error={errors.unitType}>
+          {errors.unitType}
+        </FormHelperText>
       </Grid>
 
       <Grid item xs={6} sm={3} md={3}>

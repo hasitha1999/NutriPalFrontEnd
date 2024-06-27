@@ -5,6 +5,7 @@ import {
   Card,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Grid,
   MenuItem,
   Radio,
@@ -31,6 +32,20 @@ const goalMap = {
   50: "Rehabilitation and Injury Recovery",
 };
 
+const emptyUserObject = {
+  firstName: "",
+  lastName: "",
+  gymID: "",
+  dob: "",
+  gender: "",
+  email: "",
+  phone: "",
+  height: "",
+  weight: "",
+  activeLevel: "",
+  goal: "",
+};
+
 const ProfileInformation = () => {
   const MySwal = withReactContent(Swal);
 
@@ -40,6 +55,13 @@ const ProfileInformation = () => {
   const [allAllergies, setAllAllergies] = useState([]);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
+  const [userErrors, setUserErrors] = useState({ ...emptyUserObject });
+
+  const dobMaxDate = new Date();
+  dobMaxDate.setFullYear(dobMaxDate.getFullYear() - 15);
+
+  const dobMinDate = new Date();
+  dobMinDate.setFullYear(dobMinDate.getFullYear() - 100);
 
   useEffect(() => {
     getUserDetails().then((res) => {
@@ -74,6 +96,10 @@ const ProfileInformation = () => {
   };
 
   const save = () => {
+    if (!validateUser()) {
+      return;
+    }
+
     if (!user.gymID) {
       user.gymID = user.gymID;
     }
@@ -103,6 +129,71 @@ const ProfileInformation = () => {
   };
   const calculateWaterIntake = () => {
     return Math.round(((user.weight * 2.2) / 2) * 29.574 * 100) / 100;
+  };
+
+  const validateUser = () => {
+    let isValidate = true;
+    const errors = { ...emptyUserObject };
+
+    if (user.firstName?.trim() === "") {
+      errors.firstName = "Cannot be Empty!";
+      isValidate = false;
+    }
+
+    if (user.lastName?.trim() === "") {
+      errors.lastName = "Cannot be Empty!";
+      isValidate = false;
+    }
+
+    if (user.gymID?.trim() === "") {
+      errors.gymID = "Cannot be Empty!";
+      isValidate = false;
+    }
+
+    if (user.dob?.trim() === "") {
+      errors.dob = "Cannot be Empty!";
+      isValidate = false;
+    }
+
+    if (user.gender?.trim() === "") {
+      errors.gender = "Select one!";
+      isValidate = false;
+    }
+
+    if (user.email?.trim() === "") {
+      errors.email = "Cannot be Empty!";
+      isValidate = false;
+    }
+
+    if (user.height === "") {
+      errors.height = "Cannot be Empty!";
+      isValidate = false;
+    } else if (user.height < 50) {
+      errors.height = "Must be at lease 50cm";
+      isValidate = false;
+    }
+
+    if (user.weight === "") {
+      errors.weight = "Cannot be Empty!";
+      isValidate = false;
+    } else if (user.weight < 20) {
+      errors.weight = "Must be at lease 20kg";
+      isValidate = false;
+    }
+
+    if (user.activeLevel === "") {
+      errors.activeLevel = "Cannot be Empty!";
+      isValidate = false;
+    }
+
+    if (user.goal?.trim() === "") {
+      errors.goal = "Cannot be Empty!";
+      isValidate = false;
+    }
+
+    setUserErrors(errors);
+
+    return isValidate;
   };
 
   return (
@@ -172,6 +263,8 @@ const ProfileInformation = () => {
                   disabled={!isEdit}
                   value={user.firstName}
                   onChange={handleChange}
+                  error={userErrors.firstName}
+                  helperText={userErrors.firstName}
                 />
               </Box>
               <Box mt="25px">
@@ -190,9 +283,8 @@ const ProfileInformation = () => {
                   name="gymID"
                   placeholder="GYM ID"
                   required
-                  disabled={!isEdit}
+                  disabled={true}
                   value={user.gymID}
-                  onChange={handleChange}
                 />
               </Box>
               <Box mt="25px">
@@ -227,12 +319,10 @@ const ProfileInformation = () => {
                       label="Male"
                       color="secondary"
                     />
-                    <FormControlLabel
-                      value="other"
-                      control={<Radio />}
-                      label="Other"
-                    />
                   </RadioGroup>
+                  <FormHelperText error={userErrors.gender}>
+                    {userErrors.gender}
+                  </FormHelperText>
                 </FormControl>
               </Box>
               <Box mt="32px">
@@ -254,6 +344,8 @@ const ProfileInformation = () => {
                   disabled={!isEdit}
                   value={user.phone}
                   onChange={handleChange}
+                  error={userErrors.phone}
+                  helperText={userErrors.phone}
                 />
               </Box>
               <Box mt="25px">
@@ -263,7 +355,7 @@ const ProfileInformation = () => {
                   htmlFor="weight"
                   mb="5px"
                 >
-                  Weight
+                  Weight(kg)
                 </Typography>
                 <CustomTextField
                   type="number"
@@ -275,6 +367,8 @@ const ProfileInformation = () => {
                   disabled={!isEdit}
                   value={user.weight}
                   onChange={handleChange}
+                  error={userErrors.weight}
+                  helperText={userErrors.weight}
                 />
               </Box>
               <Box mt="25px">
@@ -301,6 +395,9 @@ const ProfileInformation = () => {
                       Rehabilitation and Injury Recovery
                     </MenuItem>
                   </CustomSelect>
+                  <FormHelperText error={userErrors.goal}>
+                    {userErrors.goal}
+                  </FormHelperText>
                 </FormControl>
               </Box>
             </Grid>
@@ -324,6 +421,8 @@ const ProfileInformation = () => {
                   disabled={!isEdit}
                   value={user.lastName}
                   onChange={handleChange}
+                  error={userErrors.lastName}
+                  helperText={userErrors.lastName}
                 />
               </Box>
               <Box mt="25px">
@@ -345,6 +444,12 @@ const ProfileInformation = () => {
                   disabled={!isEdit}
                   value={user.dob}
                   onChange={handleChange}
+                  error={userErrors.dob}
+                  helperText={userErrors.dob}
+                  inputProps={{
+                    min: dobMinDate.toISOString().substring(0, 10),
+                    max: dobMaxDate.toISOString().substring(0, 10),
+                  }}
                 />
               </Box>
               <Box mt="25px">
@@ -363,9 +468,8 @@ const ProfileInformation = () => {
                   name="email"
                   placeholder="E-mail"
                   required
-                  disabled={!isEdit}
+                  disabled={true}
                   value={user.email}
-                  onChange={handleChange}
                 />
               </Box>
               <Box mt="25px">
@@ -375,7 +479,7 @@ const ProfileInformation = () => {
                   htmlFor="height"
                   mb="5px"
                 >
-                  Height
+                  Height(cm)
                 </Typography>
                 <CustomTextField
                   type="number"
@@ -387,6 +491,8 @@ const ProfileInformation = () => {
                   disabled={!isEdit}
                   value={user.height}
                   onChange={handleChange}
+                  error={userErrors.height}
+                  helperText={userErrors.height}
                 />
               </Box>
               <Box mt="25px">
@@ -410,6 +516,9 @@ const ProfileInformation = () => {
                     <MenuItem value={3}>Level 3</MenuItem>
                     <MenuItem value={4}>Level 4</MenuItem>
                   </CustomSelect>
+                  <FormHelperText error={userErrors.activeLevel}>
+                    {userErrors.activeLevel}
+                  </FormHelperText>
                 </FormControl>
               </Box>
             </Grid>
