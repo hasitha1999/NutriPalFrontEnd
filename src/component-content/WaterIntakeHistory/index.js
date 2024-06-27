@@ -85,10 +85,22 @@ const WaterIntakeHistory = () => {
     <div>
             <Card sx={{ p: 2, background: "#8bd3f7", mt:4 }} elevation={4}>
                 <CardContent sx={{ ml: 1, color: "#878787", background: "#8bd3f7" }}>
-                    <Stack spacing={{ xs: 2, md: 12 }} justifyContent="space-between" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
-                        <Typography variant="body1" sx={{ color: 'white', mb: 1, fontSize: '18px' }}>Weekly Completion</Typography>
+                    <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }} sx={{ 
+                            padding: '15px', 
+                            borderRadius: '10px', 
+                            background: '#5D87FF', 
+                            boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' 
+                        }}>
+                        <Typography variant="h4" sx={{ 
+                                mb: 1, 
+                                fontSize: { xs: '15px', md: '25px' }, 
+                                color: 'white', 
+                                textAlign: 'center'
+                            }}>
+                            Weekly Completion
+                        </Typography>
                     </Stack>
-                    <Stack direction="column" spacing={2} alignItems="flex-start" sx={{ width: '100%', height: '100%'}}>
+                    <Stack direction="column" spacing={2} alignItems="flex-start" sx={{ width: '100%', height: '100%', marginTop: '20px'}}>
                         {daysOfWeek.map((day, index) => (
                             <Box key={index} display="flex" alignItems="center" sx={{ width: '100%' }}>
                                 <Avatar sx={{ bgcolor: index < 5 ? blue[500] : red[500], width: 50, height: 50 }}>

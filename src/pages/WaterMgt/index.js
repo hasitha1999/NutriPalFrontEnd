@@ -55,8 +55,20 @@ const WaterMgt = () => {
               </Grid>
           </Grid>
           <Card sx={{ p: 2, mt: 4 }} elevation={0}>
-              <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
-                  <Typography variant="body1" sx={{ mb: 1, fontSize: '25px' }}>Drink Water Report</Typography>
+            <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }} sx={{ 
+                      padding: '15px', 
+                      borderRadius: '10px', 
+                      background: '#5D87FF', 
+                      boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' 
+                  }}>
+                  <Typography variant="h4" sx={{ 
+                          mb: 1, 
+                          fontSize: { xs: '15px', md: '25px' }, 
+                          color: 'white', 
+                          textAlign: 'center'
+                      }}>
+                      Drink Water Report
+                  </Typography>
               </Stack>
               <Grid container spacing={2} sx={{ mt: 2 }}>
                   {cardData.map((data, index) => (
