@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import {Card, CardContent, LinearProgress, Typography, Grid} from '@mui/material';
+import {Card, CardContent, LinearProgress, Typography, Grid, Box} from '@mui/material';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import styled from '@emotion/styled';
@@ -13,6 +13,7 @@ import { useTheme } from '@mui/material/styles';
 import SportsScoreIcon from '@mui/icons-material/SportsScore';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import GaugeChart from '../../component-ui/GaugeChart';
+import WhatshotIcon from '@mui/icons-material/Whatshot';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: ResponsiveLinearProgress(),
@@ -114,9 +115,21 @@ const WaterIntakeInformation = () => {
   return (
     <div>
         <Card sx={{ p: 2, mt: 4 }} elevation={4}>
-            <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
-                <Typography variant="body1" sx={{ mb: 1, fontSize: '25px' }}>Water Tracker</Typography>
-            </Stack>
+        <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }} sx={{ 
+                padding: '15px', 
+                borderRadius: '10px', 
+                background: '#5D87FF', 
+                boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.1)' 
+            }}>
+            <Typography variant="h4" sx={{ 
+                    mb: 1, 
+                    fontSize: { xs: '15px', md: '25px' }, 
+                    color: 'white', 
+                    textAlign: 'center'
+                }}>
+                Water Tracker
+            </Typography>
+        </Stack>
             <CardContent sx={{ color: "#878787", margin: '0 1%' }}>
                 <Grid container spacing={4} sx={{ marginTop: '30px' }}>
                     <Grid item xs={12} md={8} sx={{ display: 'flex', justifyContent: 'center' }}>
