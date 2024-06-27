@@ -14,6 +14,9 @@ import  {getGaugeChartData} from "../../use-cases/get-gauge-chart-data";
 import {getStatisticDashboardData} from "../../use-cases/get-statistic-dashboard-data";
 import LineChartComponent from "../../component-ui/LineChartComponent";
 import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list-by-month";
+import OpacityIcon from "@mui/icons-material/Opacity";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 
 
 
@@ -106,10 +109,20 @@ const HomePage = () => {
 
   return (
     <div>
-        <CustomPaper style={{width:'90%'}}>
-            <Stack direction="row" justifyContent="space-between">
-                <Typography className="main-header">Dashboard</Typography>
-                <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
+        <CustomPaper style={{ width: '90%', padding: '20px', borderRadius: '15px', background: 'linear-gradient(135deg, #5D87FF 0%, #9DAAFF 100%)' }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Box display="flex" alignItems="center">
+                    <DashboardRoundedIcon sx={{ color: 'white', mr: 1 }} />
+                    <Typography className="main-header" sx={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+                        Dashboard
+                    </Typography>
+                </Box>
+                <Box display="flex" alignItems="center">
+                    <EventNoteIcon sx={{ color: 'white', mr: 1 }} />
+                    <Typography className="main-header" sx={{ color: 'white', fontSize: '18px' }}>
+                        {getCurrentDateFormatted()}
+                    </Typography>
+                </Box>
             </Stack>
         </CustomPaper>
 

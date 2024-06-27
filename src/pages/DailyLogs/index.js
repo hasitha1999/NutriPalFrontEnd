@@ -25,6 +25,8 @@ import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { Opacity } from "@mui/icons-material";
 import SpeedIcon from '@mui/icons-material/Speed';
 import CustomTabs from "../../component-ui/CustomTabs";
+import CalculateIcon from "@mui/icons-material/Calculate";
+import EventNoteIcon from "@mui/icons-material/EventNote";
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const DailyLogs = () => {
@@ -214,13 +216,25 @@ const tabValues = [
 
   return (
     <>
-      <CustomPaper style={{width:'90%'}}>
-            <Stack direction="row" justifyContent="space-between">
-                <Typography className="main-header">Daily Logs</Typography>
-                <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
-            </Stack>
-        </CustomPaper>
+
         <CustomPaper style={{width:'90%'}}>
+
+          <CustomPaper style={{ width: '90%', padding: '20px', borderRadius: '15px', background: 'linear-gradient(135deg, #5D87FF 0%, #9DAAFF 100%)' }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Box display="flex" alignItems="center">
+                <EventNoteIcon sx={{ color: 'white', mr: 1 }} />
+                <Typography className="main-header" sx={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+                  Daily Logs
+                </Typography>
+              </Box>
+              <Box display="flex" alignItems="center">
+                <EventNoteIcon sx={{ color: 'white', mr: 1 }} />
+                <Typography className="main-header" sx={{ color: 'white', fontSize: '18px' }}>
+                  {getCurrentDateFormatted()}
+                </Typography>
+              </Box>
+            </Stack>
+          </CustomPaper>
         {/* <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList

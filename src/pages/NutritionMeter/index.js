@@ -16,6 +16,9 @@ import { CustomPaper } from "../../theme/CustomThemeComponents";
 import { StackLayout } from "../../theme/CustomThemeComponents";
 import SupportInputField from "../../component-ui/SupportInputField";
 import { getNutritionsAPIData } from "../../use-cases/get-api-nutritions";
+import RamenDiningIcon from "@mui/icons-material/RamenDining";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import CalculateIcon from '@mui/icons-material/Calculate';
 
 const NutritionMeter = () => {
   const subStyles = {
@@ -87,14 +90,24 @@ const NutritionMeter = () => {
 
   return (
     <div>
-      <CustomPaper style={{ width: "90%" }}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography className="main-header">Nutrition Meter</Typography>
-          <Typography className="main-header">
-            {getCurrentDateFormatted()}
-          </Typography>
+
+      <CustomPaper style={{ width: '90%', padding: '20px', borderRadius: '15px', background: 'linear-gradient(135deg, #5D87FF 0%, #9DAAFF 100%)' }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Box display="flex" alignItems="center">
+            <CalculateIcon sx={{ color: 'white', mr: 1 }} />
+            <Typography className="main-header" sx={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+              Nutrition Meter
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center">
+            <EventNoteIcon sx={{ color: 'white', mr: 1 }} />
+            <Typography className="main-header" sx={{ color: 'white', fontSize: '18px' }}>
+              {getCurrentDateFormatted()}
+            </Typography>
+          </Box>
         </Stack>
       </CustomPaper>
+
       <CustomPaper style={{ width: "90%" }}>
         {showWarning && (
           <Alert severity="warning" icon={<FontAwesomeIcon icon={faTimes} />}>
