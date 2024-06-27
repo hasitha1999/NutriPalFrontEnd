@@ -114,20 +114,22 @@ const WaterIntakeInformation = () => {
   return (
     <div>
         <Card sx={{ p: 2, mt: 4 }} elevation={4}>
-        <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
+            <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
                 <Typography variant="body1" sx={{ mb: 1, fontSize: '25px' }}>Water Tracker</Typography>
-        </Stack>
-        <CardContent sx={{ ml: 15, color: "#878787", margin: '0 4%' }}>
-            <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="flex-start" direction={{ xs: 'column', md: 'row' }} sx={{ marginTop: '50px' }}>
-                <GaugeChart width={400} height={400} value={currentWaterIntake}/>
-                <Stack spacing={3} justifyContent="center" alignItems="center" direction="column" sx={{ marginTop: '50px' }}>
-                    <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px' }} onClick={() => waterMeterCalculator(150)} loading={isButtonLoading}>ADD 150 ML</CustomButton>
-                    <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px' }} onClick={() => waterMeterCalculator(200)} loading={isButtonLoading}>ADD 200 ML</CustomButton>
-                    <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px' }} onClick={() => waterMeterCalculator(250)} loading={isButtonLoading}>ADD 250 ML</CustomButton>
-                    <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px' }} onClick={() => waterMeterCalculator(500)} loading={isButtonLoading}>ADD 500 ML</CustomButton>
-                </Stack>
             </Stack>
-        </CardContent>
+            <CardContent sx={{ color: "#878787", margin: '0 1%' }}>
+                <Grid container spacing={4} sx={{ marginTop: '30px' }}>
+                    <Grid item xs={12} md={8} sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <GaugeChart width={400} height={400} value={currentWaterIntake}/>
+                    </Grid>
+                    <Grid item xs={12} md={4} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                        <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px', mb: 2 }} onClick={() => waterMeterCalculator(150)} loading={isButtonLoading}>ADD 150 ML</CustomButton>
+                        <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px', mb: 2 }} onClick={() => waterMeterCalculator(200)} loading={isButtonLoading}>ADD 200 ML</CustomButton>
+                        <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px', mb: 2 }} onClick={() => waterMeterCalculator(250)} loading={isButtonLoading}>ADD 250 ML</CustomButton>
+                        <CustomButton variant="contained" startIcon={<LocalDrinkIcon />} sx={{ width: '200px', height: '80px', mb: 2 }} onClick={() => waterMeterCalculator(500)} loading={isButtonLoading}>ADD 500 ML</CustomButton>
+                    </Grid>
+                </Grid>
+            </CardContent>
         </Card>
     </div>
   );

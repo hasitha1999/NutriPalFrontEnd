@@ -5,6 +5,10 @@ import WaterIntakeHistory from '../../component-content/WaterIntakeHistory';
 import { CustomPaper } from "../../theme/CustomThemeComponents";
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
+import { useTheme } from '@mui/material/styles';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import OpacityIcon from '@mui/icons-material/Opacity';
 
 const getCurrentDateFormatted = ()=> {
   const currentDate = new Date();
@@ -25,12 +29,22 @@ const WaterMgt = () => {
 
   return (
     <div>
-      <CustomPaper style={{ width: '90%' }}>
-          <Stack direction="row" justifyContent="space-between">
-              <Typography className="main-header">Water Management</Typography>
-              <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
-          </Stack>
-      </CustomPaper>
+      <CustomPaper style={{ width: '90%', padding: '20px', borderRadius: '15px', background: 'linear-gradient(135deg, #5D87FF 0%, #9DAAFF 100%)' }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Box display="flex" alignItems="center">
+                <OpacityIcon sx={{ color: 'white', mr: 1 }} />
+                <Typography className="main-header" sx={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+                  Water Management
+                </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+                <EventNoteIcon sx={{ color: 'white', mr: 1 }} />
+                <Typography className="main-header" sx={{ color: 'white', fontSize: '18px' }}>
+                    {getCurrentDateFormatted()}
+                </Typography>
+            </Box>
+        </Stack>
+    </CustomPaper>
       <CustomPaper style={{ width: '90%' }}>
           <Grid container spacing={2}>
               <Grid item xs={12} md={8}>
