@@ -12,6 +12,7 @@ import ResetPassword from "../pages/ResetPassword";
 import RecipeGenarator from "../pages/RecipeGenarator";
 import RecipeSearch from "../pages/RecipeSearch";
 import NutritionMeter from "../pages/NutritionMeter";
+import AddUser from "../pages/AddUser";
 const routeConfig = [
   {
     id: 1,
@@ -35,7 +36,7 @@ const routeConfig = [
     icon: <Dashboard fontSize="medium" />,
     label: "Dashboard",
     menu: true,
-    roles: ["USER","ADMIN"],
+    roles: ["USER"],
     noAuth: false,
   },
   {
@@ -52,8 +53,8 @@ const routeConfig = [
   {
     id: 6,
     path: "/userDetails",
-    element: <UserDetails />,
-    roles: ["USER", "ADMIN"],
+    element: <AddUser />,
+    roles: ["ADMIN"],
     noAuth: false,
   },
   {

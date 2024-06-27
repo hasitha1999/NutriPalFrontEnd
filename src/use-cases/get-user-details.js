@@ -5,3 +5,6 @@ export const getUserDetails = () =>
 
 export const getAllergiesDetails = () =>
   server.get(process.env.REACT_APP_API_BASE_URL + "/auth/getAllAllergies");
+
+export const getAllDietTypes = () =>
+  server.get(process.env.REACT_APP_API_BASE_URL + "/auth/getAllDietType");

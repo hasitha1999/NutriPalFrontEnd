@@ -19,8 +19,12 @@ import { getNutritionsAPIData } from "../../use-cases/get-api-nutritions";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import CalculateIcon from '@mui/icons-material/Calculate';
+import withReactContent from "sweetalert2-react-content";
+import Swal from "sweetalert2";
+
 
 const NutritionMeter = () => {
+  const MySwal = withReactContent(Swal);
   const subStyles = {
     width: "100%",
     margin: "2px auto",
@@ -60,6 +64,12 @@ const NutritionMeter = () => {
   };
 
   const searchItems = () => {
+
+    if(!itemList.length) {
+      MySwal.fire("ERROR", "Please add atleast one item", "error");
+      return;
+    }
+
     const data = [];
     itemList.forEach((item) => {
       const itemString = item.amount + " " + item.unitType + " " + item.name;

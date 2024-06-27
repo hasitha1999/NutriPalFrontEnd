@@ -49,7 +49,7 @@ const UserList = () => {
 
   return (
     <div>
-      <Grid xs={12} md={12}
+      <Grid xs={12} md={12} mb={2}
               container
               direction="row"
               justifyContent="flex-end"
