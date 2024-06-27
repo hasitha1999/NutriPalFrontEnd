@@ -83,59 +83,25 @@ const WaterIntakeHistory = () => {
 
   return (
     <div>
-        <Card sx={{ p: 2 }} elevation={4} >
-          <CardContent sx={{color: "#878787", margin: '0 4%'}}>
-                <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="space-between" alignItems="center" direction={{ xs: 'column', md: 'row' }} sx={{marginTop: '50px'}}>
-                    <Typography variant="h1">Water Tracker</Typography>
-                    <Typography variant="h1">{getCurrentDateFormatted()}</Typography>
-                </Stack>
-                <Card sx={{ p: 2, background : "#8bd3f7" }} elevation={4} >   
-                        <CardContent sx={{ ml: 1, color: "#878787", background : "#8bd3f7"}}>
-                            <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="space-between" alignItems="left" direction={{ xs: 'column', md: 'row' }}>
-                                <Typography  variant="body1" sx={{ color: 'white', mb: 1, fontSize: '20px' }}>Weekly Completion</Typography>
-                            </Stack> 
-                            <Stack direction="row" spacing={8} alignItems="center">
-                                {daysOfWeek.map((day, index) => (
-                                    <Box key={index} textAlign="center">
-                                        <Avatar sx={{ bgcolor: index < 5 ? blue[500] : red[500], width: 70, height: 70 }}>
-                                            {index < 6 ? <CheckCircleOutlineIcon /> : <HighlightOffIcon />}
-                                        </Avatar>
-                                        <Typography variant="body1" sx={{ color: 'white', mt: 1, fontSize: '20px' }}>
-                                            {day}
-                                        </Typography>
-                                    </Box>
-                                ))}
-                            </Stack>
-                        </CardContent>
-                </Card>
-                <Card sx={{ p: 2, mt: 4 }} elevation={4} >
-                    <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
-                        <Typography  variant="body1" sx={{mb: 1, fontSize: '20px' }}>Drink Water Report</Typography>
+            <Card sx={{ p: 2, background: "#8bd3f7", mt:4 }} elevation={4}>
+                <CardContent sx={{ ml: 1, color: "#878787", background: "#8bd3f7" }}>
+                    <Stack spacing={{ xs: 2, md: 12 }} justifyContent="space-between" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
+                        <Typography variant="body1" sx={{ color: 'white', mb: 1, fontSize: '18px' }}>Weekly Completion</Typography>
                     </Stack>
-                    <Card sx={{ p: 1, mt: 0.5}} >
-                        <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="space-between" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
-                            <div style={{ background: "#46f280", borderRadius: "50%", width: "15px", height: "15px" }}></div>
-                            <Typography  variant="body1" sx={{mb: 1, fontSize: '20px' }}>Weekly Average</Typography>
-                            <Typography  variant="body1" sx={{mb: 1, fontSize: '20px' }}>ML / DAY</Typography>
-                        </Stack>
-                    </Card>
-                    <Card sx={{ p: 1, mt: 0.5 }} >
-                        <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="space-between" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
-                            <div style={{ background: "#34a8eb", borderRadius: "50%", width: "15px", height: "15px" }}></div>
-                            <Typography  variant="body1" sx={{mb: 1, fontSize: '20px' }}>Monthly Average</Typography>
-                            <Typography  variant="body1" sx={{mb: 1, fontSize: '20px' }}>ML / DAY</Typography>
-                        </Stack>
-                    </Card>
-                    <Card sx={{ p: 1, mt: 0.5 }} >
-                        <Stack spacing={{ xs: 2, md: 12 }}  justifyContent="space-between" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
-                            <div style={{ background: "#f2c968", borderRadius: "50%", width: "15px", height: "15px" }}></div>
-                            <Typography  variant="body1" sx={{mb: 1, fontSize: '20px' }}>Average Completion</Typography>
-                            <Typography  variant="body1" sx={{mb: 1, fontSize: '20px' }}>%</Typography>
-                        </Stack>
-                    </Card>
-                </Card>
-          </CardContent>
-        </Card>
+                    <Stack direction="column" spacing={2} alignItems="flex-start" sx={{ width: '100%' }}>
+                        {daysOfWeek.map((day, index) => (
+                            <Box key={index} display="flex" alignItems="center" sx={{ width: '100%' }}>
+                                <Avatar sx={{ bgcolor: index < 5 ? blue[500] : red[500], width: 50, height: 50 }}>
+                                    {index < 6 ? <CheckCircleOutlineIcon /> : <HighlightOffIcon />}
+                                </Avatar>
+                                <Typography variant="body1" sx={{ color: 'white', ml: 2, fontSize: '20px' }}>
+                                    {day}
+                                </Typography>
+                            </Box>
+                        ))}
+                    </Stack>
+                </CardContent>
+            </Card>
     </div>
   );
 }
