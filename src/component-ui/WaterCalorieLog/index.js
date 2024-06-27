@@ -1,5 +1,5 @@
 import { Box, Grid, Input, Stack, Typography } from "@mui/material";
-import { LineChart } from "@mui/x-charts";
+import { Gauge, LineChart, gaugeClasses } from "@mui/x-charts";
 import React, { useEffect, useState } from "react";
 import GaugeChart from "../GaugeChart";
 import BasicTable from "../BasicTable";
@@ -14,47 +14,69 @@ const WaterCalorieLog = (props) => {
     y: [2, 5.5, 2, 8.5, 1.5, 5],
   });
   const [initialData, setInitialData] = useState({})
-
+  let upperLimit = 0;
+  let lowerLimit = 0;
+  let upperRange = 12;
+  let lowerRange = 14;
   useEffect(() => {
+    // caloryRangeSelector(props.user);
     getDailyLogDataByType(props?.logType);
     getChartDataByType(props?.logType);
+    if(props.logType == "Water"){
+      calculateWaterIntake(props.weight);
+    }else{
+      caloryCalculator(props.weight);
+    }
   },[]);
 
   const getChartDataByType = (logType) => {
-    console.log("logType", logType);
-    getDailyLogDataListByMonth(logType).then((e) => {
-    //   let newDataPoints = [];
-    //   let processedDataPoints = [];
-    //   newDataPoints = e.data;
-    //   if (newDataPoints.length != 0) {
-    //     newDataPoints.forEach((item) =>
-    //       processedDataPoints.push({
-    //         x: new Date(item.date),
-    //         y: item.userInputValue,
-    //       })
-    //     );
-    //   }
-    //   setChartData((prevChartData) => ({
-    //     ...prevChartData,
-    //     title: {
-    //       text: `Change by ${logType}`,
-    //     },
-    //     data: [
-    //       {
-    //         ...prevChartData.data[0],
-    //         dataPoints: processedDataPoints,
-    //       },
-    //     ],
-    //   }));
+    getDailyLogDataListByMonth(logType).then((res) => {
+      setChartData(res.data)
     });
-    console.log("Chart Data", chartData);
   };
   const getDailyLogDataByType = (logType) => {
     getWaterManagmentData(logType).then((e)=>{
-      setInitialData(e.data)
+      setInitialData(e.data.userInput)
 
     })
+
   }
+  const caloryCalculator = (weight) =>{
+    upperLimit =  Math.round((weight * 2.2) * upperRange);
+    lowerLimit = Math.round((weight * 2.2) * lowerRange);
+  }
+  const calculateWaterIntake = (weight)=>{
+    lowerLimit = Math.round(((weight * 2.2)/2)*29.574*100)/100;
+  }
+  console.log(props.upperlimit)
+  // const caloryRangeSelector = (user)=>{
+  //   if(user?.goal === "Weight Loss"){
+  //     if(user?.activeLevel === 1){
+  //       upperRange = 12;
+  //       lowerRange = 14;
+  //     }else{
+  //       upperRange = 14;
+  //       lowerRange = 16;
+  //     }
+  //   }else if(user?.goal === "Maintainance"){
+  //     if(user?.activeLevel === 1){
+  //       upperRange = 14;
+  //       lowerRange = 16;
+  //     }else{
+  //       upperRange = 16;
+  //       lowerRange = 18;
+  //     }
+  //   }else{
+  //     if(user.activeLevel === 1){
+  //       upperRange = 18;
+  //       lowerRange = 20;
+  //     }else{
+  //       upperRange = 20;
+  //       lowerRange = 22;
+  //     }
+  //   }
+
+  // }
 
   return (
     <div>
@@ -78,7 +100,12 @@ const WaterCalorieLog = (props) => {
           />
         </Grid>
         <Grid xs={3} md={3}>
-          <GaugeChart width={300} height={300} />
+          <Gauge width={300} height={300} value={initialData/lowerLimit} innerRadius="60%" outerRadius="100%" cornerRadius="40%" text={`${initialData}/${lowerLimit}`} sx={(theme) => ({
+                [`& .${gaugeClasses.valueText}`]: {
+                  fontSize: 30,
+                },
+            })} />
+          <Typography className="main-header">Current Intake</Typography>
         </Grid>
       </Grid>
       <Grid
@@ -88,10 +115,9 @@ const WaterCalorieLog = (props) => {
         direction="row"
         justifyContent="center"
       >
-        <Grid xs={9} md={9}>
-          <BasicTable />
+        <Grid xs={6} md={6}>
         </Grid>
-        <Grid xs={3} md={3}>
+        <Grid xs={6} md={6}>
           <Stack>
             <Box
               sx={{
