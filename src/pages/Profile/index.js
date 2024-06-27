@@ -10,7 +10,7 @@ import CustomTabs from "../../component-ui/CustomTabs";
 import {
   getUserDetails,
 } from "../../use-cases/get-user-details";
-import DietaryPreferences from "../../component-ui/ DietaryPreferences ";
+import DietaryPreferences from "../../component-ui/DietaryPreferences ";
 import Security from "../../component-ui/Security";
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({

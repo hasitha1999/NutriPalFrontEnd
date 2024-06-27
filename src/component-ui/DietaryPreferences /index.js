@@ -21,8 +21,8 @@ import { useEffect, useState } from "react";
 import { editUser } from "../../use-cases/edit-user";
 import withReactContent from "sweetalert2-react-content";
 import Swal from "sweetalert2";
-import { CustomTextField } from "../../component-ui/CustomTextField/CustomTextField";
-import { CustomSelect } from "../../component-ui/CustomSelect/index";
+import { CustomTextField } from "../CustomTextField/CustomTextField";
+import { CustomSelect } from "../CustomSelect/index";
 
 const goalMap = {
   10: "Weight Loss",

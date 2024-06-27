@@ -7,6 +7,7 @@ import {
   Grid,
   Input,
   InputAdornment,
+  Stack,
   Tab,
   TextField,
   Typography,
@@ -18,7 +19,12 @@ import {getWaterManagmentData} from "../../use-cases/get-water-managment-data";
 import {getDailyLogDataListByMonth} from "../../use-cases/get-dailylog-data-list-by-month";
 import {getUserDetails} from "../../use-cases/get-user-details";
 import {createOrUpdateDailyLog} from "../../use-cases/create-or-update-daily-log";
-
+import { CustomPaper } from "../../theme/CustomThemeComponents";
+import WaterCalorieLog from "../../component-ui/WaterCalorieLog";
+import WhatshotIcon from '@mui/icons-material/Whatshot';
+import { Opacity } from "@mui/icons-material";
+import SpeedIcon from '@mui/icons-material/Speed';
+import CustomTabs from "../../component-ui/CustomTabs";
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const DailyLogs = () => {
@@ -239,21 +245,54 @@ const DailyLogs = () => {
     console.log("Chart Data", chartData)
 
   }
+  const getCurrentDateFormatted = ()=> {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+
+    return `${year}-${day}-${month}`;
+}
+const tabValues = [
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <SpeedIcon sx={{ marginRight: 1 }} />
+        Weight log
+      </Box>
+    ),
+    component: <WaterCalorieLog />,
+  },
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <WhatshotIcon sx={{ marginRight: 1 }} />
+        Calorie Intake
+      </Box>
+    ),
+    component: <WaterCalorieLog />,
+  },
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <Opacity sx={{ marginRight: 1 }} />
+        Water Intake
+      </Box>
+    ),
+    component: <WaterCalorieLog />,
+  },
+];
 
   return (
     <>
-      <Typography variant="h3" sx={{ margin: "15px 0px 0px 20px" }}>
-        Daily Logs
-      </Typography>
-      <Card
-        sx={{
-          m: 1,
-          borderRadius: 3,
-          border: "1px solid #000",
-          backgroundColor: "rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <TabContext value={value}>
+      <CustomPaper style={{width:'90%'}}>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography className="main-header">Daily Logs</Typography>
+                <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
+            </Stack>
+        </CustomPaper>
+        <CustomPaper style={{width:'90%'}}>
+        {/* <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <TabList
               onChange={tabChange}
@@ -715,8 +754,11 @@ const DailyLogs = () => {
               </CardActions>
             </Grid>
           </TabPanel>
-        </TabContext>
-      </Card>
+        </TabContext> */}
+            <div>
+               <CustomTabs tabValues={tabValues} />
+          </div>
+        </CustomPaper>
     </>
   );
 };
