@@ -64,7 +64,7 @@ const NutritionMeter = () => {
      <div>
         <CustomPaper style={{width:'90%'}}>
             <Stack direction="row" justifyContent="space-between">
-                <Typography className="main-header">Nutrition Calculator</Typography>
+                <Typography className="main-header">Nutrition Meter</Typography>
                 <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
             </Stack>
         </CustomPaper>

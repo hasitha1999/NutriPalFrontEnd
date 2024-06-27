@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import {
   getAllergiesDetails,
-  getNCDDetails,
   getUserDetails,
 } from "../../use-cases/get-user-details";
 import { useEffect, useState } from "react";
@@ -39,8 +38,6 @@ const DietaryPreferences = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
   const [originalUser, setOriginalUser] = useState({});
-  const [selectedNCD, setSelectedNCD] = useState([]);
-  const [allNCD, setAllNCD] = useState([]);
   const [allAllergies, setAllAllergies] = useState([]);
   const [selectedAllergies, setSelectedAllergies] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -49,10 +46,8 @@ const DietaryPreferences = () => {
     getUserDetails().then((res) => {
       setUser(res.data);
       setSelectedAllergies(res.data.allergy);
-      setSelectedNCD(res.data.ncd);
       setIsLoading(false);
     });
-    getNCDDetails().then((res) => setAllNCD(res.data));
     getAllergiesDetails().then((res) => setAllAllergies(res.data));
   }, []);
 

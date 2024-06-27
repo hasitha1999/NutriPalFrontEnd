@@ -3,8 +3,10 @@ import { CustomTextField } from '../CustomTextField/CustomTextField'
 import { Grid, InputAdornment, Stack, Typography } from '@mui/material'
 
 const RangeInput = (props) => {
+  console.log(props.formErrorMessages);
   return (
     <> 
+    
     <Grid container sx={{m:2}}>
         <Grid item lg={2}>
         <Typography sx={{m:2}}>{props.name}</Typography>
@@ -18,6 +20,8 @@ const RangeInput = (props) => {
     value = {props.values[1]}
     required
     type="number"
+    error={props.formErrorMessages[props.name+"Min"]?true:false}
+    helperText={props.formErrorMessages[props.name+"Min"]}
     InputProps={{
         endAdornment : <InputAdornment position="end">g</InputAdornment>
       }}
@@ -30,6 +34,8 @@ const RangeInput = (props) => {
     value = {props.values[0]}
     required
     type="number"
+    error={props.formErrorMessages[props.name+"Max"]?true:false}
+    helperText={props.formErrorMessages[props.name+"Max"]}
     InputProps={{
         endAdornment : <InputAdornment position="end">g</InputAdornment>
       }}

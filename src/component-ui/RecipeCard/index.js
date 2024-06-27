@@ -111,7 +111,19 @@ const RecipeCard = (props) =>{
       confirmButtonText: "Yes,I'm Eat it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        recipeMarkAsEat({nutriant : digest}).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
+        let eatNutriant = {}
+        {digest.map((item,index)=>{
+          if(item.label == "Fat"){
+            eatNutriant["fat"]=(item.total/serving).toFixed(2)
+          }else if (item.label == "Carbs"){
+            eatNutriant["carbs"]=(item.total/serving).toFixed(2)
+          }else if(item.label == "Protein"){
+            eatNutriant["protein"]=(item.total/serving).toFixed(2)
+          }
+          
+        
+      })}
+        recipeMarkAsEat(eatNutriant).then(()=>{MySwal.fire("success!", "Successfully saved", "success");}).catch((e)=>{
           MySwal.fire("ERROR", "Please contact admin", "error");
        });
     

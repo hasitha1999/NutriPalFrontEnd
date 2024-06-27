@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import {
   getAllergiesDetails,
-  getNCDDetails,
   getUserDetails,
 } from "../../use-cases/get-user-details";
 import { useEffect, useState } from "react";

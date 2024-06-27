@@ -15,22 +15,21 @@ const CustomButton = styled((props) => <Button {...props} />)(
   })
 );
 
-
+const data = {q:"",CarbsMax:"0",
+  CarbsMin:"0",
+  FatMax:"0",
+  FatMin: "0",
+  ProteinMax:"0",
+  ProteinMin:"0",}
 
 const RecipeGenarator = () => {
   const [searchResult,setSearchResult] = useState([]);
-  const [error,setError] = useState(true);
-
+  const [formErrorMessages, setFormErrorMessages] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-    const [request,setRequest] = useState({q:"",CarbsMax:"400",
-      CarbsMin:"10",
-      FatMax:"50",
-      FatMin: "0",
-      ProteinMax:"300",
-      ProteinMin:"0",});
+    const [request,setRequest] = useState({...data});
 
     const handleChange = (event) => {
-      setError(false);
+
         setRequest((prevState) => ({
           ...prevState,
           [event.target.name]: event.target.value,
@@ -38,21 +37,50 @@ const RecipeGenarator = () => {
       };
 
 
-    const getRecipie = () => {
+    const getRecipie = (event) => {
+      event.preventDefault();
+      let errors = false;
+      let errorMessages = {};
+      Object.keys(request).map((key)=>{
+        let validation = validateInput(request[key])
+        if(validation !== null){
+          errorMessages[key] = validation;
+          errors = true;
+        }
+      })
+      if (errors) {
+        setFormErrorMessages(()=>errorMessages);
+        return;
+      }else{
+        setFormErrorMessages({});
+      }
+      console.log(errorMessages)
+
       setIsLoading(true);
         searchMealApi(request).then((res)=>{
           setSearchResult(res.data.hits);
           setIsLoading(false);
           });
       
+
+      
     }
+
+    function validateInput(InputData){
+      if(InputData.trim() === "" ){
+        return "Required"
+      }
+      else if(InputData > 1000){
+        return "Input value Out of bound";
+      }else if(InputData <= 0){
+        return "Input value Out of bound";
+      }else{
+        return null
+      }
+    }
+
     const resetAll = () =>{
-        setRequest({q:"",CarbsMax:"400",
-          CarbsMin:"10",
-          FatMax:"50",
-          FatMin: "0",
-          ProteinMax:"300",
-          ProteinMin:"0",})
+        setRequest({...data})
     }
     const getCurrentDateFormatted = ()=> {
       const currentDate = new Date();
@@ -88,27 +116,31 @@ const RecipeGenarator = () => {
                   onChange={handleChange}
                   value={request.q}
                   required
+                  error={formErrorMessages.q?true:false}
+                  helperText={formErrorMessages.q}
                   type="text"
                 />
             </Stack>
 
-        <Box sx={{display:'flex', justifyContent:'center'}}>
-       
+        <Box sx={{display:'flex', justifyContent:'center'}}> 
         <Stack >
               <RangeInput
                 name="Carbs"
                 handleChange ={handleChange}
                 values = {[request.CarbsMax,request.CarbsMin]}
+                formErrorMessages = {formErrorMessages}
               />
               <RangeInput
                 name="Fat"
                 handleChange ={handleChange}
                 values = {[request.FatMax,request.FatMin]}
+                formErrorMessages = {formErrorMessages}
               />
               <RangeInput
                 name="Protein"
                 handleChange ={handleChange}
                 values = {[request.ProteinMax,request.ProteinMin]}
+                formErrorMessages = {formErrorMessages}
               />
           </Stack>
         </Box>

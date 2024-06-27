@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import ProfileInformation from "../../component-content/ProfileInformation";
 import CustomTabs from "../../component-ui/CustomTabs";
 import {
-  getNCDDetails,
   getUserDetails,
 } from "../../use-cases/get-user-details";
 import DietaryPreferences from "../../component-ui/ DietaryPreferences ";
@@ -21,10 +20,8 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 const Profile = () => {
   const [user, setUser] = useState({});
-  const [allNCD, setAllNCD] = useState([]);
   useEffect(() => {
     getUserDetails().then((res) => setUser(res.data));
-    getNCDDetails().then((res) => setAllNCD(res.data));
   }, []);
 
   const tabValues = [

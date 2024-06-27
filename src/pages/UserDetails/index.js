@@ -21,7 +21,7 @@ import {
   InputLabel,
   MenuItem,
 } from "@mui/material";
-import { getAllergiesDetails, getNCDDetails, getUserDetails } from "../../use-cases/get-user-details";
+import { getAllergiesDetails, getUserDetails } from "../../use-cases/get-user-details";
 import { editUser } from "../../use-cases/edit-user";
 import { Label } from "@mui/icons-material";
 import Swal from "sweetalert2";
@@ -32,8 +32,6 @@ const UserDetails = () => {
   
   const [user, setUser] = useState({});
   const MySwal = withReactContent(Swal);
-  const [selectedNCD,setSelectedNCD] = useState([]);
-  const [allNCD,setAllNCD] = useState([]);
   const [allAllergies,setAllAllergies] = useState([]);
   const [selectedAllergies,setSelectedAllergies] = useState([]);
   const [isUpdate,setIsUpdate] = useState(false);
@@ -45,9 +43,8 @@ const UserDetails = () => {
     // console.log(isUpdate);
     if(isUpdate == "true"){
       setIsUpdate(true);
-      getUserDetails().then((res) => {setUser(res.data);setSelectedAllergies(res.data.allergy);setSelectedNCD(res.data.ncd)});
+      getUserDetails().then((res) => {setUser(res.data);setSelectedAllergies(res.data.allergy);});
     }
-    getNCDDetails().then((res)=>setAllNCD(res.data));
     getAllergiesDetails().then((res)=>setAllAllergies(res.data));
     
   }, []);
@@ -62,23 +59,6 @@ const UserDetails = () => {
       [event.target.name]: event.target.value,
     }));
   };
-
-  const handleNCDClick =(event) => {
-
-    setSelectedNCD(prev => {
-      let newState = [...prev];
-
-      const index = newState.findIndex(a=> a.ncdId == parseInt(event.target.value));
-
-      if(index === -1) {
-        newState.push({ncdId:parseInt(event.target.value),ncdName:event.target.name});
-      } else {
-        newState.splice(index,1);
-      }
-
-      return newState;
-    })
-  }
 
 
   const handleAllergyClick =(event) => {
@@ -99,7 +79,6 @@ const UserDetails = () => {
 
   const save = () => {
     user.allergy = selectedAllergies;
-    user.ncd = selectedNCD;
     if(!user.gymID){
       user.gymID =user.gymID;
     }
@@ -260,24 +239,6 @@ const UserDetails = () => {
               </FormControl>
             </Grid>
           </Grid>
-        </Box>
-        <hr></hr>
-        <Box>
-        <Typography variant="h5" color={"GrayText"} gutterBottom sx={{ml:2}} >
-                Noncommunicable Diseases  
-              </Typography>
-              <Divider />
-              <FormGroup>
-
-              <Grid container>
-                {allNCD.map((disease,index)=>{
-                        
-                    return (<Grid item xs={6} md={6}>
-                      <FormControlLabel control={<Checkbox checked={selectedNCD.find(a=> a.ncdId == disease.ncdId) !== undefined} onChange={handleNCDClick}/>} label={disease.ncdName} name={disease.ncdName} value={disease.ncdId}/>
-                    </Grid>
-                )})}
-                </Grid>
-              </FormGroup>
         </Box>
         <hr></hr>
         <Box>
