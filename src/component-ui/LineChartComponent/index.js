@@ -4,7 +4,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 const LineChartComponent = (props)=>{
     return (
         <LineChart
-            xAxis={[{ data: props.xAxisData }]}
+            xAxis={[{ data: props.xAxisData, hideTooltip: true }]}
             series={[
                 {
                     data: props.yAxisData,
