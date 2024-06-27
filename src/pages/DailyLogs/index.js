@@ -77,8 +77,6 @@ const DailyLogs = () => {
 
   useEffect(()=>{
     caloryRangeSelector()
-    getDailyLogDataByType(1)
-    getChartDataByType(1)
     getUserDetails().then((res) => {
       setUser(res.data)
       console.log("user", res.status)
@@ -109,40 +107,12 @@ const DailyLogs = () => {
       setBMIColor("blue")
     }
   };
-  // const options = {
-  //   animationEnabled: true,
-  //   exportEnabled: false,
-  //   theme: "light2", // "light2", "dark1", "dark2"
-  //   title: {
-  //     text: "Change by Weight",
-  //   },
-  //   axisY: {
-  //     title: " Change",
-  //     gridThickness: 0,
-  //     lineThickness: 1,
-  //   },
-  //   axisX: {
-  //     title: "Days of Month",
-  //     prefix: "W",
-  //     interval: 2,
-  //   },
-  //   data: [
-  //     {
-  //       type: "line",
-  //       toolTipContent: "{x}: {y}",
-  //       dataPoints: [
-  //         {x: '2024-06-18', y: 23.45},
-  //         {x: '2024-06-22', y: 60.45}
-  //       ],
-  //     },
-  //   ],
-  // };
+
 
   const tabChange = (event, newValue) => {
     console.log("value", event)
     setValue(newValue);
-    getDailyLogDataByType(newValue);
-    getChartDataByType(newValue);
+
   };
 
   const findHelthyWeight =(tragetBMI)=>{
@@ -183,14 +153,7 @@ const DailyLogs = () => {
 
   }
 
-  const getDailyLogDataByType = (newValue) => {
-    let logType = ""
-    newValue == '2' ? logType = "Calorie" : newValue == '3' ?  logType = "Water" : logType = "Weight";
-    getWaterManagmentData(logType).then((e)=>{
-      setInitialData(e.data)
 
-    })
-  }
   const sendUserInputs = (amount, logType) =>{
     let payLoad = {
       logId : initialData?.logId,
@@ -210,41 +173,7 @@ const DailyLogs = () => {
 
   }
 
-  const getChartDataByType = (newValue) =>{
 
-    let logType = ""
-    newValue == 3 ? logType = "Weight" : newValue == 1 ?  logType = "Water" : logType = "Calorie";
-    console.log("logType", logType)
-    getDailyLogDataListByMonth(logType).then((e)=>{
-
-      let newDataPoints = [];
-      let processedDataPoints = []
-      newDataPoints = e.data;
-      if (newDataPoints.length != 0){
-        newDataPoints.forEach((item)=>
-          processedDataPoints.push({
-            x : new Date(item.date),
-            y : item.userInputValue
-          })
-        )
-      }
-      setChartData(prevChartData => ({
-        ...prevChartData,
-        title: {
-          text: `Change by ${logType}`,
-        },
-        data: [
-          {
-            ...prevChartData.data[0],
-            dataPoints: processedDataPoints,
-          },
-        ],
-      }));
-
-    })
-    console.log("Chart Data", chartData)
-
-  }
   const getCurrentDateFormatted = ()=> {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -261,7 +190,7 @@ const tabValues = [
         Weight log
       </Box>
     ),
-    component: <WaterCalorieLog />,
+    component: <WaterCalorieLog main={"28.3"} sub={"Weight Loss"} logType={"Weight"}/>,
   },
   {
     label: (
@@ -270,7 +199,7 @@ const tabValues = [
         Calorie Intake
       </Box>
     ),
-    component: <WaterCalorieLog />,
+    component: <WaterCalorieLog main={"Weight Loss"} sub={"Your Goal"} logType={"Calorie"}/>,
   },
   {
     label: (
@@ -279,7 +208,7 @@ const tabValues = [
         Water Intake
       </Box>
     ),
-    component: <WaterCalorieLog />,
+    component: <WaterCalorieLog main={"Take 0.5 - 1L of water while exercising."} sub={""} logType={"Water"}/>,
   },
 ];
 
