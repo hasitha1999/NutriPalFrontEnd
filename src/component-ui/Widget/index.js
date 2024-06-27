@@ -6,7 +6,7 @@ const Widget = (props) =>{
 
     return(
 
-        <WidgetTheme>
+        <WidgetTheme bgColor={props.bgColor}>
             <div>
 
                 {props.hasImage === true?

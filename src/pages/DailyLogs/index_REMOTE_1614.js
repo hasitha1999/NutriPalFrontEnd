@@ -33,10 +33,10 @@ const DailyLogs = () => {
 
   useEffect(()=>{
     getUserDetails().then((res) => {
-      setUser(res.data)
+      setUser(res.data) 
     });
   },[])
-
+  
 
 
   const getCurrentDateFormatted = ()=> {
@@ -46,51 +46,51 @@ const DailyLogs = () => {
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
 
     return `${year}-${day}-${month}`;
-  }
-  const tabValues = [
-    {
-      label: (
-          <Box sx={{ display: "flex" }}>
-            <SpeedIcon sx={{ marginRight: 1 }} />
-            Weight log
-          </Box>
-      ),
-      component: <WeightLog main={"28.3"} sub={"Weight Loss"} logType={"Weight"}  weight={user.weight}  height={user.height} gender={user.gender} />,
-    },
-    {
-      label: (
-          <Box sx={{ display: "flex" }}>
-            <WhatshotIcon sx={{ marginRight: 1 }} />
-            Calorie Intake
-          </Box>
-      ),
-      component: <WaterCalorieLog main={user.goal} sub={"Your Goal"} logType={"Calorie"} weight={user.weight}/>,
-    },
-    {
-      label: (
-          <Box sx={{ display: "flex" }}>
-            <Opacity sx={{ marginRight: 1 }} />
-            Water Intake
-          </Box>
-      ),
-      component: <WaterCalorieLog main={"Take Additional 0.5 - 1L of water while exercising."} sub={""} logType={"Water"} weight={user.weight}/>,
-    },
-  ];
+}
+const tabValues = [
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <SpeedIcon sx={{ marginRight: 1 }} />
+        Weight log
+      </Box>
+    ),
+    component: <WeightLog main={"28.3"} sub={"Weight Loss"} logType={"Weight"}  weight={user.weight}  height={user.height} gender={user.gender} />,
+  },
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <WhatshotIcon sx={{ marginRight: 1 }} />
+        Calorie Intake
+      </Box>
+    ),
+    component: <WaterCalorieLog main={user.goal} sub={"Your Goal"} logType={"Calorie"} weight={user.weight}/>,
+  },
+  {
+    label: (
+      <Box sx={{ display: "flex" }}>
+        <Opacity sx={{ marginRight: 1 }} />
+        Water Intake
+      </Box>
+    ),
+    component: <WaterCalorieLog main={"Take Additional 0.5 - 1L of water while exercising."} sub={""} logType={"Water"} weight={user.weight}/>,
+  },
+];
 
   return (
-      <>
-        <CustomPaper style={{width:'90%'}}>
-          <Stack direction="row" justifyContent="space-between">
-            <Typography className="main-header">Daily Logs</Typography>
-            <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
-          </Stack>
+    <>
+      <CustomPaper style={{width:'90%'}}>
+            <Stack direction="row" justifyContent="space-between">
+                <Typography className="main-header">Daily Logs</Typography>
+                <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
+            </Stack>
         </CustomPaper>
         <CustomPaper style={{width:'90%'}}>
-          <div>
-            <CustomTabs tabValues={tabValues} />
+            <div>
+               <CustomTabs tabValues={tabValues} />
           </div>
         </CustomPaper>
-      </>
+    </>
   );
 };
 

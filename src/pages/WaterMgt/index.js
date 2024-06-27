@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Box, Card, Grid} from '@mui/material';
 import WaterIntake from "../../component-content/WaterIntakeInformation";
 import WaterIntakeHistory from '../../component-content/WaterIntakeHistory';
@@ -9,6 +9,9 @@ import { useTheme } from '@mui/material/styles';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import OpacityIcon from '@mui/icons-material/Opacity';
+import {getAverageWaterIntake} from "../../use-cases/get-average-water-intake";
+import {getUserDetails} from "../../use-cases/get-user-details";
+import {getWeekWaterIntakeData} from "../../use-cases/get-week-water-intake-data";
 
 const getCurrentDateFormatted = ()=> {
   const currentDate = new Date();
@@ -21,11 +24,76 @@ const getCurrentDateFormatted = ()=> {
 
 const WaterMgt = () => {
 
-  const cardData = [
-    { color: "#46f280", label: "Weekly Average", backgroundColor: '#46f280', unit: "ML / DAY" },
-    { color: "#34a8eb", label: "Monthly Average", backgroundColor: '#34a8eb', unit: "ML / DAY" },
-    { color: "#f2c968", label: "Average Completion", backgroundColor: '#f2c968', unit: "%" },
-];
+    const [cards, setCards] = useState([
+        { color: "#46f280", label: "Weekly Average", backgroundColor: '#46f280', unit: "ML / DAY" },
+        { color: "#34a8eb", label: "Monthly Average", backgroundColor: '#34a8eb', unit: "ML / Month" },
+        { color: "#f2c968", label: "Average Completion Rate (Week)", backgroundColor: '#f2c968', unit: "%" },
+    ]);
+
+    const [waterDataStatList, setWaterDataStatList] = useState([])
+
+    useEffect(() => {
+        getAverageWaterIntakeValues();
+        getWeekWaterIntakeDataList();
+
+    }, []);
+
+  const getAverageWaterIntakeValues = () =>{
+      let waterAverageValues = {week : 0, month:0}
+      getAverageWaterIntake("Month").then((e)=>{
+          console.log("Month",e);
+          waterAverageValues.month = e.data.averagewaterIntake;
+          setCards(prevCards => [
+              {
+                  ...prevCards[0],
+                  unit: `${e.data.averagewaterIntake?.toFixed(2)} ML/DAY`
+              },
+              ...prevCards.slice(1)
+          ]);
+
+      })
+      getAverageWaterIntake("Week").then((e)=>{
+          console.log("Week",e);
+          waterAverageValues.week = e.data.averagewaterIntake;
+          setCards(prevCards => [
+              ...prevCards.slice(0, 1),
+              {
+                  ...prevCards[1],
+                  unit: `${e.data.averagewaterIntake?.toFixed(2)} ML/Month`
+              },
+              ...prevCards.slice(2)
+          ]);
+
+      })
+      return waterAverageValues;
+  }
+
+  const getWeekWaterIntakeDataList = () =>{
+      let passValue = 0;
+      let passRate;
+
+      getWeekWaterIntakeData().then((e)=>{
+          console.log("getWeekWaterIntakeData",e.data)
+          setWaterDataStatList(e.data)
+          if(e.data.length>0){
+                e.data.forEach(item => {
+                    if(item.archived){
+                        passValue++
+                    }
+                })
+              passRate = (passValue / e.data.length)*100
+              setCards(prevCards => [
+                  ...prevCards.slice(0, 2), // Keep the first two elements unchanged
+                  {
+                      ...prevCards[2],
+                      unit: `${passRate}%`  // Replace with your desired new unit value for the third element
+                  }
+              ]);
+          }
+      })
+      console.log("waterDataStatList",waterDataStatList)
+
+  }
 
   return (
     <div>
@@ -51,7 +119,7 @@ const WaterMgt = () => {
                   <WaterIntake sx={{ width: '100%' }} />
               </Grid>
               <Grid item xs={12} md={4}>
-                  <WaterIntakeHistory sx={{ width: '100%' }} />
+                  <WaterIntakeHistory sx={{ width: '100%' }} waterHistoryList={waterDataStatList}/>
               </Grid>
           </Grid>
           <Card sx={{ p: 2, mt: 4 }} elevation={0}>
@@ -71,7 +139,7 @@ const WaterMgt = () => {
                   </Typography>
               </Stack>
               <Grid container spacing={2} sx={{ mt: 2 }}>
-                  {cardData.map((data, index) => (
+                  {cards.map((data, index) => (
                       <Grid item xs={12} md={4} key={index}>
                           <Card sx={{ p: 1, height: '100px', backgroundColor: data.backgroundColor || 'defaultColor' }}>
                               <Stack spacing={2} justifyContent="space-between" alignItems="center" direction="row" sx={{ height: '100%' }}>

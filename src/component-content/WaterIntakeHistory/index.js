@@ -9,7 +9,7 @@ import {createOrUpdateDailyLog} from "../../use-cases/create-or-update-daily-log
 
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import {blue, red } from '@mui/material/colors';
+import {blue, green, red} from '@mui/material/colors';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
@@ -23,7 +23,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
     },
 }));
 
-const WaterIntakeHistory = () => {
+const WaterIntakeHistory = (props) => {
   const role = sessionStorage.getItem("ROLE");
   const MySwal = withReactContent(Swal);
   const [isButtonLoading, setIsButtonLoading] = React.useState(false);
@@ -101,13 +101,13 @@ const WaterIntakeHistory = () => {
                         </Typography>
                     </Stack>
                     <Stack direction="column" spacing={2} alignItems="flex-start" sx={{ width: '100%', height: '100%', marginTop: '20px'}}>
-                        {daysOfWeek.map((day, index) => (
+                        {props.waterHistoryList.map((day, index) => (
                             <Box key={index} display="flex" alignItems="center" sx={{ width: '100%' }}>
-                                <Avatar sx={{ bgcolor: index < 5 ? blue[500] : red[500], width: 50, height: 50 }}>
-                                    {index < 6 ? <CheckCircleOutlineIcon /> : <HighlightOffIcon />}
+                                <Avatar sx={{ bgcolor: day.archived ? green[500] : red[500], width: 50, height: 50 }}>
+                                    {day.archived  ? <CheckCircleOutlineIcon /> : <HighlightOffIcon />}
                                 </Avatar>
                                 <Typography variant="body1" sx={{ color: 'white', ml: 2, fontSize: '20px' }}>
-                                    {day}
+                                    {day.dayOfWeek}
                                 </Typography>
                             </Box>
                         ))}

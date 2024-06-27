@@ -22,6 +22,9 @@ import { Divider, FormGroup, Skeleton, Stack } from "@mui/material";
 import { getAllergiesDetails } from "../../use-cases/get-user-details";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import RestaurantRoundedIcon from "@mui/icons-material/RestaurantRounded";
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import RamenDiningIcon from '@mui/icons-material/RamenDining';
 
 const RecipeSearch = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -107,14 +110,23 @@ const RecipeSearch = () => {
 
   return (
     <div>
-      <CustomPaper style={{ width: "90%" }}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography className="main-header">Recipe Search</Typography>
-          <Typography className="main-header">
-            {getCurrentDateFormatted()}
-          </Typography>
+      <CustomPaper style={{ width: '90%', padding: '20px', borderRadius: '15px', background: 'linear-gradient(135deg, #5D87FF 0%, #9DAAFF 100%)' }}>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Box display="flex" alignItems="center">
+            <RamenDiningIcon sx={{ color: 'white', mr: 1 }} />
+            <Typography className="main-header" sx={{ color: 'white', fontSize: '24px', fontWeight: 'bold' }}>
+              Recipe Search
+            </Typography>
+          </Box>
+          <Box display="flex" alignItems="center">
+            <EventNoteIcon sx={{ color: 'white', mr: 1 }} />
+            <Typography className="main-header" sx={{ color: 'white', fontSize: '18px' }}>
+              {getCurrentDateFormatted()}
+            </Typography>
+          </Box>
         </Stack>
       </CustomPaper>
+
       <CustomPaper style={{ width: "90%" }}>
         <Grid container spacing={3}>
           <Grid xs={12} md={9}>
