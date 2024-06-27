@@ -88,7 +88,7 @@ const WaterIntakeHistory = () => {
                     <Stack spacing={{ xs: 2, md: 12 }} justifyContent="space-between" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
                         <Typography variant="body1" sx={{ color: 'white', mb: 1, fontSize: '18px' }}>Weekly Completion</Typography>
                     </Stack>
-                    <Stack direction="column" spacing={2} alignItems="flex-start" sx={{ width: '100%' }}>
+                    <Stack direction="column" spacing={2} alignItems="flex-start" sx={{ width: '100%', height: '100%'}}>
                         {daysOfWeek.map((day, index) => (
                             <Box key={index} display="flex" alignItems="center" sx={{ width: '100%' }}>
                                 <Avatar sx={{ bgcolor: index < 5 ? blue[500] : red[500], width: 50, height: 50 }}>

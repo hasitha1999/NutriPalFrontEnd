@@ -31,30 +31,35 @@ const WaterMgt = () => {
               <Typography className="main-header">{getCurrentDateFormatted()}</Typography>
           </Stack>
       </CustomPaper>
-      <CustomPaper style={{ width: '90%' }}>   
-              <Stack direction="row" spacing={2} justifyContent="space-between" alignItems="flex-start">
-                  <WaterIntake sx={{ flex: 2 }} />           
-                  <WaterIntakeHistory sx={{ flex: 1 }} />
-              </Stack>
-          <Card sx={{ p: 2, mt: 4 }} elevation={0}>
-            <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
-                <Typography variant="body1" sx={{ mb: 1, fontSize: '25px' }}>Drink Water Report</Typography>
-            </Stack>
-            <Grid container spacing={2} sx={{ mt: 2 }}>
-              {cardData.map((data, index) => (
-                  <Grid item xs={12} md={4} key={index}>
-                      <Card sx={{ p: 1, height: '100px', backgroundColor: data.backgroundColor || 'defaultColor' }}>
-                          <Stack spacing={2} justifyContent="space-between" alignItems="center" direction="row" sx={{ height: '100%' }}>
-                              <div style={{ background: data.color, borderRadius: "50%", width: "15px", height: "15px" }}></div>
-                              <Typography variant="body1" sx={{ fontSize: '20px' }}>{data.label}</Typography>
-                              <Typography variant="body1" sx={{ fontSize: '20px' }}>{data.unit}</Typography>
-                          </Stack>
-                      </Card>
-                  </Grid>
-              ))}
+      <CustomPaper style={{ width: '90%' }}>
+          <Grid container spacing={2}>
+              <Grid item xs={12} md={8}>
+                  <WaterIntake sx={{ width: '100%' }} />
+              </Grid>
+              <Grid item xs={12} md={4}>
+                  <WaterIntakeHistory sx={{ width: '100%' }} />
+              </Grid>
           </Grid>
-        </Card>
+          <Card sx={{ p: 2, mt: 4 }} elevation={0}>
+              <Stack spacing={{ xs: 2, md: 12 }} justifyContent="center" alignItems="center" direction={{ xs: 'column', md: 'row' }}>
+                  <Typography variant="body1" sx={{ mb: 1, fontSize: '25px' }}>Drink Water Report</Typography>
+              </Stack>
+              <Grid container spacing={2} sx={{ mt: 2 }}>
+                  {cardData.map((data, index) => (
+                      <Grid item xs={12} md={4} key={index}>
+                          <Card sx={{ p: 1, height: '100px', backgroundColor: data.backgroundColor || 'defaultColor' }}>
+                              <Stack spacing={2} justifyContent="space-between" alignItems="center" direction="row" sx={{ height: '100%' }}>
+                                  <div style={{ background: data.color, borderRadius: "50%", width: "15px", height: "15px" }}></div>
+                                  <Typography variant="body1" sx={{ fontSize: '20px' }}>{data.label}</Typography>
+                                  <Typography variant="body1" sx={{ fontSize: '20px' }}>{data.unit}</Typography>
+                              </Stack>
+                          </Card>
+                      </Grid>
+                  ))}
+              </Grid>
+          </Card>
       </CustomPaper>
+
     </div>
   );
 };
