@@ -66,7 +66,12 @@ export default function SignIn() {
       .then((response) => {
         window.sessionStorage.setItem("TOKEN", response.data.token);
         window.sessionStorage.setItem("ROLE", response.data.role);
-        navigate("/home");
+        if(response.data.role == "ADMIN"){
+          navigate("/users");
+        }else{
+          navigate("/home");
+        }
+        
       })
       .catch((error) => {
         setShowErrorMessage(true);

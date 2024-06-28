@@ -156,7 +156,7 @@ const RecipeSearch = () => {
             >
               Search
             </Button>
-            {!isNotSearch ? (
+            {/* {!isNotSearch ? (
               <IconButton
                 aria-label="fingerprint"
                 onClick={toggleDrawer(true)}
@@ -165,7 +165,7 @@ const RecipeSearch = () => {
               >
                 <TuneSharpIcon fontSize="inherit" />
               </IconButton>
-            ) : null}
+            ) : null} */}
           </Grid>
         </Grid>
         {!isLoading && (

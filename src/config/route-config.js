@@ -46,7 +46,7 @@ const routeConfig = [
     icon: <ManageAccounts fontSize="medium" />,
     menu: true,
     label: "User Management",
-    roles: ["ADMIN"],
+    roles: ["ADMIN"],   
     noAuth: false,
   },
  
