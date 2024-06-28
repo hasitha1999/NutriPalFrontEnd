@@ -96,7 +96,7 @@ const WaterCalorieLog = (props) => {
           />
         </Grid>
         <Grid xs={3} md={3}>
-          <Gauge width={350} height={350} value={(initialData/lowerLimit)*100} innerRadius="60%" outerRadius="100%" cornerRadius="40%" text={`${initialData}/${lowerLimit}`} sx={(theme) => ({
+          <Gauge width={350} height={350} value={(initialData/lowerLimit)*100} innerRadius="60%" outerRadius="100%" cornerRadius="40%" text={`${Math.round(initialData)}/${lowerLimit}`} sx={(theme) => ({
                 [`& .${gaugeClasses.valueText}`]: {
                   fontSize: 30,
                 },

@@ -30,7 +30,7 @@ const GaugeChart = (props, width = 120, height = 120) =>{
     return(
         <div>
             <Typography className="sub-header">{props.title}</Typography>
-            <Gauge width={props.width} height={props.height} value={props.value}   sx={(theme) => ({
+            <Gauge width={props.width} height={props.height} value={props.value} text={`${Math.round(props.value)}%`}  sx={(theme) => ({
                 [`& .${gaugeClasses.valueArc}`]: {
                     fill: getGaugeColor(props.level),
                 }
