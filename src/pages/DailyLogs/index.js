@@ -48,15 +48,7 @@ const DailyLogs = () => {
     return `${year}-${day}-${month}`;
   }
   const tabValues = [
-    {
-      label: (
-          <Box sx={{ display: "flex" }}>
-            <SpeedIcon sx={{ marginRight: 1 }} />
-            Weight log
-          </Box>
-      ),
-      component: <WeightLog main={"28.3"} sub={"Weight Loss"} logType={"Weight"}  weight={user.weight}  height={user.height} gender={user.gender} />,
-    },
+   
     {
       label: (
           <Box sx={{ display: "flex" }}>
@@ -74,6 +66,15 @@ const DailyLogs = () => {
           </Box>
       ),
       component: <WaterCalorieLog main={"Take Additional 0.5 - 1L of water while exercising."} sub={""} logType={"Water"} weight={user.weight}/>,
+    },
+    {
+      label: (
+          <Box sx={{ display: "flex" }}>
+            <SpeedIcon sx={{ marginRight: 1 }} />
+            Weight log
+          </Box>
+      ),
+      component: <WeightLog main={"28.3"} sub={"Weight Loss"} logType={"Weight"}  weight={user.weight}  height={user.height} gender={user.gender} />,
     },
   ];
 
